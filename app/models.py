@@ -3,6 +3,18 @@
 from __future__ import annotations
 
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+
+class User(AbstractUser):
+    notificaciones= 
+    pass
+
+class Notificacion(models.Model):
+    usuario= models.ForeignKey(User, on_delete=models.CASCADE)
+    asunto= models.CharField(max_length=200)
+    mensaje = models.TextField()
+    leida = models.BooleanField(default=False)
+    fecha_creacion = models.DateTimeField();
 
 
 class Feria(models.Model):
