@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import RegexValidator
 
 class User(AbstractUser):
     pass
@@ -47,9 +48,9 @@ class Notificacion(models.Model):
 
         return notificacion, []
 
-    @classmethod
-    def update(self, asunto, mensaje):
-        errors = self.__class__.validate(asunto, mensaje)
+    
+    def update(self, usuario,asunto, mensaje):
+        errors = self.__class__.validate(usuario, asunto, mensaje)
         if errors:
             return errors
         
@@ -65,8 +66,71 @@ class Emprendedor (models.Model):
     apellido=models.CharField(max_length=200)
     email= models.EmailField(max_length=254, unique=True)
     rubro = models.CharField(max_length=200)
-    telefono = models.CharField(max_length=15)
+    telefono = models.CharField(max_length=20, validators=[
+        RegexValidator(
+            regex=r'^\+?[\d\s\-()]+$',
+            message="Ingrese un teléfono válido."
+        )
+    ])
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name="emprendedor")
+
+    @classmethod
+    def validate(cls, nombre, apellido, email, rubro, telefono, usuario):
+
+        errors=[]
+
+        if not nombre or not nombre.strip():
+            errors.append("El nombre es obligatorio")
+
+        if not apellido or not apellido.strip():
+            errors.append("El apellido es obligatorio")
+
+        if not email or not email.strip():
+            errors.append("El email es obligatorio")
+
+        if not rubro or not rubro.strip():
+            errors.append("El rubro es obligatorio") 
+
+        if not telefono or not telefono.strip():
+            errors.append("El número de teléfono es obligatorio")
+
+        if not usuario:
+            errors.append("El user es obligatorio")
+
+        return errors
+
+
+    @classmethod
+    def new(cls, nombre, apellido, email, rubro, telefono, usuario):
+        errors = cls.validate(nombre, apellido, email, rubro, telefono, usuario)
+        if errors:
+            return None, errors
+        
+        emprendedor = cls.objects.create(
+            nombre=nombre,
+            apellido=apellido,
+            email=usuario.email, #el mail lo recibe directamente del user
+            rubro=rubro,
+            telefono=telefono,
+            usuario=usuario
+        )
+        return emprendedor, []
+        
+
+    def update(self,nombre, apellido, email, rubro, telefono, usuario ):
+        errors = self.__class__.validate(nombre, apellido, email, rubro, telefono, usuario)
+        if errors:
+            return errors
+        self.nombre=nombre.strip()
+        self.apellido=apellido.strip()
+        self.rubro=rubro.strip()
+        self.telefono=telefono.strip()
+        #No tiene sentido actualizar ni el email ni el usuario
+        self.save()
+        return[]
+
+        
+
 
 class Visitante(models.Model):
     nombre= models.CharField(max_length=200)
@@ -75,7 +139,51 @@ class Visitante(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE,related_name="visitante")
     fecha_registro = models.DateField(auto_now_add=True) #Guarda automaticamente fecha de creacion
 
+    @classmethod
+    def validate(cls, nombre, apellido, email, usuario):
+
+        errors = []
+        if not usuario:
+            errors.append("El user es obligatorio")
+        if not nombre or not nombre.strip():
+            errors.append("El nombre es obligatorio")
+        if not apellido or not apellido.strip():
+            errors.append("El apellido es obligatorio")
+
+        if not email or not email.strip():
+            errors.append("El email es obligatorio")
+
+        return errors
+
+    @classmethod
+    def new (cls,nombre, apellido, email, usuario):
+
+        errors = cls.validate(nombre, apellido, email, usuario)
+        if errors:
+            return None, errors
+        
+        visitante = cls.objects.create(
+            nombre =nombre,
+            apellido=apellido,
+            email=usuario.email,#El mail lo recibe directamente del user
+            usuario=usuario
+        )
+        return visitante,[]
+
+        
+
     
+    def update(self,nombre, apellido, email, usuario):
+
+        errors = self.__class__.validate(nombre, apellido, email,usuario)
+        if errors:
+            return errors
+        
+        self.nombre =nombre.strip()
+        self.apellido=apellido.strip()
+        #No tiene sentido actualizar ni el email ni el usuario
+        self.save()
+        return[]
 class Feria(models.Model):
     """Representa una feria con su período, ubicación y capacidad disponible."""
 
