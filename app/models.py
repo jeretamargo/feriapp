@@ -19,6 +19,10 @@ class Notificacion(models.Model):
     leida = models.BooleanField(default=False)
     fecha_creacion = models.DateTimeField(auto_now_add=True) #Guarda automaticamente fecha y hora de creacion
 
+    def marcar_leida(self):
+        self.leida=True
+        self.save()
+    
     @classmethod
     def validate(cls, usuario, asunto, mensaje):
          errors = []
@@ -73,6 +77,13 @@ class Emprendedor (models.Model):
         )
     ])
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name="emprendedor")
+
+    """Representacion legible en django admin"""
+    def __str__(self):
+        return self.nombre
+    
+    def nombre_completo(self):
+        return f"{self.nombre} {self.apellido}"
 
     @classmethod
     def validate(cls, nombre, apellido, email, rubro, telefono, usuario):
@@ -139,6 +150,14 @@ class Visitante(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE,related_name="visitante")
     fecha_registro = models.DateField(auto_now_add=True) #Guarda automaticamente fecha de creacion
 
+
+    """Representacion legible en django admin"""
+    def __str__(self):
+        return self.nombre
+    
+    def nombre_completo(self):
+        return f"{self.nombre} {self.apellido}"
+    
     @classmethod
     def validate(cls, nombre, apellido, email, usuario):
 
@@ -184,6 +203,7 @@ class Visitante(models.Model):
         #No tiene sentido actualizar ni el email ni el usuario
         self.save()
         return[]
+    
 class Feria(models.Model):
     """Representa una feria con su período, ubicación y capacidad disponible."""
 
