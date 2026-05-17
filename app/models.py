@@ -37,6 +37,15 @@ class Feria(models.Model):
     def tiene_lugar(self):
         """Retorna True si quedan puestos disponibles."""
         return self.puestos_disponibles() > 0
+    
+    def is_activa(self):
+        """Retorna True si la feria está activa."""
+        return self.activa
+    
+    def duracion_dias(self):
+        """Retorna la duración de la feria en días."""
+        return (self.fecha_fin - self.fecha_inicio).days + 1
+    
 
     @classmethod
     def validate(
@@ -129,6 +138,22 @@ class Categoria(models.Model):
     class Meta:
         ordering = ["nombre"]
       
+      
+    def contar_ferias(self):
+        """Retorna la cantidad de ferias asociadas a esta categoría."""
+        return self.ferias.count() # el related_name en el FK de Feria es "ferias"
+    
+    def is_categoria_activa(self):
+        """Retorna True si la categoría tiene al menos una feria activa."""
+        return self.ferias.filter(activa=True).exists() 
+    
+    def lista_ferias(self):
+        """Retorna una lista de las ferias asociadas a esta categoría."""
+        return list(self.ferias.all()) 
+    
+        
+    
+    
     def validate(self) -> list[str]:
         errors = []
         if not self.nombre or not self.nombre.strip():
@@ -172,6 +197,20 @@ class Sector(models.Model):
     class Meta:
         ordering = ["nombre"]
         unique_together = ["feria", "nombre"] # evita duplicados dentro de la misma feria
+        
+    def es_edicion_actual(self):
+        """Retorna True si la edición del sector coincide con el año actual."""
+        from django.utils import timezone
+        return self.edicion.year == timezone.now().year
+    
+    def descripcion_completa(self):
+        """Retorna una descripción completa del sector."""
+        conexion = "con conexión eléctrica" if self.tiene_conexion_electrica else "sin conexión eléctrica"
+        return f"{self.nombre} (Edición: {self.edicion}, Capacidad: {self.capacidad_puestos} puestos, {conexion})"
+    
+    
+    
+    
     
     def validate(self) -> list[str]:
         errors = []
