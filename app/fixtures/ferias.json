@@ -1,10 +1,34 @@
 [
   {
+    "model": "app.categoria",
+    "pk": 1,
+    "fields": {
+      "nombre": "Gastronomía",
+      "descripcion": ""
+    }
+  },
+  {
+    "model": "app.categoria",
+    "pk": 2,
+    "fields": {
+      "nombre": "Artesanías",
+      "descripcion": ""
+    }
+  },
+  {
+    "model": "app.categoria",
+    "pk": 3,
+    "fields": {
+      "nombre": "Tecnología",
+      "descripcion": ""
+    }
+  },
+  {
     "model": "app.feria",
     "pk": 1,
     "fields": {
       "nombre": "Feria del Fin del Mundo",
-      "categoria": "Gastronomía",
+      "categoria": 1,
       "fecha_inicio": "2026-06-01",
       "fecha_fin": "2026-06-03",
       "ubicacion": "Ushuaia",
@@ -17,7 +41,7 @@
     "pk": 2,
     "fields": {
       "nombre": "Feria Artesanal de Invierno",
-      "categoria": "Artesanías",
+      "categoria": 2,
       "fecha_inicio": "2026-07-15",
       "fecha_fin": "2026-07-17",
       "ubicacion": "Río Grande",
@@ -30,7 +54,7 @@
     "pk": 3,
     "fields": {
       "nombre": "Tech Patagonia",
-      "categoria": "Tecnología",
+      "categoria": 3,
       "fecha_inicio": "2026-09-10",
       "fecha_fin": "2026-09-11",
       "ubicacion": "Ushuaia",
@@ -43,7 +67,7 @@
     "pk": 4,
     "fields": {
       "nombre": "Mercado de Diseño",
-      "categoria": "Artesanías",
+      "categoria": 2,
       "fecha_inicio": "2026-08-20",
       "fecha_fin": "2026-08-22",
       "ubicacion": "Ushuaia",
