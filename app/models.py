@@ -50,10 +50,10 @@ class Feria(models.Model):
 
         if not nombre or not nombre.strip():
             errors.append("El nombre es obligatorio.")
-
-        if not categoria or not categoria.strip():
-            errors.append("La categoría es obligatoria.")
-
+        
+        if categoria is None or not isinstance(categoria, Categoria):
+            errors.append("La categoría debe ser una instancia de Categoria.")
+            
         if not ubicacion or not ubicacion.strip():
             errors.append("La ubicación es obligatoria.")
 
@@ -81,7 +81,7 @@ class Feria(models.Model):
 
         feria = cls.objects.create(
             nombre=nombre.strip(),
-            categoria=categoria.strip(),
+            categoria=categoria,
             fecha_inicio=fecha_inicio,
             fecha_fin=fecha_fin,
             ubicacion=ubicacion.strip(),
@@ -103,7 +103,7 @@ class Feria(models.Model):
             return errors
 
         self.nombre = nombre.strip()
-        self.categoria = categoria.strip()
+        self.categoria = categoria
         self.fecha_inicio = fecha_inicio
         self.fecha_fin = fecha_fin
         self.ubicacion = ubicacion.strip()
@@ -150,7 +150,7 @@ class Categoria(models.Model):
     @classmethod
     def new(cls, nombre, descripcion) -> tuple[Categoria | None, list[str]]:
         """Crea y persiste una nueva categoría si los datos son válidos. Retorna (instancia, errors)."""
-        categoria = cls(nombre=nombre.strip(), descripcion=descripcion.strip())
+        categoria = cls(nombre=nombre.strip(), descripcion=descripcion.strip()) 
         errors = categoria.validate()
         if errors:
             return None, errors
