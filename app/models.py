@@ -9,7 +9,7 @@ class Feria(models.Model):
     """Representa una feria con su período, ubicación y capacidad disponible."""
 
     nombre = models.CharField(max_length=200)
-    categoria = models.CharField(max_length=100)
+    categoria = models.ForeignKey("Categoria", on_delete=models.PROTECT, related_name="ferias")
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
     ubicacion = models.CharField(max_length=200)
@@ -115,3 +115,95 @@ class Feria(models.Model):
     # class Categoria(models.Model): ...  ← extraer categoria a FK
     # class Emprendedor(models.Model): ...
     # class Inscripcion(models.Model): ...
+
+class Categoria(models.Model):
+    """Representa una categoría de feria."""
+
+    nombre = models.CharField(max_length=100, unique=True)
+    descripcion = models.TextField(blank=True)
+
+
+    def __str__(self):
+        return self.nombre
+
+    class Meta:
+        ordering = ["nombre"]
+      
+    def validate(self) -> list[str]:
+        errors = []
+        if not self.nombre or not self.nombre.strip():
+            errors.append("El nombre de la categoría es obligatorio.")
+        if len(self.nombre.strip()) < 3:
+            errors.append("El nombre debe tener al menos 3 caracteres.")
+        return errors
+    
+    def update(self, nombre, descripcion) -> list[str]:
+        """Actualiza los datos de la categoría si son válidos. Retorna una lista de errores."""
+        self.nombre = nombre.strip()
+        self.descripcion = descripcion.strip()
+        errors = self.validate()
+        if errors:
+            return errors
+        self.save()
+        return []
+
+    @classmethod
+    def new(cls, nombre, descripcion) -> tuple[Categoria | None, list[str]]:
+        """Crea y persiste una nueva categoría si los datos son válidos. Retorna (instancia, errors)."""
+        categoria = cls(nombre=nombre.strip(), descripcion=descripcion.strip())
+        errors = categoria.validate()
+        if errors:
+            return None, errors
+        categoria.save()
+        return categoria, []
+    
+class Sector(models.Model):
+    """Representa un sector de actividad para los emprendedores."""
+
+    nombre = models.CharField(max_length=100, unique=True)
+    edicion = models.DateField()
+    capacidad_puestos = models.PositiveIntegerField()
+    tiene_conexion_electrica = models.BooleanField(default=False)
+    feria = models.ForeignKey(Feria, on_delete=models.CASCADE, related_name="sectores")
+
+    def __str__(self):
+        return self.nombre
+
+    class Meta:
+        ordering = ["nombre"]
+        unique_together = ["feria", "nombre"] # evita duplicados dentro de la misma feria
+    
+    def validate(self) -> list[str]:
+        errors = []
+        if not self.nombre or not self.nombre.strip():
+            errors.append("El nombre del sector es obligatorio.")
+        if len(self.nombre.strip()) < 3:
+            errors.append("El nombre del sector debe tener al menos 3 caracteres.")
+        if self.capacidad_puestos <= 0:
+            errors.append("La capacidad de puestos debe ser mayor a cero.")
+
+        return errors
+    
+    def update(self, nombre, edicion, capacidad_puestos, tiene_conexion_electrica) -> list[str]:
+        """Actualiza los datos del sector si son válidos. Retorna una lista de errores."""
+        self.nombre = nombre.strip()
+        self.edicion = edicion
+        self.capacidad_puestos = capacidad_puestos
+        self.tiene_conexion_electrica = tiene_conexion_electrica
+        errors = self.validate()
+        if errors:
+            return errors
+        self.save()
+        return []
+
+    @classmethod
+    def new(cls, nombre, edicion, capacidad_puestos, tiene_conexion_electrica) -> tuple[Sector | None, list[str]]:
+        """Crea y persiste un nuevo sector si los datos son válidos. Retorna (instancia, errors)."""
+        sector = cls(nombre=nombre.strip(), edicion=edicion, capacidad_puestos=capacidad_puestos, tiene_conexion_electrica=tiene_conexion_electrica)
+        errors = sector.validate()
+        if errors:
+            return None, errors
+        sector.save()
+        return sector, []
+    
+    
