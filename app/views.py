@@ -1,6 +1,6 @@
 """Vistas públicas de la aplicación de ferias."""
 
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView, TemplateView, CreateView
 
 from .models import Feria
 
@@ -29,3 +29,19 @@ class ListaFeriasView(ListView):
 # class ListaEmprendedoresView(ListView): ...
 # class NuevaInscripcionView(CreateView): ...
 # class CancelarInscripcionView(View): ...
+
+class NuevaFeriaView(CreateView):
+    """Vista para crear una nueva feria."""
+
+    model = Feria
+    template_name = "ferias/crear_feria.html"
+    fields = ["nombre", "categoria", "fecha_inicio", "fecha_fin", "ubicacion", "capacidad_puestos"]
+    success_url = "lista-ferias"
+    
+
+    def form_valid(self, form):
+        """Marca la feria como activa al crearla."""
+        
+        form.instance.activa = True
+        
+        return super().form_valid(form)
