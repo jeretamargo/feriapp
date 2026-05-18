@@ -4,7 +4,7 @@ from datetime import date
 
 from django.test import TestCase
 
-from app.models import Feria
+from app.models import Categoria, Feria
 
 
 class FeriaModelTest(TestCase):
@@ -12,9 +12,14 @@ class FeriaModelTest(TestCase):
 
     def setUp(self):
         """Crea una feria base reutilizable para cada caso de prueba."""
+        # Crear las categorías necesarias para los tests (usar solo `get` en los asserts)
+        Categoria.objects.create(nombre="Artesanías")
+        Categoria.objects.create(nombre="Tecnología")
+        Categoria.objects.create(nombre="Categoría")
+        categoria = Categoria.objects.get(nombre="Artesanías")
         self.feria = Feria.objects.create(
             nombre="Feria de Invierno",
-            categoria="Artesanías",
+            categoria=categoria,
             fecha_inicio=date(2026, 7, 1),
             fecha_fin=date(2026, 7, 3),
             ubicacion="Plaza Central",
@@ -38,9 +43,10 @@ class FeriaModelTest(TestCase):
     # --- validate ---
 
     def test_validate_datos_correctos_retorna_lista_vacia(self):
+        categoria = Categoria.objects.get(nombre="Tecnología")
         errors = Feria.validate(
             "Tech Patagonia",
-            "Tecnología",
+            categoria,
             date(2026, 9, 1),
             date(2026, 9, 3),
             "Centro Cultural",
@@ -49,9 +55,10 @@ class FeriaModelTest(TestCase):
         self.assertEqual(errors, [])
 
     def test_validate_nombre_vacio_retorna_error(self):
+        categoria = Categoria.objects.get(nombre="Tecnología")
         errors = Feria.validate(
             "",
-            "Tecnología",
+            categoria,
             date(2026, 9, 1),
             date(2026, 9, 3),
             "Centro Cultural",
@@ -60,9 +67,10 @@ class FeriaModelTest(TestCase):
         self.assertTrue(len(errors) > 0)
 
     def test_validate_fecha_fin_anterior_a_inicio_retorna_error(self):
+        categoria = Categoria.objects.get(nombre="Categoría")
         errors = Feria.validate(
             "Feria",
-            "Categoría",
+            categoria,
             date(2026, 9, 10),
             date(2026, 9, 5),  # fin < inicio
             "Ubicación",
@@ -71,9 +79,10 @@ class FeriaModelTest(TestCase):
         self.assertTrue(len(errors) > 0)
 
     def test_validate_capacidad_cero_retorna_error(self):
+        categoria = Categoria.objects.get(nombre="Categoría")
         errors = Feria.validate(
             "Feria",
-            "Categoría",
+            categoria,
             date(2026, 9, 1),
             date(2026, 9, 3),
             "Ubicación",
@@ -84,9 +93,10 @@ class FeriaModelTest(TestCase):
     # --- new ---
 
     def test_new_crea_feria_con_datos_validos(self):
+        categoria = Categoria.objects.get(nombre="Artesanías")
         feria, errors = Feria.new(
             "Mercado de Diseño",
-            "Artesanías",
+            categoria,
             date(2026, 8, 1),
             date(2026, 8, 3),
             "Muelle Turístico",
@@ -109,7 +119,7 @@ class FeriaModelTest(TestCase):
     def test_update_modifica_datos_correctamente(self):
         errors = self.feria.update(
             "Feria de Invierno",
-            "Artesanías",
+            self.feria.categoria,
             date(2026, 7, 1),
             date(2026, 7, 3),
             "Parque Central",
