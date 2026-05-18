@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block title %}Crear feria — FeriApp{% endblock %}
+{% block content %}
+<div class="row mb-4">
+  <div class="col">
+    <h1 class="h3">Crear nueva feria</h1>
+    <p class="text-muted">
+      Complete el formulario para agregar una nueva feria al sistema.
+    </p>
+  </div>
+
+  <div class="col-auto">
+    <a href="{% url 'lista-ferias' %}" class="btn btn-secondary"
+      >Volver a lista de ferias</a
+    >
+  </div>
+</div>
+<form method="post" class="row g-3">
+  {% csrf_token %} {{ form.as_p }}
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">Crear feria</button>
+  </div>
+</form>
+{% endblock %}
