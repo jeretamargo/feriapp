@@ -4,7 +4,10 @@ from __future__ import annotations
 
 from django.db import models
 
-    
+from usuarios.models import Emprendedor
+#esto lo uso para el tema de la reseña
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 class Feria(models.Model):
     """Representa una feria con su período, ubicación y capacidad disponible."""
 
@@ -245,4 +248,63 @@ class Sector(models.Model):
         sector.save()
         return sector, []
     
+
+class Inscripcion(models.Model):
+
+    ESTADOS = [
+        #   para que pongan de las dos maneras
+        ("confirmada", "Confirmada"),
+        ("lista_espera", "Lista de espera"),
+        ("cancelada", "Cancelada"),
+    ]
+
+    emprendedor = models.ForeignKey(
+        Emprendedor,
+        on_delete=models.CASCADE
+    )
+
+    feria = models.ForeignKey(
+        Feria,
+        on_delete=models.CASCADE
+    )
+
+    numero_puesto = models.PositiveIntegerField()
+
+    fecha_inscripcion = models.DateField(auto_now_add=True)
+
+    estado = models.CharField(
+        max_length=20,
+        choices=ESTADOS,
+        default="confirmada"
+    )
+
+    class Meta:
+        unique_together = ("feria", "numero_puesto")
+
+    def __str__(self):
+        return f"{self.emprendedor} - {self.feria}"
     
+class Resena(models.Model):
+    feria = models.ForeignKey(
+        Feria,
+        on_delete=models.CASCADE
+    )
+
+    emprendedor = models.ForeignKey(
+        Emprendedor,
+        on_delete=models.CASCADE
+    )
+
+    comentario = models.TextField()
+
+    puntuacion = models.PositiveIntegerField(
+    validators=[
+        MinValueValidator(1),
+        MaxValueValidator(5)
+    ]
+)
+
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Reseña de {self.emprendedor.nombre}"
