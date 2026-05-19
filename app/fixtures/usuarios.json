@@ -1,0 +1,72 @@
+[
+  {
+    "model": "usuarios.user",
+    "pk": 1,
+    "fields": {
+      "username": "lucasf",
+      "email": "lucas.fernandez@gmail.com",
+      "password": "pbkdf2_sha256$720000$fakehash$fakehash",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "usuarios.user",
+    "pk": 2,
+    "fields": {
+      "username": "camilar",
+      "email": "camila.ruiz@gmail.com",
+      "password": "pbkdf2_sha256$720000$fakehash$fakehash",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "usuarios.user",
+    "pk": 3,
+    "fields": {
+      "username": "matiass",
+      "email": "matias.sosa@gmail.com",
+      "password": "pbkdf2_sha256$720000$fakehash$fakehash",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true
+    }
+  },
+
+  {
+    "model": "usuarios.emprendedor",
+    "pk": 1,
+    "fields": {
+      "nombre": "Lucas",
+      "apellido": "Fernandez",
+      "rubro": "Impresiones 3D",
+      "telefono": "+54 9 2901-445566",
+      "usuario": 1
+    }
+  },
+  {
+    "model": "usuarios.emprendedor",
+    "pk": 2,
+    "fields": {
+      "nombre": "Camila",
+      "apellido": "Ruiz",
+      "rubro": "Velas artesanales",
+      "telefono": "+54 9 11 2233-4455",
+      "usuario": 2
+    }
+  },
+  {
+    "model": "usuarios.emprendedor",
+    "pk": 3,
+    "fields": {
+      "nombre": "Matias",
+      "apellido": "Sosa",
+      "rubro": "Cerámica",
+      "telefono": "2901 554433",
+      "usuario": 3
+    }
+  }
+]

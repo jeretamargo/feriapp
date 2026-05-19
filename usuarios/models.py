@@ -66,7 +66,6 @@ class Notificacion(models.Model):
 class Emprendedor (models.Model):
     nombre= models.CharField(max_length=200)
     apellido=models.CharField(max_length=200)
-    email= models.EmailField(max_length=254, unique=True)
     rubro = models.CharField(max_length=200)
     telefono = models.CharField(max_length=20, validators=[
         RegexValidator(
@@ -84,7 +83,7 @@ class Emprendedor (models.Model):
         return f"{self.nombre} {self.apellido}"
 
     @classmethod
-    def validate(cls, nombre, apellido, email, rubro, telefono, usuario):
+    def validate(cls, nombre, apellido, rubro, telefono, usuario):
 
         errors=[]
 
@@ -93,9 +92,6 @@ class Emprendedor (models.Model):
 
         if not apellido or not apellido.strip():
             errors.append("El apellido es obligatorio")
-
-        if not email or not email.strip():
-            errors.append("El email es obligatorio")
 
         if not rubro or not rubro.strip():
             errors.append("El rubro es obligatorio") 
@@ -111,14 +107,13 @@ class Emprendedor (models.Model):
 
     @classmethod
     def new(cls, nombre, apellido, email, rubro, telefono, usuario):
-        errors = cls.validate(nombre, apellido, email, rubro, telefono, usuario)
+        errors = cls.validate(nombre, apellido, rubro, telefono, usuario)
         if errors:
             return None, errors
         
         emprendedor = cls.objects.create(
             nombre=nombre,
             apellido=apellido,
-            email=usuario.email, #el mail lo recibe directamente del user
             rubro=rubro,
             telefono=telefono,
             usuario=usuario
@@ -127,14 +122,14 @@ class Emprendedor (models.Model):
         
 
     def update(self,nombre, apellido, email, rubro, telefono, usuario ):
-        errors = self.__class__.validate(nombre, apellido, email, rubro, telefono, usuario)
+        errors = self.__class__.validate(nombre, apellido, rubro, telefono, usuario)
         if errors:
             return errors
         self.nombre=nombre.strip()
         self.apellido=apellido.strip()
         self.rubro=rubro.strip()
         self.telefono=telefono.strip()
-        #No tiene sentido actualizar ni el email ni el usuario
+
         self.save()
         return[]
 
@@ -144,7 +139,6 @@ class Emprendedor (models.Model):
 class Visitante(models.Model):
     nombre= models.CharField(max_length=200)
     apellido= models.CharField(max_length=200)
-    email= models.EmailField(max_length=254, unique=True)
     usuario = models.OneToOneField(User, on_delete=models.CASCADE,related_name="visitante")
     fecha_registro = models.DateField(auto_now_add=True) #Guarda automaticamente fecha de creacion
 
@@ -157,7 +151,7 @@ class Visitante(models.Model):
         return f"{self.nombre} {self.apellido}"
     
     @classmethod
-    def validate(cls, nombre, apellido, email, usuario):
+    def validate(cls, nombre, apellido, usuario):
 
         errors = []
         if not usuario:
@@ -167,22 +161,20 @@ class Visitante(models.Model):
         if not apellido or not apellido.strip():
             errors.append("El apellido es obligatorio")
 
-        if not email or not email.strip():
-            errors.append("El email es obligatorio")
+        
 
         return errors
 
     @classmethod
     def new (cls,nombre, apellido, email, usuario):
 
-        errors = cls.validate(nombre, apellido, email, usuario)
+        errors = cls.validate(nombre, apellido, usuario)
         if errors:
             return None, errors
         
         visitante = cls.objects.create(
             nombre =nombre,
             apellido=apellido,
-            email=usuario.email,#El mail lo recibe directamente del user
             usuario=usuario
         )
         return visitante,[]
@@ -192,12 +184,11 @@ class Visitante(models.Model):
     
     def update(self,nombre, apellido, email, usuario):
 
-        errors = self.__class__.validate(nombre, apellido, email,usuario)
+        errors = self.__class__.validate(nombre, apellido,usuario)
         if errors:
             return errors
         
         self.nombre =nombre.strip()
         self.apellido=apellido.strip()
-        #No tiene sentido actualizar ni el email ni el usuario
         self.save()
         return[]
