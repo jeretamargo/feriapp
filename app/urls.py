@@ -9,10 +9,11 @@ app_name = "app"
 urlpatterns = [
     path("", views.HomeView.as_view(), name="home"),
     path("ferias/", views.ListaFeriasView.as_view(), name="lista_ferias"),
-    path('emprendedores/lista', user_views.ListaEmprendedoresView.as_view(), name="lista_emprendedores")
+    path('emprendedores/lista', user_views.ListaEmprendedoresView.as_view(), name="lista_emprendedores"),
+    path("ferias/nueva/", views.NuevaFeriaView.as_view(), name="nueva_feria")
+    ]
     # TODO:
     # path("ferias/<int:pk>/", views.DetalleFeriaView.as_view(), name="detalle_feria"),
-    # path("ferias/nueva/", views.NuevaFeriaView.as_view(), name="nueva_feria"),
     # path("emprendedores/", views.ListaEmprendedoresView.as_view(), name="lista_emprendedores"),
     # path("inscripciones/nueva/", views.NuevaInscripcionView.as_view(), name="nueva_inscripcion"),
-]
+
