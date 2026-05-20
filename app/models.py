@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from django.db import models
 
-from usuarios.models import Emprendedor
+from usuarios.models import Emprendedor, User
 #esto lo uso para el tema de la reseña
 from django.core.validators import MinValueValidator, MaxValueValidator
 
@@ -278,6 +278,12 @@ class Inscripcion(models.Model):
         default="confirmada"
     )
 
+    registrado_por = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
     class Meta:
         unique_together = ("feria", "numero_puesto")
 
