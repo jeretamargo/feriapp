@@ -1,6 +1,6 @@
 """Vistas públicas de la aplicación de ferias."""
 
-from django.views.generic import ListView, TemplateView, CreateView
+from django.views.generic import ListView, TemplateView, CreateView, DetailView
 from django.urls import reverse_lazy
 
 from .models import Feria,Resena
@@ -46,13 +46,18 @@ class NuevaFeriaView(CreateView):
         form.instance.activa = True
         
         return super().form_valid(form)
+    
+class DetalleFeriaView(DetailView):
+    """Vista para mostrar los detalles de una feria."""
 
-class ListaResenas(ListView):
+    model = Feria
+    template_name = "ferias/detalle_feria.html"
+    context_object_name = "feria"
 
-    model = Resena
-    template_name = "ferias/lista_ferias.html"
-    context_object_name = "ferias"
-
-    def get_queryset(self):
-        """Retorna solo las ferias marcadas como activas."""
-        return Feria.objects.filter(activa=True)
+    def get_context_data(self, **kwargs):
+        """Agrega la cantidad de puestos ocupados y disponibles a la plantilla."""
+        context = super().get_context_data(**kwargs)
+        context["puestos_ocupados"] = self.object.puestos_ocupados()
+        context["puestos_disponibles"] = self.object.puestos_disponibles()
+        return context
+    

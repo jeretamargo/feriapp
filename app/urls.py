@@ -11,7 +11,8 @@ urlpatterns = [
     path("ferias/", views.ListaFeriasView.as_view(), name="lista_ferias"),
     path('emprendedores/lista', user_views.ListaEmprendedoresView.as_view(), name="lista_emprendedores"),
     path("ferias/nueva/", views.NuevaFeriaView.as_view(), name="nueva_feria"),
-    
+    path('ferias/<int:pk>/', views.DetalleFeriaView.as_view(), name="detalle_feria"),
+    ]
     
     
     # TODO:
@@ -22,4 +23,4 @@ urlpatterns = [
     #   path("resena/", views.ListaResenas.as_view(), name="lista_reseñas"),
     #   path("resena/nueva/", views..as_view(), name="nueva_feria"),  
 
-    ]
+    
