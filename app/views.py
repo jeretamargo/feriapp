@@ -3,7 +3,7 @@
 from django.views.generic import ListView, TemplateView, CreateView
 from django.urls import reverse_lazy
 
-from .models import Feria
+from .models import Feria,Resena
 
 
 class HomeView(TemplateView):
@@ -46,3 +46,13 @@ class NuevaFeriaView(CreateView):
         form.instance.activa = True
         
         return super().form_valid(form)
+
+class ListaResenas(ListView):
+
+    model = Resena
+    template_name = "ferias/lista_ferias.html"
+    context_object_name = "ferias"
+
+    def get_queryset(self):
+        """Retorna solo las ferias marcadas como activas."""
+        return Feria.objects.filter(activa=True)
