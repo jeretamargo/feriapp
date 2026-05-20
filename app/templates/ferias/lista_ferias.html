@@ -20,7 +20,11 @@
     <tbody>
       {% for feria in ferias %}
       <tr>
-        <td class="fw-semibold">{{ feria.nombre }}</td>
+        <td class="fw-semibold">
+          <a href="{% url 'ferias:detalle_feria' pk=feria.id %}">
+            {{ feria.nombre }}
+          </a>
+        </td>
         <td>{{ feria.categoria }}</td>
         <td>{{ feria.fecha_inicio }} → {{ feria.fecha_fin }}</td>
         <td>{{ feria.ubicacion }}</td>
@@ -31,6 +35,7 @@
           >
         </td>
         <td>
+          {% comment "" %} Reemplazar por url de editar_feria {% endcomment %}
           <a
             href="{% url 'ferias:detalle_feria' pk=feria.id %}"
             class="btn btn-primary"
