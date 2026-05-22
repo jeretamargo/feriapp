@@ -12,6 +12,9 @@ urlpatterns = [
     path('emprendedores/lista', user_views.ListaEmprendedoresView.as_view(), name="lista_emprendedores"),
     path("ferias/nueva/", views.NuevaFeriaView.as_view(), name="nueva_feria"),
     path('ferias/<int:pk>/', views.DetalleFeriaView.as_view(), name="detalle_feria"),
+
+    path("resenas/", views.ListaResenasView.as_view(),name="lista_resenas"),
+
     ]
     
     
