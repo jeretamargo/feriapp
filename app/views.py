@@ -60,4 +60,8 @@ class DetalleFeriaView(DetailView):
         context["puestos_ocupados"] = self.object.puestos_ocupados()
         context["puestos_disponibles"] = self.object.puestos_disponibles()
         return context
-    
+class ListaResenasView(ListView):
+    """lista todas las reseñas."""
+    model = Resena
+    template_name = "usuarios/resenas/lista_resenas.html"
+    context_object_name = "resenas"
