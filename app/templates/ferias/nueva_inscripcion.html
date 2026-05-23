@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block title %} Generar Inscripción — FeriApp
+{%endblock %} {% block content %}
+<div class="row mb-4">
+  <div class="col">
+    <h1 class="h3">Generar una nueva Inscripción</h1>
+    <p class="text-muted">
+      Complete el formulario crear una nueva inscripción.
+    </p>
+  </div>
+
+  <div class="col-auto">
+    <a href="{% url 'ferias:lista_ferias' %}" class="btn btn-secondary"
+      >Volver a lista de ferias</a
+    >
+  </div>
+</div>
+<form method="post" class="row g-3">
+  {% csrf_token %} {{ form.as_p }}
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">Generar Inscripción</button>
+  </div>
+</form>
+{% endblock %}
