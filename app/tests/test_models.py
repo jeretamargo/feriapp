@@ -165,8 +165,8 @@ class InscripcionModelTest(TestCase):
         )
 
         self.emprendedor = Emprendedor.objects.create(
-            nombre="Juan",
-            apellido="Perez",
+            nombre="juancho",
+            apellido="perez",
             rubro="Comida",
             telefono="123456789",
             usuario=self.user
@@ -261,10 +261,10 @@ class ResenaModelTest(TestCase):
         )
 
         self.emprendedor = Emprendedor.objects.create(
-            nombre="Maria",
-            apellido="Lopez",
-            rubro="Electrónica",
-            telefono="123456789",
+            nombre="maria",
+            apellido="eskelope",
+            rubro="electronica",
+            telefono="987654321",
             usuario=self.user
         )
 
@@ -275,7 +275,7 @@ class ResenaModelTest(TestCase):
         errors = Resena.validate(
             self.feria,
             self.emprendedor,
-            "Excelente feria",
+            "excelente feria",
             5
         )
 
@@ -319,9 +319,8 @@ class ResenaModelTest(TestCase):
             comentario="viiejo comentario",
             puntuacion=3
         )
-
         errors = resena.update(
-            "Nuevo comentario",
+            "nuevo comentario",
             5
         )
 
