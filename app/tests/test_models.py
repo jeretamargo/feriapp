@@ -4,7 +4,9 @@ from datetime import date
 
 from django.test import TestCase
 
-from app.models import Categoria, Feria
+from app.models import Categoria, Feria, Inscripcion, Resena
+#para hacer los test de resena y inscripcion 
+from usuarios.models import User, Emprendedor
 
 
 class FeriaModelTest(TestCase):
@@ -139,3 +141,200 @@ class FeriaModelTest(TestCase):
     # TODO: agregar tests para Emprendedor e Inscripcion cuando los implementen:
     # def test_tiene_lugar_false_cuando_llena(self): ...
     # def test_puestos_ocupados_cuenta_solo_confirmadas(self): ...
+
+
+class InscripcionModelTest(TestCase):
+
+    def setUp(self):
+        categoria = Categoria.objects.create(
+            nombre="Artesanías"
+        )
+
+        self.feria = Feria.objects.create(
+            nombre="Feria Test",
+            categoria=categoria,
+            fecha_inicio=date(2026, 7, 1),
+            fecha_fin=date(2026, 7, 3),
+            ubicacion="Plaza",
+            capacidad_puestos=10,
+        )
+
+        self.user = User.objects.create_user(
+            username="juan",
+            password="1234"
+        )
+
+        self.emprendedor = Emprendedor.objects.create(
+            nombre="Juan",
+            apellido="Perez",
+            rubro="Comida",
+            telefono="123456789",
+            usuario=self.user
+        )
+
+    # para el validate
+
+    def test_validate_datos_correctos_retorna_lista_vacia(self):
+        errors = Inscripcion.validate(
+            self.feria,
+            self.emprendedor,
+            1,
+            "confirmada"
+        )
+
+        self.assertEqual(errors, [])
+
+    def test_validate_numero_puesto_invalido_retorna_error(self):
+        errors = Inscripcion.validate(
+            self.feria,
+            self.emprendedor,
+            0,
+            "confirmada"
+        )
+
+        self.assertTrue(len(errors) > 0)
+
+    #new
+
+    def test_new_crea_inscripcion(self):
+        inscripcion, errors = Inscripcion.new(
+            self.feria,
+            self.emprendedor,
+            1,
+            "confirmada"
+        )
+
+        self.assertEqual(errors, [])
+        self.assertIsNotNone(inscripcion)
+
+        self.assertTrue(
+            Inscripcion.objects.filter(
+                feria=self.feria,
+                emprendedor=self.emprendedor
+            ).exists()
+        )
+
+    #update
+
+    def test_update_modifica_estado_y_puesto(self):
+
+        inscripcion = Inscripcion.objects.create(
+            feria=self.feria,
+            emprendedor=self.emprendedor,
+            numero_puesto=1,
+            estado="confirmada"
+        )
+
+        errors = inscripcion.update(
+            2,
+            "cancelada"
+        )
+
+        self.assertEqual(errors, [])
+
+        inscripcion.refresh_from_db()
+
+        self.assertEqual(inscripcion.numero_puesto, 2)
+        self.assertEqual(inscripcion.estado, "cancelada")
+
+
+class ResenaModelTest(TestCase):
+
+    def setUp(self):
+
+        categoria = Categoria.objects.create(
+            nombre="Tecnología"
+        )
+
+        self.feria = Feria.objects.create(
+            nombre="Expo Tech",
+            categoria=categoria,
+            fecha_inicio=date(2026, 8, 1),
+            fecha_fin=date(2026, 8, 3),
+            ubicacion="Centro Cultural",
+            capacidad_puestos=20,
+        )
+
+        self.user = User.objects.create_user(
+            username="maria",
+            password="1234"
+        )
+
+        self.emprendedor = Emprendedor.objects.create(
+            nombre="Maria",
+            apellido="Lopez",
+            rubro="Electrónica",
+            telefono="123456789",
+            usuario=self.user
+        )
+
+    # para validate
+
+    def test_validate_datos_correctos_retorna_lista_vacia(self):
+
+        errors = Resena.validate(
+            self.feria,
+            self.emprendedor,
+            "Excelente feria",
+            5
+        )
+
+        self.assertEqual(errors, [])
+
+    def test_validate_puntuacion_fuera_de_rango_retorna_error(self):
+
+        errors = Resena.validate(
+            self.feria,
+            self.emprendedor,
+            "Comentario",
+            10
+        )
+
+        self.assertTrue(len(errors) > 0)
+
+    # nueva resena
+    def test_new_crea_resena(self):
+        resena, errors = Resena.new(
+            self.feria,
+            self.emprendedor,
+            "muy buena experiencia",
+            5
+        )
+        self.assertEqual(errors, [])
+        self.assertIsNotNone(resena)
+
+        self.assertTrue(
+            Resena.objects.filter(
+                feria=self.feria,
+                emprendedor=self.emprendedor
+            ).exists()
+        )
+
+    #update
+    def test_update_modifica_comentario_y_puntuacion(self):
+
+        resena = Resena.objects.create(
+            feria=self.feria,
+            emprendedor=self.emprendedor,
+            comentario="viiejo comentario",
+            puntuacion=3
+        )
+
+        errors = resena.update(
+            "Nuevo comentario",
+            5
+        )
+
+        self.assertEqual(errors, [])
+
+        resena.refresh_from_db()
+
+        self.assertEqual(
+            resena.comentario,
+            "Nuevo comentario"
+        )
+
+        self.assertEqual(
+            resena.puntuacion,
+            5
+        )
