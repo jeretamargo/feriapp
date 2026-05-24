@@ -1,0 +1,24 @@
+[
+  {
+    "model": "app.inscripcion",
+    "pk": 1,
+    "fields": {
+      "emprendedor": 1,
+      "feria": 1,
+      "numero_puesto": 10,
+      "estado": "confirmada",
+      "registrado_por": 1
+    }
+  },
+  {
+    "model": "app.inscripcion",
+    "pk": 2,
+    "fields": {
+      "emprendedor": 2,
+      "feria": 1,
+      "numero_puesto": 11,
+      "estado": "confirmada",
+      "registrado_por": 2
+    }
+  }
+]

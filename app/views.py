@@ -3,7 +3,8 @@
 from django.views.generic import ListView, TemplateView, CreateView, DetailView
 from django.urls import reverse_lazy
 
-from .models import Feria, Inscripcion
+from .models import Feria,Resena, Inscripcion
+
 
 
 class HomeView(TemplateView):
@@ -60,6 +61,11 @@ class DetalleFeriaView(DetailView):
         context["puestos_ocupados"] = self.object.puestos_ocupados()
         context["puestos_disponibles"] = self.object.puestos_disponibles()
         return context
+class ListaResenasView(ListView):
+    """lista todas las reseñas."""
+    model = Resena
+    template_name = "usuarios/resenas/lista_resenas.html"
+    context_object_name = "resenas"
     
 class NuevaInscripcionView(CreateView):
     """Vista para crear una nueva inscripción."""
