@@ -5,11 +5,9 @@ from datetime import date
 from django.test import TestCase
 from django.db import IntegrityError
 
-from app.models import Categoria, Feria, Inscripcion, Resena
+from app.models import Categoria, Feria, Inscripcion, Resena, Sector
 #para hacer los test de resena y inscripcion 
 from usuarios.models import User, Emprendedor
-from app.models import Categoria, Feria, Sector, Emprendedor, Inscripcion
-from usuarios.models import User
 
 
 class FeriaModelTest(TestCase):

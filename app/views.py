@@ -3,8 +3,8 @@
 from django.views.generic import ListView, TemplateView, CreateView, DetailView
 from django.urls import reverse_lazy
 
-from .models import Feria,Resena
-from .models import Feria, Inscripcion
+from .models import Feria,Resena, Inscripcion
+
 
 
 class HomeView(TemplateView):
