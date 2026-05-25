@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Reseñas — FeriApp{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="h4">Lista de Reseñas</h2>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Feria</th>
+                <th>Emprendedor</th>
+                <th>Puntuación</th>
+                <th>Comentario</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for resena in resenas %}
+            <tr>
+                <td>{{ resena.feria.nombre }}</td>
+
+                <td>
+                    {{ resena.emprendedor.nombre }}
+                    {{ resena.emprendedor.apellido }}
+                </td>
+
+                <td>
+                    {% if resena.puntuacion >= 4 %}
+                        <span class="badge bg-success">
+                            {{ resena.puntuacion }}/5
+                        </span>
+                    {% elif resena.puntuacion >= 3 %}
+                        <span class="badge bg-warning text-dark">
+                            {{ resena.puntuacion }}/5
+                        </span>
+                    {% else %}
+                        <span class="badge bg-danger">
+                            {{ resena.puntuacion }}/5
+                        </span>
+                    {% endif %}
+                </td>
+
+                <td>{{ resena.comentario }}</td>
+
+                <td>{{ resena.fecha_creacion|date:"d/m/Y" }}</td>
+            </tr>
+
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center text-muted">
+                    No hay reseñas registradas.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

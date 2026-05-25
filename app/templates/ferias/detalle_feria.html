@@ -1,0 +1,10 @@
+{% extends "base.html" %} {% block content %}
+<h1>{{ feria.nombre }}</h1>
+<h4>{{ feria.categoria }}</h3>
+<p><strong>Activa:</strong> {{ feria.activa }}</p>
+<p><strong>Fecha inicio:</strong> {{ feria.fecha_inicio }}</p>
+<p><strong>Fecha inicio:</strong> {{ feria.fecha_fin }}</p>
+<p><strong>Ubicación:</strong> {{ feria.ubicacion }}</p>
+<p><strong>Descripción:</strong> {{ feria.descripcion }}</p>
+<a href="{% url 'ferias:lista_ferias' %}">Volver a la lista de ferias</a>
+{% endblock %}
