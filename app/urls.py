@@ -2,7 +2,9 @@
 
 from django.urls import path
 from app.views import  feria_view #,categoria_view, sector_view
-from .core_views import HomeView, NuevaInscripcionView, ListaResenasView
+from .core_views import HomeView
+from .views.resena_view import ListaResenasView
+from .views.inscripcion_view import NuevaInscripcionView
 
 #from usuarios import views as user_views
 
