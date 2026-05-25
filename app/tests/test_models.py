@@ -4,7 +4,6 @@ from datetime import date
 
 from django.test import TestCase
 from django.db import IntegrityError
-
 from app.models.categoria_models import Categoria
 from app.models.feria_models import Feria
 from app.models.sector_models import Sector
