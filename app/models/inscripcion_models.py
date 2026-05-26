@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from django.db import models
 
-from usuarios.models import Emprendedor, User
+from usuarios.models.emprendedor_models import Emprendedor
+from usuarios.models.user_models import User
 from app.models.feria_models import Feria
 
 
