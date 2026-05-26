@@ -1,12 +1,31 @@
-{% extends "base.html" %}
-{%block title %}Confirmar Borrado de Categoria{% endblock title %}
-
-{% block content %}
+{% extends "base.html" %} {%block title %}Confirmar Borrado de Categoria
+{%endblock title %} {% block content %}
 <h1>Confirmar Borrado de Categoria</h1>
 <p>¿Estás seguro de que deseas borrar la categoría "{{ categoria.nombre }}"?</p>
+
+{% if categoria.ferias.all %}
+<div class="alert alert-warning">
+	<p>
+		<strong>Atención:</strong> Esta categoría tiene ferias asociadas y no puede
+		ser borrada.
+	</p>
+	<ul>
+		{% for feria in categoria.ferias.all %}
+		<li>
+			{{ feria.nombre }} ({{ feria.fecha_inicio }} - {{ feria.fecha_fin }})
+		</li>
+		{% endfor %}
+	</ul>
+</div>
+<a href="{% url 'ferias:lista_categorias' %}" class="btn btn-secondary"
+	>Volver</a
+>
+{% else %}
 <form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Sí, borrar categoría</button>
-    <a href="{% url 'ferias:lista_categorias' %}" class="btn btn-secondary">No, cancelar</a>
+	{% csrf_token %}
+	<button type="submit" class="btn btn-danger">Sí, borrar categoría</button>
+	<a href="{% url 'ferias:lista_categorias' %}" class="btn btn-secondary"
+		>No, cancelar</a
+	>
 </form>
-{% endblock content %}
+{% endif %} {% endblock content %}

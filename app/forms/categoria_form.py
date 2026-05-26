@@ -8,7 +8,7 @@ class CategoriaForm(forms.ModelForm):
         fields = "__all__"
         widgets = {
             "nombre": forms.TextInput(attrs={"class": "form-control"  , "placeholder": "Nombre de la feria", "required": True}),
-            "descripcion": forms.Textarea(attrs={"class": "form-control", "placeholder": "Descripción de la feria", "required": True}),
+            "descripcion": forms.Textarea(attrs={"class": "form-control", "placeholder": "Descripción de la feria", "required": False}),
         }
 
 

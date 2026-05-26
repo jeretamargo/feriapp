@@ -35,6 +35,17 @@ class UpdateCategoriaView(UpdateView):
     template_name = "categorias/actualizar_categoria.html"
     success_url = reverse_lazy("app:lista_categorias")
     
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        # Verificar si tiene ferias asociadas
+        if self.object.ferias.exists():
+            messages.error(request, "No se puede borrar la categoría porque tiene ferias asociadas.")
+            return redirect(self.success_url)
+        else:
+            messages.success(request, f"La categoría '{self.object.nombre}' fue borrada exitosamente.")
+            return super().delete(request, *args, **kwargs)
+        
+    
     
 
 
