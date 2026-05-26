@@ -1,0 +1,36 @@
+{% extends "base.html" %} {% block title %}Lista Categorias — FeriApp{%endblock%} 
+{% block content %}
+<div class="row">
+    <div class="col">
+        <h1>Lista de Categorías</h1>
+    </div>
+    <div class="col text-end">
+        <a href="{% url 'ferias:nueva_categoria' %}" class="btn btn-primary">Crear Nueva Categoría</a>
+    </div>
+</div>
+
+<ul>
+    {% for categoria in categorias %}
+    <li>
+        <strong>{{ categoria.nombre }}</strong>:
+        <a href="{% url 'ferias:actualizar_categoria' pk=categoria.id %}">Editar</a> |
+        <a href="{% url 'ferias:borrar_categoria' pk=categoria.id %}">Borrar</a>
+        <p> {{ categoria.descripcion  }} </p> 
+        <ul>
+            {% for feria in categoria.lista_ferias %}
+            <li>
+                <a href="{% url 'ferias:detalle_feria' pk=feria.id %}">
+                     {{ feria.nombre }} 
+                </a>
+                ({{ feria.fecha_inicio }} - {{ feria.fecha_fin }})
+            </li>
+             {% empty %}
+                <li>No hay Ferias Asociadas a esta categoria.</li>
+            {% endfor %}
+            <br>
+        </ul>
+  {% empty %}
+  <li>No hay categorías disponibles.</li>
+  {% endfor %}
+</ul>
+{% endblock %}
