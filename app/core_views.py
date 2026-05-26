@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 class HomeView(TemplateView):
     """Vista de inicio. Por ahora vacía — completar con estadísticas."""
 
-    template_name = "ferias/home.html"
+    template_name = "home.html"
    
  
  
