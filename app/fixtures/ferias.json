@@ -4,7 +4,7 @@
     "pk": 1,
     "fields": {
       "nombre": "Gastronomía",
-      "descripcion": ""
+      "descripcion": "Área de compra de panadería, cafetería, carnicería, verdulería."
     }
   },
   {
@@ -12,7 +12,7 @@
     "pk": 2,
     "fields": {
       "nombre": "Artesanías",
-      "descripcion": ""
+      "descripcion": "Artesanías locales con metales, madera, arcilla, etc. Incluye piedras raras."
     }
   },
   {
@@ -20,7 +20,7 @@
     "pk": 3,
     "fields": {
       "nombre": "Tecnología",
-      "descripcion": ""
+      "descripcion": "Sector de accesorios de tecnología, teléfonos celulares, computadoras."
     }
   },
   {

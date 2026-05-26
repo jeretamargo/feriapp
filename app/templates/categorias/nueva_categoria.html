@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Nueva Categoría — FeriApp{%endblock%} 
+{% block content %}
+<h1>Crear Nueva Categoría</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Crear Categoría</button>
+</form>
+{% endblock %}
