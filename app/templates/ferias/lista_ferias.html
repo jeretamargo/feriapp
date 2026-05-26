@@ -42,6 +42,13 @@
           >
             Editar
           </a>
+          {% comment "" %} Reemplazar por url de borrar_feria {% endcomment %}
+          <a
+            href="{% url 'ferias:borrar_feria' pk=feria.id %}"
+            class="btn btn-danger"
+          >
+            Borrar
+          </a>
         </td>
       </tr>
       {% empty %}
