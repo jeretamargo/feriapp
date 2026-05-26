@@ -1,6 +1,7 @@
-from django.views.generic import ListView, CreateView, DetailView
+from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
 from django.urls import reverse_lazy
 
+from app.forms.form_feria import FeriaForm
 from app.models.feria_models import Feria
 
 
@@ -20,7 +21,8 @@ class NuevaFeriaView(CreateView):
 
     model = Feria
     template_name = "ferias/nueva_feria.html"
-    fields = ["nombre", "categoria", "fecha_inicio", "fecha_fin", "ubicacion", "capacidad_puestos"]
+    form_class = FeriaForm
+    #fields = ["nombre", "categoria", "fecha_inicio", "fecha_fin", "ubicacion", "capacidad_puestos"]
     success_url = reverse_lazy('ferias:lista_ferias')
     
 
@@ -44,3 +46,19 @@ class DetalleFeriaView(DetailView):
         context["puestos_ocupados"] = self.object.puestos_ocupados() # pyright: ignore[reportAttributeAccessIssue]
         context["puestos_disponibles"] = self.object.puestos_disponibles() # pyright: ignore[reportAttributeAccessIssue]
         return context
+    
+class DeleteFeriaView(DeleteView):
+    """Vista para eliminar una feria."""
+
+    model = Feria
+    template_name = "ferias/borrar_feria.html"
+    success_url = reverse_lazy('ferias:lista_ferias')
+
+class UpdateFeriaView(UpdateView):
+    """Vista para actualizar una feria."""
+
+    model = Feria
+    form_class = FeriaForm
+    template_name = "ferias/actualizar_feria.html"
+    #fields = ["nombre", "categoria", "fecha_inicio", "fecha_fin", "ubicacion", "capacidad_puestos"]
+    success_url = reverse_lazy('ferias:lista_ferias')
