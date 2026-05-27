@@ -1,11 +1,17 @@
 from django.urls import path
 from usuarios.views.lista_emprendedores import ListaEmprendedoresView
 from usuarios.views.login_view import CustomLoginView
-from django.contrib.auth.views import LogoutView
+from usuarios.views.logout_view import CustomLogoutView
+from usuarios.views.registro_emp_view import RegistroEmprendedorView
+from usuarios.views.registro_vis_view import RegistroVisitanteView
+from usuarios.views.registro_eleccion_view import RegistroEleccionView
 
 app_name = "usuarios"
 urlpatterns = [
     path("emprendedores/", ListaEmprendedoresView.as_view(), name="lista_emprendedores"),
     path('login/', CustomLoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
+    path('logout/', CustomLogoutView.as_view(), name='logout'),
+    path('registro/emprendedor/', RegistroEmprendedorView.as_view(), name='registro_emprendedor'),
+    path('registro/visitante/', RegistroVisitanteView.as_view(), name='registro_visitante'),
+    path('registro/', RegistroEleccionView.as_view(), name='registro'),
 ]
