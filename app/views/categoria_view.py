@@ -19,14 +19,6 @@ class NuevaCategoriaView(CreateView):
     form_class = CategoriaForm
     template_name = "categorias/nueva_categoria.html"
     success_url = reverse_lazy("app:lista_categorias")
-
-class DeleteCategoriaView(DeleteView):
-    """Vista para eliminar una categoría."""
-
-    model = Categoria
-    template_name = "categorias/confirmar_borrado.html"
-    success_url = reverse_lazy("app:lista_categorias")
-
 class UpdateCategoriaView(UpdateView):
     """Vista para actualizar una categoría."""
 
@@ -35,6 +27,14 @@ class UpdateCategoriaView(UpdateView):
     template_name = "categorias/actualizar_categoria.html"
     success_url = reverse_lazy("app:lista_categorias")
     
+class DeleteCategoriaView(DeleteView):
+    """Vista para eliminar una categoría."""
+
+    model = Categoria
+    template_name = "categorias/confirmar_borrado.html"
+    success_url = reverse_lazy("app:lista_categorias")
+
+
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
         # Verificar si tiene ferias asociadas
@@ -45,7 +45,7 @@ class UpdateCategoriaView(UpdateView):
             messages.success(request, f"La categoría '{self.object.nombre}' fue borrada exitosamente.")
             return super().delete(request, *args, **kwargs)
         
-    
+    #TODO arreglar la vista de messages.
     
 
 
