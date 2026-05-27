@@ -8,7 +8,8 @@
       "password": "pbkdf2_sha256$720000$fakehash$fakehash",
       "is_superuser": false,
       "is_staff": false,
-      "is_active": true
+      "is_active": true,
+      "tipo_usuario": "emprendedor"
     }
   },
   {
@@ -20,7 +21,8 @@
       "password": "pbkdf2_sha256$720000$fakehash$fakehash",
       "is_superuser": false,
       "is_staff": false,
-      "is_active": true
+      "is_active": true,
+      "tipo_usuario": "emprendedor"
     }
   },
   {
@@ -32,7 +34,8 @@
       "password": "pbkdf2_sha256$720000$fakehash$fakehash",
       "is_superuser": false,
       "is_staff": false,
-      "is_active": true
+      "is_active": true,
+      "tipo_usuario": "emprendedor"
     }
   },
 
