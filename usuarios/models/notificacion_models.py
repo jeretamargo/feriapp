@@ -1,6 +1,6 @@
 from django.db import models
 
-from user_models import User
+from usuarios.models.user_models import User
 
 
 class Notificacion(models.Model):
