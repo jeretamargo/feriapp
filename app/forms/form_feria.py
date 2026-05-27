@@ -1,6 +1,8 @@
 
 from django import forms
 from ..models import Feria
+from django.utils import timezone
+
 
 class FeriaForm(forms.ModelForm):
     class Meta:
@@ -26,9 +28,12 @@ class FeriaForm(forms.ModelForm):
         cleaned_data = super().clean()
         fecha_inicio = cleaned_data.get("fecha_inicio")
         fecha_fin = cleaned_data.get("fecha_fin")
+        
+        
 
         if fecha_inicio and fecha_fin and fecha_inicio > fecha_fin:
             raise forms.ValidationError("La fecha de inicio no puede ser posterior a la fecha de fin.")
+        
     
     def clean_nombre(self):
         nombre = self.cleaned_data.get("nombre")
