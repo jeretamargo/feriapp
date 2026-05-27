@@ -68,5 +68,50 @@
       "telefono": "2901 554433",
       "usuario": 3
     }
+  },
+  {
+  "model": "usuarios.user",
+  "pk": 4,
+  "fields": {
+    "username": "juanp",
+    "email": "juan.perez@gmail.com",
+    "password": "pbkdf2_sha256$720000$fakehash$fakehash",
+    "is_superuser": false,
+    "is_staff": false,
+    "is_active": true
   }
+},
+{
+  "model": "usuarios.user",
+  "pk": 5,
+  "fields": {
+    "username": "anag",
+    "email": "ana.gomez@gmail.com",
+    "password": "pbkdf2_sha256$720000$fakehash$fakehash",
+    "is_superuser": false,
+    "is_staff": false,
+    "is_active": true
+  }
+},
+{
+  "model": "usuarios.visitante",
+  "pk": 1,
+  "fields": {
+    "nombre": "Juan",
+    "apellido": "Perez",
+    "usuario": 4,
+    "fecha_registro": "2026-05-26"
+  }
+},
+{
+  "model": "usuarios.visitante",
+  "pk": 2,
+  "fields": {
+    "nombre": "Ana",
+    "apellido": "Gomez",
+    "usuario": 5,
+    "fecha_registro": "2026-05-26"
+  }
+}
+  
 ]
