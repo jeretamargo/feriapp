@@ -1,30 +1,25 @@
-from datetime import date
 
 from django.test import TestCase
-from django.db import IntegrityError
 
-from app.models.categoria_models import Categoria
-from app.models.feria_models import Feria
-from app.models.sector_models import Sector
-from usuarios.models import Emprendedor, User
-from app.models import Inscripcion, Resena
 
+
+from app.models import  Resena
+from usuarios.models.visitante_models import Visitante
+from usuarios.models.emprendedor_models import Emprendedor
+from usuarios.models.user_models import User
 
 class ResenaModelTest(TestCase):
 
     def setUp(self):
-
-        categoria = Categoria.objects.create(
-            nombre="Tecnología"
+        self.visitante_user = User.objects.create_user(
+        username="juan",
+        password="1234"
         )
 
-        self.feria = Feria.objects.create(
-            nombre="Expo Tech",
-            categoria=categoria,
-            fecha_inicio=date(2026, 8, 1),
-            fecha_fin=date(2026, 8, 3),
-            ubicacion="Centro Cultural",
-            capacidad_puestos=20,
+        self.visitante = Visitante.objects.create(
+        nombre="Juan",
+        apellido="Perez",
+        usuario=self.visitante_user
         )
 
         self.user = User.objects.create_user(
@@ -45,10 +40,10 @@ class ResenaModelTest(TestCase):
     def test_validate_datos_correctos_retorna_lista_vacia(self):
 
         errors = Resena.validate(
-            self.feria,
-            self.emprendedor,
-            "excelente feria",
-            5
+        self.visitante,
+        self.emprendedor,
+        "excelente feria",
+        5
         )
 
         self.assertEqual(errors, [])
@@ -56,10 +51,10 @@ class ResenaModelTest(TestCase):
     def test_validate_puntuacion_fuera_de_rango_retorna_error(self):
 
         errors = Resena.validate(
-            self.feria,
-            self.emprendedor,
-            "Comentario",
-            10
+        self.visitante,
+        self.emprendedor,
+        "Comentario",
+        10
         )
 
         self.assertTrue(len(errors) > 0)
@@ -67,7 +62,7 @@ class ResenaModelTest(TestCase):
     # nueva resena
     def test_new_crea_resena(self):
         resena, errors = Resena.new(
-            self.feria,
+            self.visitante,
             self.emprendedor,
             "muy buena experiencia",
             5
@@ -77,7 +72,7 @@ class ResenaModelTest(TestCase):
 
         self.assertTrue(
             Resena.objects.filter(
-                feria=self.feria,
+                visitante=self.visitante,
                 emprendedor=self.emprendedor
             ).exists()
         )
@@ -86,13 +81,13 @@ class ResenaModelTest(TestCase):
     def test_update_modifica_comentario_y_puntuacion(self):
 
         resena = Resena.objects.create(
-            feria=self.feria,
+            visitante=self.visitante,
             emprendedor=self.emprendedor,
-            comentario="viiejo comentario",
+            comentario="viejo comentario",
             puntuacion=3
         )
         errors = resena.update(
-            "nuevo comentario",
+            "Nuevo comentario",
             5
         )
 
