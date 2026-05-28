@@ -32,17 +32,26 @@ class NuevaFeriaView(CreateView):
     def form_valid(self, form):
         """Marca la feria como activa al crearla."""
         response = super().form_valid(form)
-        if form.instance.fecha_inicio and form.instance.fecha_fin and form.instance.fecha_inicio > form.instance.fecha_fin:
-            form.add_error("fecha_inicio", "La fecha de inicio no puede ser posterior a la fecha de fin.")
-            return self.form_invalid(form)
+        # if not self.request.user.has_perm("ferias.add_feria"):
+        #     messages.error(self.request, "No tienes permisos para crear ferias.")
+        #     return self.form_invalid(form)
         
         messages.success(
         self.request,
         f"La Feria '{self.object.nombre}' fue creada correctamente. "
         f"<a href='{reverse_lazy('ferias:detalle_feria', args=[self.object.pk])}' class='alert-link'>Ver detalle</a>")
-        form.instance.activa = True
         
         return response
+    
+    def form_invalid(self, form):
+        # Enviar todos los errores del formulario como mensajes
+        for field, errors in form.errors.items():
+            for error in errors:
+                if field == "__all__":
+                    messages.error(self.request, f"Error general: {error}")
+                else:
+                    messages.error(self.request, f"Error en {field}: {error}")
+        return super().form_invalid(form)
 
 class DetalleFeriaView(DetailView):
     """Vista para mostrar los detalles de una feria."""

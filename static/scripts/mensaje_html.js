@@ -5,4 +5,4 @@ setTimeout(() => {
       const bsAlert = new bootstrap.Alert(alert);
       bsAlert.close();
     });
-  }, 3000); // 4 segundos
+  }, 4000); // 4 segundos
