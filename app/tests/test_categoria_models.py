@@ -5,9 +5,6 @@ from django.db import IntegrityError
 
 from app.models.categoria_models import Categoria
 from app.models.feria_models import Feria
-from app.models.sector_models import Sector
-from usuarios.models import Emprendedor, User
-from app.models import Inscripcion, Resena
 
 
 class CategoriaModelTest(TestCase):

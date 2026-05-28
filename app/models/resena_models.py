@@ -3,22 +3,22 @@ from __future__ import annotations
 from django.db import models
 
 from usuarios.models.emprendedor_models import Emprendedor
-from app.models.feria_models import Feria
+from usuarios.models.visitante_models import Visitante
+
 
 
 #esto lo uso para el tema de la reseña
 from django.core.validators import MinValueValidator, MaxValueValidator
 
-  
 class Resena(models.Model):
-    feria = models.ForeignKey(
-        Feria,
-        on_delete=models.CASCADE
-    )
-
+   
     emprendedor = models.ForeignKey(
         Emprendedor,
         on_delete=models.CASCADE
+    )
+    visitante = models.ForeignKey(
+        Visitante,
+        on_delete=models.CASCADE,
     )
 
     comentario = models.TextField()
@@ -32,17 +32,17 @@ class Resena(models.Model):
 
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     class Meta:
-        unique_together = ("feria", "emprendedor")
+        unique_together = ("visitante", "emprendedor")
 
     def __str__(self):
         return f"Reseña de {self.emprendedor.nombre}"
     
     @classmethod
-    def validate(cls, feria, emprendedor, comentario, puntuacion):
+    def validate(cls, visitante , emprendedor, comentario, puntuacion):
         errors = []
 
-        if not feria:
-            errors.append("La feria es obligatoria.")
+        if not visitante :
+            errors.append("El visitante es obligatoria.")
 
         if not emprendedor:
             errors.append("El emprendedor es obligatorio.")
@@ -55,9 +55,9 @@ class Resena(models.Model):
 
         return errors
     @classmethod
-    def new(cls, feria, emprendedor, comentario, puntuacion):
+    def new(cls, visitante , emprendedor, comentario, puntuacion):
         errors = cls.validate(
-            feria,
+            visitante ,
             emprendedor,
             comentario,
             puntuacion
@@ -65,7 +65,7 @@ class Resena(models.Model):
         if errors:
             return None, errors
         resena = cls.objects.create(
-            feria=feria,
+            visitante =visitante ,
             emprendedor=emprendedor,
             comentario=comentario.strip(),
             puntuacion=puntuacion
@@ -75,7 +75,7 @@ class Resena(models.Model):
     
     def update(self, comentario, puntuacion):
         errors = self.__class__.validate(
-            self.feria,
+            self.visitante ,
             self.emprendedor,
             comentario,
             puntuacion
