@@ -1,5 +1,5 @@
 from django.contrib.auth.views import LogoutView
-
-class CustomLogoutView(LogoutView):
+from django.contrib.auth.mixins import LoginRequiredMixin
+class CustomLogoutView(LoginRequiredMixin, LogoutView):
 
     next_page = "usuarios:login"
