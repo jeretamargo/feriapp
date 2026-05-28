@@ -10,7 +10,6 @@ class RegistroVisitanteForm(UserCreationForm):
         fields = (
             "username",
             "email",
-            "tipo_usuario",
             "password1",
             "password2",
         )
@@ -22,19 +21,26 @@ class RegistroVisitanteForm(UserCreationForm):
             "placeholder": "Usuario"
         }
     )
+    nombre = forms.CharField()
+    widget=forms.TextInput(
+        attrs={
+            "class": "form-control",
+            "placeholder": "Nombre"
+        }
+    )
+    apellido = forms.CharField()
+    widget=forms.TextInput(
+        attrs={
+            "class": "form-control",
+            "placeholder": "Apellido"
+        }
+    )
 
     email = forms.EmailField()
     widget=forms.EmailInput(
         attrs={
             "class": "form-control",
             "placeholder": "Correo electrónico"
-        }
-    )
-    tipo_usuario = forms.ChoiceField(choices=User.TIPO_USUARIO)
-    widget=forms.Select(
-        attrs={
-            "class": "form-control",
-            "placeholder": "Tipo de usuario"
         }
     )
     password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput(

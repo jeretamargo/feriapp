@@ -6,5 +6,5 @@ from usuarios.forms.registro_emp_form import RegistroEmprendedorForm
 class RegistroEmprendedorView(CreateView):
     model = User
     form_class = RegistroEmprendedorForm
-    template_name = "usuarios/registro.html"
+    template_name = "usuarios/registro_emp.html"
     success_url = reverse_lazy("usuarios:login")

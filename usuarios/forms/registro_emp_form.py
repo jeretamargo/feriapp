@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from usuarios.models.emprendedor_models import Emprendedor
 from usuarios.models.user_models import User
 
 class RegistroEmprendedorForm(UserCreationForm):
@@ -10,33 +11,53 @@ class RegistroEmprendedorForm(UserCreationForm):
         fields = (
             "username",
             "email",
-            "tipo_usuario",
             "password1",
             "password2",
         )
     
-    username = forms.CharField()
-    widget=forms.TextInput(
+    username = forms.CharField(widget=forms.TextInput(
         attrs={
             "class": "form-control",
             "placeholder": "Usuario"
         }
-    )
+    ))
+    
+    nombre = forms.CharField(widget=forms.TextInput(
+        attrs={
+            "class": "form-control",
+            "placeholder": "Nombre"
+        }
+    ))
+    
+    apellido = forms.CharField( widget=forms.TextInput(
+        attrs={
+            "class": "form-control",
+            "placeholder": "Apellido"
+        }
+    ))
+   
 
-    email = forms.EmailField()
-    widget=forms.EmailInput(
+    email = forms.EmailField(widget=forms.EmailInput(
         attrs={
             "class": "form-control",
             "placeholder": "Correo electrónico"
         }
-    )
-    tipo_usuario = forms.ChoiceField(choices=User.TIPO_USUARIO)
-    widget=forms.Select(
+    ))
+    
+    rubro = forms.CharField(widget=forms.TextInput(
         attrs={
             "class": "form-control",
-            "placeholder": "Tipo de usuario"
+            "placeholder": "Rubro"
         }
-    )
+    ))
+    
+    telefono = forms.CharField(widget=forms.TextInput(
+        attrs={
+            "class": "form-control",
+            "placeholder": "Numero de Teléfono"
+        }
+    ))
+    
     password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput(
         attrs={
             "class": "form-control",
@@ -49,3 +70,17 @@ class RegistroEmprendedorForm(UserCreationForm):
             "placeholder": "Confirmar contraseña"
         }
     ))
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.tipo_usuario = "emprendedor"
+        if commit:
+         user.save()
+        Emprendedor.new(
+            usuario=user,
+            nombre=self.cleaned_data["nombre"],
+            apellido=self.cleaned_data["apellido"],
+            rubro=self.cleaned_data["rubro"],
+            telefono=self.cleaned_data["telefono"],
+        )
+        return user
