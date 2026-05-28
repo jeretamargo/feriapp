@@ -25,6 +25,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navMenu">
+          {% if user.is_authenticated %}
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <a class="nav-link" href="{% url 'ferias:lista_ferias' %}"
@@ -62,6 +63,24 @@
             </li>
             <!-- TODO: agregar links a Emprendedores e Inscripciones -->
           </ul>
+          {% else %}
+          <ul class="navbar-nav ms-auto gap-1">
+            <li class"nav-item">
+              <a
+                href="{% url 'usuarios:login' %}"
+                class="text-decoration-none text-black btn btn-light"
+                >Iniciar Sesion</a
+              >
+            </li>
+            <li class"nav-item">
+              <a
+                href="{% url 'usuarios:registro' %}"
+                class="text-decoration-none text-white btn btn-primary "
+                >Registrarse</a
+              >
+            </li>
+          </ul>
+          {% endif %}
         </div>
       </div>
     </nav>
@@ -85,7 +104,7 @@
     </div>
     {% endif %}
 
-    <main class="container my-4">{% block content %}{% endblock %}</main>
+    <main class="container my-4 ">{% block content %}{% endblock %}</main>
 
     <footer class="bg-light text-center text-muted py-3 mt-auto border-top">
       <small>FeriApp 2026</small>

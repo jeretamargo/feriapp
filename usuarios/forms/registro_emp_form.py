@@ -17,7 +17,7 @@ class RegistroEmprendedorForm(UserCreationForm):
     
     username = forms.CharField(widget=forms.TextInput(
         attrs={
-            "class": "form-control",
+            "class": "form-control ",
             "placeholder": "Usuario"
         }
     ))

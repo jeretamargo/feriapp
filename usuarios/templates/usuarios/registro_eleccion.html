@@ -1,16 +1,21 @@
 {% extends "base.html" %} {% block title %}Crear cuenta — FeriApp{%endblock %}
 {% block content %}
-<h2>¿Como querés registrate?</h2>
-<a
-  href="{% url 'usuarios:registro_emprendedor' %}"
-  class="text-decoration-none text-white btn btn-primary"
-  >Soy Emprendedor</a
+<div
+  class="container d-flex flex-column justify-content-center align-items-center mt-5"
 >
+  <h2>¿Como querés registrate?</h2>
+  <div class="d-flex gap-5">
+    <a
+      href="{% url 'usuarios:registro_emprendedor' %}"
+      class="text-decoration-none text-white btn btn-primary btn-lg p-3"
+      >Soy Emprendedor</a
+    >
 
-<a
-  href="{% url 'usuarios:registro_visitante' %}"
-  class="text-decoration-none text-white btn btn-primary"
-  >Soy Visitante</a
->
-
+    <a
+      href="{% url 'usuarios:registro_visitante' %}"
+      class="text-decoration-none text-white btn btn-primary btn-lg p-3"
+      >Soy Visitante</a
+    >
+  </div>
+</div>
 {% endblock %}
