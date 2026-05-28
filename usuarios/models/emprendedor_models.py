@@ -53,7 +53,7 @@ class Emprendedor (models.Model):
 
 
     @classmethod
-    def new(cls, nombre, apellido, email, rubro, telefono, usuario):
+    def new(cls, nombre, apellido, rubro, telefono, usuario):
         errors = cls.validate(nombre, apellido, rubro, telefono, usuario)
         if errors:
             return None, errors
@@ -68,7 +68,7 @@ class Emprendedor (models.Model):
         return emprendedor, []
         
 
-    def update(self,nombre, apellido, email, rubro, telefono, usuario ):
+    def update(self,nombre, apellido, rubro, telefono, usuario ):
         errors = self.__class__.validate(nombre, apellido, rubro, telefono, usuario)
         if errors:
             return errors

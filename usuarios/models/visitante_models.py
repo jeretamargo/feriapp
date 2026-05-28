@@ -1,7 +1,6 @@
 # Create your models here.
 from django.db import models
 
-from django.core.validators import RegexValidator
 
 from usuarios.models.user_models import User
 
@@ -35,7 +34,7 @@ class Visitante(models.Model):
         return errors
 
     @classmethod
-    def new (cls,nombre, apellido, email, usuario):
+    def new (cls,nombre, apellido, usuario):
 
         errors = cls.validate(nombre, apellido, usuario)
         if errors:
@@ -51,7 +50,7 @@ class Visitante(models.Model):
         
 
     
-    def update(self,nombre, apellido, email, usuario):
+    def update(self,nombre, apellido, usuario):
 
         errors = self.__class__.validate(nombre, apellido,usuario)
         if errors:

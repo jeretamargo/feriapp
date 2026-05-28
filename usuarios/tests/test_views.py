@@ -1,7 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from usuarios.models import Emprendedor, User
+from usuarios.models.emprendedor_models import Emprendedor
+from usuarios.models.user_models import User
 
 # Create your tests here.
 
