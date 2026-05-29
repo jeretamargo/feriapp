@@ -23,14 +23,5 @@ class Migration(migrations.Migration):
                 ('usuario', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='notificaciones', to=settings.AUTH_USER_MODEL)),
             ],
         ),
-        migrations.CreateModel(
-            name='Visitante',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('nombre', models.CharField(max_length=200)),
-                ('apellido', models.CharField(max_length=200)),
-                ('fecha_registro', models.DateField(auto_now_add=True)),
-                ('usuario', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='visitante', to=settings.AUTH_USER_MODEL)),
-            ],
-        ),
+        
     ]
