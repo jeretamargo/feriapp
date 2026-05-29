@@ -30,6 +30,17 @@ class NuevaCategoriaView(CreateView):
         messages.success(self.request, f"La categoría '{self.object.nombre}' fue creada exitosamente.")
         return response
     
+    def form_invalid(self, form):
+        # Enviar todos los errores del formulario como mensajes
+        for field, errors in form.errors.items():
+            for error in errors:
+                if field == "__all__":
+                    messages.error(self.request, f"Error general: {error}")
+                else:
+                    messages.error(self.request, f"Error en {field}: {error}")
+        return super().form_invalid(form)
+    
+    
 class UpdateCategoriaView(UpdateView):
     """Vista para actualizar una categoría."""
 
