@@ -1,14 +1,12 @@
 from datetime import date
 
 from django.test import TestCase
-from django.db import IntegrityError
 
 from app.models.categoria_models import Categoria
 from app.models.feria_models import Feria
-from app.models.sector_models import Sector
-from usuarios.models import Emprendedor, User
-from app.models import Inscripcion, Resena
-
+from app.models.inscripcion_models import Inscripcion
+from usuarios.models.emprendedor_models import Emprendedor
+from usuarios.models.user_models import User
 
 
 class InscripcionModelTest(TestCase):

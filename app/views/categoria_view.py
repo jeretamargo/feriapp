@@ -1,6 +1,6 @@
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
 from django.urls import reverse_lazy
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 from app.forms.categoria_form import CategoriaForm
 from app.models.categoria_models import Categoria
 from django.contrib import messages
@@ -8,14 +8,14 @@ from django.shortcuts import redirect
 
 
 
-class ListaCategoriaView(ListView):
+class ListaCategoriaView(LoginRequiredMixin,ListView):
     """Lista todas las Categorias activas."""
 
     model = Categoria
     template_name = "categorias/lista_categorias.html"
     context_object_name = "categorias"
 
-class NuevaCategoriaView(CreateView):
+class NuevaCategoriaView(LoginRequiredMixin,CreateView):
     """Formulario para crear una nueva categoría."""
 
     model = Categoria
@@ -40,8 +40,8 @@ class NuevaCategoriaView(CreateView):
                     messages.error(self.request, f"Error en {field}: {error}")
         return super().form_invalid(form)
     
-    
-class UpdateCategoriaView(UpdateView):
+
+class UpdateCategoriaView(LoginRequiredMixin,UpdateView):
     """Vista para actualizar una categoría."""
 
     model = Categoria
@@ -56,7 +56,7 @@ class UpdateCategoriaView(UpdateView):
     
     
 
-class DeleteCategoriaView(DeleteView):
+class DeleteCategoriaView(LoginRequiredMixin, DeleteView):
     """Vista para eliminar una categoría."""
 
     model = Categoria

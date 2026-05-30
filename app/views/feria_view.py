@@ -1,12 +1,13 @@
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from app.forms.form_feria import FeriaForm
 from app.models.feria_models import Feria
 
 
-class ListaFeriasView(ListView):
+class ListaFeriasView(LoginRequiredMixin,ListView):
     """Lista todas las ferias activas."""
 
     model = Feria
@@ -19,7 +20,7 @@ class ListaFeriasView(ListView):
     
     
 
-class NuevaFeriaView(CreateView):
+class NuevaFeriaView(LoginRequiredMixin,CreateView):
     """Vista para crear una nueva feria."""
 
     model = Feria
@@ -53,7 +54,7 @@ class NuevaFeriaView(CreateView):
                     messages.error(self.request, f"Error en {field}: {error}")
         return super().form_invalid(form)
 
-class DetalleFeriaView(DetailView):
+class DetalleFeriaView(LoginRequiredMixin, DetailView):
     """Vista para mostrar los detalles de una feria."""
 
     model = Feria
@@ -67,7 +68,7 @@ class DetalleFeriaView(DetailView):
         context["puestos_disponibles"] = self.object.puestos_disponibles() # pyright: ignore[reportAttributeAccessIssue]
         return context
     
-class DeleteFeriaView(DeleteView):
+class DeleteFeriaView(LoginRequiredMixin,DeleteView):
     """Vista para eliminar una feria."""
 
     model = Feria
@@ -78,7 +79,7 @@ class DeleteFeriaView(DeleteView):
         messages.warning(self.request, f"La feria '{self.object.nombre}' fue borrada exitosamente.")
         return super().get_success_url()
 
-class UpdateFeriaView(UpdateView):
+class UpdateFeriaView(LoginRequiredMixin,UpdateView):
     """Vista para actualizar una feria."""
 
     model = Feria

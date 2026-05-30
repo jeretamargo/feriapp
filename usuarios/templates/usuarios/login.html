@@ -1,0 +1,16 @@
+{% extends "base.html" %} {% block title %}Iniciá sesión — FeriApp{%endblock %}
+{% block content %}
+<div class="d-flex justify-content-center align-items-center flex-column gap-3">
+  <h1>Ingresá a FeriApp 🏪</h1>
+  <h4>Introducí tu usuario y contraseña</h4>
+
+  <form
+    class="d-flex justify-content-center align-items-center flex-column"
+    method="post"
+  >
+    {% csrf_token %} {{ form.as_p }}
+
+    <button type="submit" class="btn btn-success">Iniciar sesión</button>
+  </form>
+</div>
+{% endblock %}

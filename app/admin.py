@@ -6,6 +6,7 @@ from app.models.feria_models import Feria
 from app.models.categoria_models import Categoria
 
 
+
 # TODO: reemplazar por @admin.register con list_display, list_filter, search_fields
 admin.site.register(Feria)
 admin.site.register(Sector)

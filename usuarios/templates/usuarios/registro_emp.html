@@ -1,0 +1,15 @@
+{% extends "base.html" %} {% block title %}Crear cuenta — FeriApp{%endblock %}
+{% block content %}
+<div class="d-flex flex-column justify-content-center align-items-center">
+  <h2>Registrate como Emprendedor</h2>
+
+  <form
+    method="post"
+    class="d-flex justify-content-center align-items-center flex-column"
+  >
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Registrarse</button>
+  </form>
+
+  <div>{% endblock %}</div>
+</div>

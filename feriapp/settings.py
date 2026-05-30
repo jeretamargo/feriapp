@@ -85,3 +85,5 @@ MESSAGE_TAGS = {
     messages.WARNING: "warning",
     messages.ERROR: "danger",  # cambio para bootstrap
 }
+LOGIN_REDIRECT_URL = "/"
+LOGIN_URL = "usuarios:login"

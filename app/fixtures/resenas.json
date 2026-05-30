@@ -3,7 +3,7 @@
     "model": "app.resena",
     "pk": 1,
     "fields": {
-      "feria": 1,
+      "visitante": 1,
       "emprendedor": 1,
       "comentario": "Excelente organización y mucha concurrencia.",
       "puntuacion": 5,
@@ -14,11 +14,22 @@
     "model": "app.resena",
     "pk": 2,
     "fields": {
-      "feria": 2,
+      "visitante": 2,
       "emprendedor": 2,
       "comentario": "Muy buena experiencia.",
       "puntuacion": 4,
       "fecha_creacion": "2026-05-20T15:10:00Z"
+    }
+  },
+  {
+    "model": "app.resena",
+    "pk": 3,
+    "fields": {
+      "visitante": 1,
+      "emprendedor": 3,
+      "comentario": "Productos interesantes y buena atención.",
+      "puntuacion": 5,
+      "fecha_creacion": "2026-05-26T18:00:00Z"
     }
   }
 ]
