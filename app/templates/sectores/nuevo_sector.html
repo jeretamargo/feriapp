@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Nuevo Sector{% endblock %}
+
+{% block content %}
+    <h1>Crear Nuevo Sector</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{% url 'ferias:lista_sector' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %}

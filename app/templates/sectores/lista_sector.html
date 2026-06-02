@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Sectores{% endblock %}
+
+{% block content %}
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Lista de Sectores</h1>
+        <a href="{% url 'ferias:nuevo_sector' %}" class="btn btn-primary mb-3">Crear Nuevo Sector</a>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Edición</th>
+                <th>Capacidad de Puestos</th>
+                <th>Conexión Eléctrica</th>
+                <th>Feria Asociada</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sector in sectores %}
+            <tr>
+                <td>{{ sector.nombre }}</td>
+                <td>{{ sector.edicion }}</td>
+                <td>{{ sector.capacidad_puestos }}</td>
+                <td>{{ sector.tiene_conexion_electrica|yesno:"Sí,No" }}</td>
+                <td>{{ sector.feria.nombre }}</td>
+                <td>
+                    <a href="{% url 'ferias:actualizar_sector' sector.id %}" class="btn btn-sm btn-warning">Editar</a>
+                    <a href="{% url 'ferias:borrar_sector' sector.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">No hay sectores disponibles.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
