@@ -7,6 +7,7 @@ class SectorForm(forms.ModelForm):
         model = Sector
         fields = "__all__"
         widgets = {
+            "feria": forms.Select(attrs={"class": "form-control", "required": True}),
             "nombre": forms.TextInput(attrs={"class": "form-control"  , "placeholder": "Nombre del sector", "required": True}),
             "capacidad_puestos": forms.NumberInput(attrs={"class": "form-control", "placeholder": "Capacidad de puestos", "required": True, "min": 1}),
             "tiene_conexion_electrica": forms.CheckboxInput(attrs={"class": "form-check-input", "default": False}),

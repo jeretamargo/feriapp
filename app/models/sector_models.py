@@ -10,7 +10,7 @@ class Sector(models.Model):
     """Representa un sector de actividad para los emprendedores."""
 
     nombre = models.CharField(max_length=100, unique=True)
-    edicion = models.DateField(blank=True, null=True, default= timezone.now().date)
+    edicion = models.DateField(blank=True, null=True)
     capacidad_puestos = models.PositiveIntegerField()
     tiene_conexion_electrica = models.BooleanField(default=False)
     feria = models.ForeignKey(Feria, on_delete=models.CASCADE, related_name="sectores")

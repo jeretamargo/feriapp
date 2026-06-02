@@ -22,7 +22,7 @@
         <tbody>
             {% for sector in sectores %}
             <tr>
-                <td>{{ sector.nombre }}</td>
+                <a><td><a href="{% url 'ferias:detalle_sector' sector.id %}">{{ sector.nombre }}</a></td>
                 <td>{{ sector.edicion }}</td>
                 <td>{{ sector.capacidad_puestos }}</td>
                 <td>{{ sector.tiene_conexion_electrica|yesno:"Sí,No" }}</td>
