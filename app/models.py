@@ -284,8 +284,12 @@ class Inscripcion(models.Model):
         null=True,
         blank=True
     )
+    #para que cada empprendedor solo pueda estar inscripto una vez en la feria
     class Meta:
-        unique_together = ("feria", "numero_puesto")
+        unique_together = [
+        ("feria", "numero_puesto"),
+        ("feria", "emprendedor"),
+    ]
 
     def __str__(self):
         return f"{self.emprendedor} - {self.feria}"
@@ -307,11 +311,15 @@ class Inscripcion(models.Model):
 
         if estado not in estados_validos:
             errors.append("Estado inválido.")
+        #para validar si la feria tiene espacio y ademas estar validado
+        if feria and estado == "confirmada" and not feria.tiene_lugar():
+            errors.append("La feria no tiene puestos disponibles.")
 
         return errors
     
     @classmethod
-    def new(cls, feria, emprendedor, numero_puesto, estado="confirmada"):
+    #añadi para que se guarde quien lo registro
+    def new(cls, feria, emprendedor, numero_puesto, estado="confirmada", registrado_por=None):
         errors = cls.validate(
             feria,
             emprendedor,
@@ -326,12 +334,20 @@ class Inscripcion(models.Model):
             feria=feria,
             emprendedor=emprendedor,
             numero_puesto=numero_puesto,
-            estado=estado
+            estado=estado, 
+            registrado_por=registrado_por,
         )
 
         return inscripcion, []
     
     def update(self, numero_puesto, estado):
+            # esto es para verificar si el puesto no estaba siendo ocupado por otra persona o emprendedor
+        if self.__class__.objects.filter(
+            feria=self.feria,
+            numero_puesto=numero_puesto
+        ).exclude(pk=self.pk).exists():
+            return ["El puesto ya esta ocupado en esta feria."]
+        
         errors = self.__class__.validate(
             self.feria,
             self.emprendedor,
