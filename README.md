@@ -1,16 +1,17 @@
 # FeriApp 🏪
-
-Sistema web de gestión de ferias y emprendedores desarrollado con Django 5.1+.  
+Sistema web de gestión de ferias y emprendedores desarrollado con Django 5.2+.  
 Permite administrar ferias temáticas, gestionar inscripciones de emprendedores y controlar la disponibilidad de puestos, con autenticación de usuarios y panel de administración.
 
 ---
+### Rama de desarrollo -> dev
+
 
 ## 🛠️ Stack
 
 | Tecnología | Versión |
 |------------|---------|
 | Python | 3.13+ |
-| Django | 5.1+ |
+| Django | 5.2+ |
 | Base de datos | SQLite (desarrollo) |
 | Frontend | Bootstrap 5 |
 | Tests | `django.test.TestCase` |
@@ -35,9 +36,9 @@ Permite administrar ferias temáticas, gestionar inscripciones de emprendedores 
 
 | Nombre | Usuario GitHub |
 |--------|---------------|
-| ... | [@usuario](https://github.com/usuario) |
-| ... | [@usuario](https://github.com/usuario) |
-| ... | [@usuario](https://github.com/usuario) |
+| Jeremias Tamargo | [@jeretamargo](https://github.com/jeretamargo) |
+| Marcos Cerezo| [@Marcos45C](https://github.com/Marcos45C) |
+| Sebastian Martinez | [@SebaaM](https://github.com/SebaaM) |
 
 ---
 
@@ -80,9 +81,17 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
-### 6. Correr el servidor de desarrollo
+### 6. Carga de datos
 
 ```bash
+
+python manage.py loaddata usuarios.json ferias.json inscripciones.json resenas.json
+```
+
+### 7. Correr el servidor de desarrollo
+
+```bash
+
 python manage.py runserver
 ```
 
@@ -124,7 +133,7 @@ feriapp/
 ├── feriapp/            # Configuración del proyecto Django
 │   ├── settings.py
 │   └── urls.py
-├── ferias/             # App principal
+├── app/             # App principal
 │   ├── models.py       # Categoria, Feria, Emprendedor, Inscripcion
 │   ├── views.py
 │   ├── urls.py
@@ -134,6 +143,15 @@ feriapp/
 │   └── tests/
 │       ├── test_models.py
 │       └── test_views.py
+├── usuarios/           # App manejo de usuarios.
+│   ├── models.py       # Notificacion, Emprendedor, Visitante.
+│   ├── views.py
+│   ├── urls.py
+│   ├── forms.py
+│   ├── admin.py
+│   ├── consultas.py    # Consultas ORM
+│   └── tests/
+│       └── test_models.py
 ├── templates/
 │   ├── base.html
 │   └── registration/
