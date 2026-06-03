@@ -139,25 +139,34 @@ class FeriaModelTest(TestCase):
         self.assertEqual(self.feria.nombre, "Feria de Invierno")  # sin cambios
 
     def test_puestos_ocupados_cuenta_solo_confirmadas(self):
-        # crear usuario y emprendedor para las inscripciones
-        user = User.objects.create_user(username="u_test", password="pass")
-        emprendedor = Emprendedor.objects.create(
+        # primer emprendedor — inscripción confirmada
+        user1 = User.objects.create_user(username="u_test1", password="pass")
+        emprendedor1 = Emprendedor.objects.create(
             nombre="Juan",
             apellido="Perez",
             rubro="Artes",
             telefono="+54123456789",
-            usuario=user,
+            usuario=user1,
         )
-        # inscripciones: una confirmada y otra cancelada
+        # segundo emprendedor — inscripción cancelada
+        user2 = User.objects.create_user(username="u_test2", password="pass")
+        emprendedor2 = Emprendedor.objects.create(
+            nombre="Maria",
+            apellido="Lopez",
+            rubro="Textil",
+            telefono="+54987654321",
+            usuario=user2,
+        )
+
         Inscripcion.objects.create(
             feria=self.feria,
-            emprendedor=emprendedor,
+            emprendedor=emprendedor1,
             numero_puesto=1,
             estado="confirmada",
         )
         Inscripcion.objects.create(
             feria=self.feria,
-            emprendedor=emprendedor,
+            emprendedor=emprendedor2,
             numero_puesto=2,
             estado="cancelada",
         )

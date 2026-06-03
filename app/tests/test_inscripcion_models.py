@@ -60,6 +60,73 @@ class InscripcionModelTest(TestCase):
 
         self.assertTrue(len(errors) > 0)
 
+      #agrgue los test para verificar que haya lugar en feria
+    def test_new_inscripcion_falla_si_feria_sin_lugar(self):
+        # feria creada con capacidad 1
+        feria_llena = Feria.objects.create(
+            nombre="Feria Llena",
+            categoria=self.feria.categoria,
+            fecha_inicio=date(2026, 7, 1),
+            fecha_fin=date(2026, 7, 3),
+            ubicacion="Plaza",
+            capacidad_puestos=1,
+        )
+        # ocupa el unico puesto
+        Inscripcion.objects.create(
+            feria=feria_llena,
+            emprendedor=self.emprendedor,
+            numero_puesto=1,
+            estado="confirmada",
+        )
+
+        # segundo emprendedor intenta inscribirse como confirmada
+        user2 = User.objects.create_user(username="pedro", password="1234")
+        emp2 = Emprendedor.objects.create(
+            nombre="Pedro", apellido="Lopez",
+            rubro="Arte", telefono="999999999",
+            usuario=user2,
+        )
+        inscripcion, errors = Inscripcion.new(
+            feria=feria_llena, emprendedor=emp2,
+            numero_puesto=2, estado="confirmada",
+        )
+
+        self.assertIsNone(inscripcion)
+        self.assertIn("La feria no tiene puestos disponibles.", errors)
+
+
+    def test_new_inscripcion_lista_espera_no_requiere_lugar(self):
+        feria_llena = Feria.objects.create(
+            nombre="feria lena 2",
+            categoria=self.feria.categoria,
+            fecha_inicio=date(2026, 7, 1),
+            fecha_fin=date(2026, 7, 3),
+            ubicacion="Plaza",
+            capacidad_puestos=1,
+        )
+        Inscripcion.objects.create(
+            feria=feria_llena,
+            emprendedor=self.emprendedor,
+            numero_puesto=1,
+            estado="confirmada",
+        )
+
+        user2 = User.objects.create_user(username="pedro2", password="1234")
+        emp2 = Emprendedor.objects.create(
+            nombre="Pedro", apellido="Lopez",
+            rubro="Arte", telefono="999999999",
+            usuario=user2,
+        )
+        inscripcion, errors = Inscripcion.new(
+            feria=feria_llena, emprendedor=emp2,
+            numero_puesto=2, estado="lista_espera",
+        )
+
+        self.assertIsNotNone(inscripcion)
+        self.assertEqual(errors, [])
+
+
+
     #new
 
     def test_new_crea_inscripcion(self):
