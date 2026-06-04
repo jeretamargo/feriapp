@@ -1,10 +1,11 @@
 from django.views.generic import CreateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from app.forms.inscripcion_form import InscripcionForm
-
-from app.models import Inscripcion
-
+from usuarios.models.notificacion_models import Notificacion
+from app.models.inscripcion_models import Inscripcion
+from django.contrib import messages
 
 class NuevaInscripcionView(LoginRequiredMixin,CreateView):
     model = Inscripcion
@@ -64,6 +65,18 @@ class NuevaInscripcionView(LoginRequiredMixin,CreateView):
         form.instance.estado = "confirmada"
         form.instance.registrado_por = self.request.user
 
+        Notificacion.new(
+            usuario=self.request.user,
+            asunto="Inscripción realizada",
+            mensaje=(
+                f"Te inscribiste correctamente "
+                f"en la feria '{feria.nombre}'."
+            )
+        )
+        messages.success(
+            self.request,
+            f"Te inscribiste correctamente en la feria '{feria.nombre}'.")
+
         return super().form_valid(form)
     
 
@@ -84,3 +97,33 @@ class MisInscripcionesView(LoginRequiredMixin,ListView):
         return Inscripcion.objects.filter(
             emprendedor=self.request.user.emprendedor
         ).select_related("feria")
+
+
+    #vista para cancelar inscripcion
+def cancelar_inscripcion(request, pk):
+        if request.method != "POST":
+            return redirect("app:mis_inscripciones")
+        #el get_object_or_404 es para que un emprendedor no puede cancelar la inscripción de otro emprendedor
+        inscripcion = get_object_or_404(
+            Inscripcion,
+            pk=pk,
+            emprendedor=request.user.emprendedor
+        )
+
+        inscripcion.estado = "cancelada"
+        inscripcion.save()
+
+        Notificacion.new(
+            usuario=request.user,
+            asunto="Inscripción cancelada",
+            mensaje=(
+                f"Tu inscripción a la feria "
+                f"'{inscripcion.feria.nombre}' "
+                f"fue cancelada correctamente."
+            )
+        )
+        messages.success(
+            request,
+            f"Se canceló tu inscripción a '{inscripcion.feria.nombre}'."
+            )
+        return redirect("app:mis_inscripciones")

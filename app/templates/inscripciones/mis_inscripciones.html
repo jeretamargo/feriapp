@@ -17,6 +17,7 @@ Mis Inscripciones
             <th>Fechas</th>
             <th>Puesto</th>
             <th>Estado</th>
+            <th>Acciones</th>
         </tr>
     </thead>
 
@@ -45,6 +46,24 @@ Mis Inscripciones
 
             <td>
                 {{ inscripcion.get_estado_display }}
+            </td>
+            <td>
+                {% if inscripcion.estado != "cancelada" %}
+                <form
+                    method="post"
+                    action="{% url 'app:cancelar_inscripcion' inscripcion.id %}"
+                >
+                    {% csrf_token %}
+                    <button
+                        type="submit"
+                        class="btn btn-danger btn-sm"
+                    >
+                        Cancelar
+                    </button>
+
+                </form>
+                {% endif %}
+
             </td>
         </tr>
 

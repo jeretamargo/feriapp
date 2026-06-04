@@ -4,7 +4,7 @@ from django.urls import path
 from app.views import  feria_view, categoria_view #, sector_view
 from .core_views import HomeView
 from .views.resena_view import ListaResenasView
-from .views.inscripcion_view import NuevaInscripcionView,MisInscripcionesView
+from .views.inscripcion_view import NuevaInscripcionView,MisInscripcionesView,cancelar_inscripcion
 
 #from usuarios import views as user_views
 
@@ -27,7 +27,8 @@ urlpatterns = [
     path("inscripciones/nueva/", NuevaInscripcionView.as_view(), name="nueva_inscripcion"),
 
     path("mis-inscripciones/", MisInscripcionesView.as_view(), name="mis_inscripciones"),
-
+    
+    path("inscripciones/<int:pk>/cancelar/",cancelar_inscripcion,name="cancelar_inscripcion"),
 
     path("resenas/", ListaResenasView.as_view(),name="lista_resenas"),
     
