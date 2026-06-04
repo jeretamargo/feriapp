@@ -1,8 +1,9 @@
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from usuarios.models.user_models import User
 from usuarios.models.visitante_models import Visitante
-
+from django.contrib.auth.models import Group
 class RegistroVisitanteForm(UserCreationForm):
     class Meta:
 
@@ -68,4 +69,6 @@ class RegistroVisitanteForm(UserCreationForm):
             apellido=self.cleaned_data["apellido"],
         
         )
+        grupo = Group.objects.get(name="Visitante")
+        user.groups.add(grupo)
         return user
