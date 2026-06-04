@@ -4,7 +4,7 @@ from django.urls import path
 from app.views import  feria_view, categoria_view #, sector_view
 from .core_views import HomeView
 from .views.resena_view import ListaResenasView
-from .views.inscripcion_view import NuevaInscripcionView
+from .views.inscripcion_view import NuevaInscripcionView,MisInscripcionesView
 
 #from usuarios import views as user_views
 
@@ -25,8 +25,10 @@ urlpatterns = [
     path("categorias/<int:pk>/borrar/", categoria_view.DeleteCategoriaView.as_view(), name="borrar_categoria"),
     
     path("inscripciones/nueva/", NuevaInscripcionView.as_view(), name="nueva_inscripcion"),
-    path("inscripciones/nueva/",NuevaInscripcionView.as_view(), name="nueva_inscripcion"),
-    
+
+    path("mis-inscripciones/", MisInscripcionesView.as_view(), name="mis_inscripciones"),
+
+
     path("resenas/", ListaResenasView.as_view(),name="lista_resenas"),
     
     

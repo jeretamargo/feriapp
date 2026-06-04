@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Nueva inscripción{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h2 class="mb-4">Inscribirse a una feria</h2>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <button type="submit" class="btn btn-primary">
+                Inscribirme
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

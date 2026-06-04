@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}
+Mis Inscripciones
+{% endblock %}
+
+{% block content %}
+
+<h2>Mis Inscripciones</h2>
+
+<table class="table table-striped">
+
+    <thead>
+        <tr>
+            <th>Feria</th>
+            <th>Ubicación</th>
+            <th>Fechas</th>
+            <th>Puesto</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    {% for inscripcion in inscripciones %}
+
+        <tr>
+            <td>
+                {{ inscripcion.feria.nombre }}
+            </td>
+
+            <td>
+                {{ inscripcion.feria.ubicacion }}
+            </td>
+
+            <td>
+                {{ inscripcion.feria.fecha_inicio }}
+                -
+                {{ inscripcion.feria.fecha_fin }}
+            </td>
+
+            <td>
+                {{ inscripcion.numero_puesto }}
+            </td>
+
+            <td>
+                {{ inscripcion.get_estado_display }}
+            </td>
+        </tr>
+
+    {% empty %}
+
+        <tr>
+            <td colspan="5">
+                No tenés inscripciones registradas.
+            </td>
+        </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% endblock %}
