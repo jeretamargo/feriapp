@@ -4,9 +4,11 @@
     <div class="col">
         <h3>Ferias Activas</h1>
     </div>
+    {% if request.user.is_superuser %}
     <div class="col text-end">
         <a href="{% url 'ferias:nueva_feria' %}" class="btn btn-primary">Crear Nueva Feria</a>
     </div>
+    {% endif %}
 </div>
 
 <div class="table-responsive">
@@ -18,7 +20,9 @@
         <th>Fechas</th>
         <th>Ubicación</th>
         <th>Puestos</th>
+        {% if request.user.is_superuser %}
         <th>Acciones</th>
+        {% endif %}
       </tr>
     </thead>
     <tbody>
@@ -39,6 +43,7 @@
           >
         </td>
         <td>
+          {% if request.user.is_superuser %}
           {% comment "" %} Reemplazar por url de editar_feria {% endcomment %}
           <a
             href="{% url 'ferias:actualizar_feria' pk=feria.id %}"
@@ -55,6 +60,7 @@
           </a>
         </td>
       </tr>
+      {% endif %}
       {% empty %}
       <tr>
         <td colspan="5" class="text-center text-muted">
