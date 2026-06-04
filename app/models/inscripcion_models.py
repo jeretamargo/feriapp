@@ -55,6 +55,15 @@ class Inscripcion(models.Model):
     @classmethod
     def validate(cls, feria, emprendedor, numero_puesto, estado):
         errors = []
+        #verifica si el puesto ya está ocupado cuando se crea una inscripción nueva
+        if feria and cls.objects.filter(
+            feria=feria,
+            numero_puesto=numero_puesto
+            ).exists():
+            errors.append(
+                "El puesto ya está ocupado."
+        )
+        
 
         if not feria:
             errors.append("La feria es obligatoria.")
@@ -77,17 +86,27 @@ class Inscripcion(models.Model):
     
     @classmethod
     #añadi para que se guarde quien lo registro
-    def new(cls, feria, emprendedor, numero_puesto, estado="confirmada", registrado_por=None):
+    def new(cls, feria, emprendedor, estado="confirmada", registrado_por=None):
+        #calcula el primer puesto libre y se le asigna al emprendedor
+        puestos_ocupados = cls.objects.filter(
+            feria=feria
+        ).values_list(
+            "numero_puesto",
+            flat=True
+        )
+        numero_puesto = 1
+        while numero_puesto in puestos_ocupados:
+            numero_puesto += 1
+
         errors = cls.validate(
             feria,
             emprendedor,
             numero_puesto,
             estado
         )
-
         if errors:
             return None, errors
-
+        
         inscripcion = cls.objects.create(
             feria=feria,
             emprendedor=emprendedor,
@@ -104,7 +123,7 @@ class Inscripcion(models.Model):
             feria=self.feria,
             numero_puesto=numero_puesto
         ).exclude(pk=self.pk).exists():
-            return ["El puesto ya esta ocupado en esta feria."]
+            return ["El puesto ya está ocupado en esta feria."]
         
         errors = self.__class__.validate(
             self.feria,
