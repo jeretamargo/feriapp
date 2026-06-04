@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from usuarios.models.emprendedor_models import Emprendedor
@@ -83,4 +84,6 @@ class RegistroEmprendedorForm(UserCreationForm):
             rubro=self.cleaned_data["rubro"],
             telefono=self.cleaned_data["telefono"],
         )
+        grupo = Group.objects.get(name="Emprendedor")
+        user.groups.add(grupo)
         return user

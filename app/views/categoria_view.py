@@ -5,7 +5,7 @@ from app.forms.categoria_form import CategoriaForm
 from app.models.categoria_models import Categoria
 from django.contrib import messages
 from django.shortcuts import redirect
-
+from app.mixins.AdminReq import AdminRequiredMixin
 
 
 class ListaCategoriaView(LoginRequiredMixin,ListView):
@@ -15,9 +15,8 @@ class ListaCategoriaView(LoginRequiredMixin,ListView):
     template_name = "categorias/lista_categorias.html"
     context_object_name = "categorias"
 
-class NuevaCategoriaView(LoginRequiredMixin,CreateView):
+class NuevaCategoriaView(AdminRequiredMixin, LoginRequiredMixin,CreateView):
     """Formulario para crear una nueva categoría."""
-
     model = Categoria
     form_class = CategoriaForm
     template_name = "categorias/nueva_categoria.html"
@@ -41,9 +40,8 @@ class NuevaCategoriaView(LoginRequiredMixin,CreateView):
         return super().form_invalid(form)
     
 
-class UpdateCategoriaView(LoginRequiredMixin,UpdateView):
+class UpdateCategoriaView(AdminRequiredMixin, LoginRequiredMixin, UpdateView):
     """Vista para actualizar una categoría."""
-
     model = Categoria
     form_class = CategoriaForm
     template_name = "categorias/actualizar_categoria.html"
@@ -56,7 +54,7 @@ class UpdateCategoriaView(LoginRequiredMixin,UpdateView):
     
     
 
-class DeleteCategoriaView(LoginRequiredMixin, DeleteView):
+class DeleteCategoriaView(AdminRequiredMixin, LoginRequiredMixin, DeleteView):
     """Vista para eliminar una categoría."""
 
     model = Categoria
