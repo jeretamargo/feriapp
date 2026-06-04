@@ -25,7 +25,6 @@ urlpatterns = [
     path("categorias/<int:pk>/borrar/", categoria_view.DeleteCategoriaView.as_view(), name="borrar_categoria"),
     
     path("inscripciones/nueva/", NuevaInscripcionView.as_view(), name="nueva_inscripcion"),
-    path("inscripciones/nueva/",NuevaInscripcionView.as_view(), name="nueva_inscripcion"),
     
     path("resenas/", ListaResenasView.as_view(),name="lista_resenas"),
     
