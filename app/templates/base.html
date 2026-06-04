@@ -50,13 +50,22 @@
                 Categorias</a
               >
             </li>
-            <li>
+
+            <div class="d-flex gap-2">
               <form action="{% url 'usuarios:logout' %}" method="post">
                 {% csrf_token %}
 
                 <button type="submit" class="btn btn-danger">Logout</button>
               </form>
-            </li>
+            
+            
+              <a
+                href="{% url 'usuarios:perfil' %}"
+                class="text-decoration-none btn btn-info text-white"
+                >Mi Perfil</a
+              >
+           
+            </div>
             <!-- TODO: agregar links a Emprendedores e Inscripciones -->
           </ul>
           {% else %}

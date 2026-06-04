@@ -1,0 +1,51 @@
+{% extends "base.html" %} {% block title %}Iniciá sesión — FeriApp {%endblock %}
+{% block content %}
+<h1 class="">Mi Perfil</h1>
+<div
+  class="d-flex justify-content-center align-items-center flex-column gap-3"
+  style="min-height: 60vh"
+>
+  
+  {% if es_emprendedor %}
+  <div class="d-flex gap-2">
+    <p>Nombre de usuario:</p>
+    <p>{{ request.user.username }}</p>
+  </div>
+  <div class="d-flex gap-2">
+    <p>Correo electrónico:</p>
+    <p>{{ request.user.email }}</p>
+  </div>
+  <div class="d-flex gap-2">
+    <p>Nombre:</p>
+    <p>{{ request.user.emprendedor.nombre_completo }}</p>
+  </div>
+  <div class="d-flex gap-2">
+    <p>Rubro:</p>
+    <p>{{ request.user.emprendedor.rubro }}</p>
+  </div>
+  <div class="d-flex gap-2">
+    <p>Teléfono:</p>
+    <p>{{ request.user.emprendedor.telefono }}</p>
+  </div>
+  <p>Tipo de usuario: Emprendedor</p>
+  {% endif %} {% if es_visitante %}
+  <div class="d-flex gap-2">
+    <p>Nombre de usuario:</p>
+    <p>{{ request.user.username }}</p>
+  </div>
+  <div class="d-flex gap-2">
+    <p>Correo electrónico:</p>
+    <p>{{ request.user.email }}</p>
+  </div>
+  <div class="d-flex gap-2">
+    <p>Nombre:</p>
+    <p>{{ request.user.visitante.nombre_completo }}</p>
+  </div>
+  <div class="d-flex gap-2">
+    <p>Tipo de usuario:</p>
+    <p>Visitante</p>
+  </div>
+    {% endif %}
+  </div>
+  {% endblock %}
+</div>
