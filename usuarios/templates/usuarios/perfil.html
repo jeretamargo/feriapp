@@ -64,7 +64,12 @@
           {% endif %}
 
           <div class="d-flex gap-3 mt-5">
-            <a href="#" class="btn btn-primary"> Editar Perfil </a>
+            <a
+              href="{% url 'usuarios:editar_perfil' %}"
+              class="btn btn-primary"
+            >
+              Editar Perfil
+            </a>
             <a
               href="{% url 'usuarios:editar_password' %}"
               class="btn btn-warning"
