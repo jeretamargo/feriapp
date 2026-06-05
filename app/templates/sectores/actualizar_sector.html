@@ -6,7 +6,35 @@
     <h1>Actualizar Sector</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+                <div class="mb-3">
+            {{ form.nombre.label_tag }}
+            {{ form.nombre }}
+            {% for error in form.nombre.errors %}
+                <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <div class="mb-3">
+            {{ form.capacidad_puestos.label_tag }}
+            {{ form.capacidad_puestos }}
+            {% for error in form.capacidad_puestos.errors %}
+                <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <div class="mb-3">
+            {{ form.feria.label_tag }}
+            {{ form.feria }}
+            {% for error in form.feria.errors %}
+                <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.tiene_conexion_electrica.label_tag }}
+            {{ form.tiene_conexion_electrica }}
+            {% for error in form.tiene_conexion_electrica.errors %}
+                <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+        </div>
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
         <a href="{% url 'ferias:lista_sector' %}" class="btn btn-secondary">Cancelar</a>
     </form>
