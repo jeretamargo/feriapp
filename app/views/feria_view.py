@@ -98,3 +98,14 @@ class UpdateFeriaView(AdminRequiredMixin,LoginRequiredMixin,UpdateView):
         f"<a href='{reverse_lazy('ferias:detalle_feria', args=[self.object.pk])}' class='alert-link'>Ver detalle</a>")
         
         return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        # Enviar todos los errores del formulario como mensajes
+        for field, errors in form.errors.items():
+            for error in errors:
+                if field == "__all__":
+                    messages.error(self.request, f"Error general: {error}")
+                else:
+                    messages.error(self.request, f"Error en {field}: {error}")
+        return super().form_invalid(form)
+    

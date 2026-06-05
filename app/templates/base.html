@@ -41,6 +41,21 @@
               >
             </li>
             <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'app:nueva_inscripcion' %}">
+                Inscribir
+              </a>
+            </li>
+            <li class="nav-item">
+                <a
+                    class="nav-link"
+                    href="{% url 'app:mis_inscripciones' %}"
+                >
+                    Mis Inscripciones
+                </a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="{% url 'ferias:lista_resenas' %}">
                 Reseñas</a
               >
@@ -52,6 +67,12 @@
             </li>
 
             <div class="d-flex gap-2">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'ferias:lista_sector' %}">
+                Sectores</a
+              >
+            </li>
+            <li>
               <form action="{% url 'usuarios:logout' %}" method="post">
                 {% csrf_token %}
 

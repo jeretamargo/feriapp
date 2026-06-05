@@ -87,9 +87,11 @@ class InscripcionModelTest(TestCase):
             usuario=user2,
         )
         inscripcion, errors = Inscripcion.new(
-            feria=feria_llena, emprendedor=emp2,
-            numero_puesto=2, estado="confirmada",
+            feria=feria_llena, 
+            emprendedor=emp2,
+            estado="confirmada",
         )
+        print(errors)
 
         self.assertIsNone(inscripcion)
         self.assertIn("La feria no tiene puestos disponibles.", errors)
@@ -118,8 +120,9 @@ class InscripcionModelTest(TestCase):
             usuario=user2,
         )
         inscripcion, errors = Inscripcion.new(
-            feria=feria_llena, emprendedor=emp2,
-            numero_puesto=2, estado="lista_espera",
+            feria=feria_llena, 
+            emprendedor=emp2,
+            estado="lista_espera",
         )
 
         self.assertIsNotNone(inscripcion)
@@ -133,7 +136,6 @@ class InscripcionModelTest(TestCase):
         inscripcion, errors = Inscripcion.new(
             self.feria,
             self.emprendedor,
-            1,
             "confirmada"
         )
 
