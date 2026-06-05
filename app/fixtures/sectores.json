@@ -1,0 +1,68 @@
+[
+  {
+    "model": "app.sector",
+    "pk": 1,
+    "fields": {
+      "nombre": "Sector Alimenticio Norte",
+      "edicion": null,
+      "capacidad_puestos": 8,
+      "tiene_conexion_electrica": true,
+      "feria": 1
+    }
+  },
+  {
+    "model": "app.sector",
+    "pk": 2,
+    "fields": {
+      "nombre": "Sector Artesanal Central",
+      "edicion": null,
+      "capacidad_puestos": 6,
+      "tiene_conexion_electrica": false,
+      "feria": 1
+    }
+  },
+  {
+    "model": "app.sector",
+    "pk": 3,
+    "fields": {
+      "nombre": "Sector Diseño",
+      "edicion": null,
+      "capacidad_puestos": 5,
+      "tiene_conexion_electrica": true,
+      "feria": 2
+    }
+  },
+  {
+    "model": "app.sector",
+    "pk": 4,
+    "fields": {
+      "nombre": "Sector Manualidades",
+      "edicion": null,
+      "capacidad_puestos": 7,
+      "tiene_conexion_electrica": false,
+      "feria": 2
+    }
+  },
+  {
+    "model": "app.sector",
+    "pk": 5,
+    "fields": {
+      "nombre": "Sector Tecnología Móvil",
+      "edicion": null,
+      "capacidad_puestos": 4,
+      "tiene_conexion_electrica": true,
+      "feria": 3
+    }
+  },
+  {
+    "model": "app.sector",
+    "pk": 6,
+    "fields": {
+      "nombre": "Sector Diseño Experimental",
+      "edicion": null,
+      "capacidad_puestos": 3,
+      "tiene_conexion_electrica": false,
+      "feria": 4
+    }
+  }
+]
