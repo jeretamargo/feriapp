@@ -65,6 +65,8 @@
                 Categorias</a
               >
             </li>
+
+            <div class="d-flex gap-2">
             <li class="nav-item">
               <a class="nav-link" href="{% url 'ferias:lista_sector' %}">
                 Sectores</a
@@ -76,7 +78,15 @@
 
                 <button type="submit" class="btn btn-danger">Logout</button>
               </form>
-            </li>
+            
+            
+              <a
+                href="{% url 'usuarios:perfil' %}"
+                class="text-decoration-none btn btn-info text-white"
+                >Mi Perfil</a
+              >
+           
+            </div>
             <!-- TODO: agregar links a Emprendedores e Inscripciones -->
           </ul>
           {% else %}

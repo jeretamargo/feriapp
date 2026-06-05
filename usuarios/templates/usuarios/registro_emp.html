@@ -2,14 +2,23 @@
 {% block content %}
 <div class="d-flex flex-column justify-content-center align-items-center">
   <h2>Registrate como Emprendedor</h2>
-
-  <form
-    method="post"
-    class="d-flex justify-content-center align-items-center flex-column"
-  >
-    {% csrf_token %} {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Registrarse</button>
-  </form>
-
-  <div>{% endblock %}</div>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow">
+          <div class="card-header text-center">
+            <h5>Completá tus datos para crear tu cuenta</h5>
+          </div>
+          <form
+            method="post"
+            class="d-flex justify-content-center align-items-center flex-column mb-3 mt-3"
+          >
+            {% csrf_token %} {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Registrarse</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div>{% endblock %}</div>
+  </div>
 </div>

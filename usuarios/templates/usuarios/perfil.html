@@ -1,0 +1,85 @@
+{% extends "base.html" %} {% block title %} Mi Perfil — FeriApp {% endblock %}
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow">
+        <div class="card-header text-center">
+          <h2 class="mb-0">Mi Perfil</h2>
+        </div>
+
+        <div class="card-body">
+          {% if es_emprendedor %}
+
+          <div class="mb-3">
+            <strong>Nombre de usuario</strong>
+            <div>{{ request.user.username }}</div>
+          </div>
+
+          <div class="mb-3">
+            <strong>Correo electrónico</strong>
+            <div>{{ request.user.email }}</div>
+          </div>
+
+          <div class="mb-3">
+            <strong>Nombre</strong>
+            <div>{{ request.user.emprendedor.nombre_completo }}</div>
+          </div>
+
+          <div class="mb-3">
+            <strong>Rubro</strong>
+            <div>{{ request.user.emprendedor.rubro }}</div>
+          </div>
+
+          <div class="mb-3">
+            <strong>Teléfono</strong>
+            <div>{{ request.user.emprendedor.telefono }}</div>
+          </div>
+
+          <div class="text-center mt-4">
+            <span class="badge text-bg-success fs-6"> Emprendedor </span>
+          </div>
+
+          {% endif %} {% if es_visitante %}
+
+          <div class="mb-3">
+            <strong>Nombre de usuario</strong>
+            <div>{{ request.user.username }}</div>
+          </div>
+
+          <div class="mb-3">
+            <strong>Correo electrónico</strong>
+            <div>{{ request.user.email }}</div>
+          </div>
+
+          <div class="mb-3">
+            <strong>Nombre</strong>
+            <div>{{ request.user.visitante.nombre_completo }}</div>
+          </div>
+
+          <div class="text-center mt-4">
+            <span class="badge text-bg-success fs-6"> Visitante </span>
+          </div>
+
+          {% endif %}
+
+          <div class="d-flex gap-3 mt-5">
+            <a
+              href="{% url 'usuarios:editar_perfil' %}"
+              class="btn btn-primary"
+            >
+              Editar Perfil
+            </a>
+            <a
+              href="{% url 'usuarios:editar_password' %}"
+              class="btn btn-warning"
+            >
+              Cambiar Contraseña
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
