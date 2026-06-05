@@ -27,6 +27,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navMenu">
           {% if user.is_authenticated %}
+          
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <a class="nav-link" href="{% url 'ferias:lista_ferias' %}"
@@ -40,6 +41,7 @@
                 >Emprendedores</a
               >
             </li>
+            {% if user.es_emprendedor %}
             <li class="nav-item">
               <a
                 class="nav-link"
@@ -47,6 +49,7 @@
                 Inscribir
               </a>
             </li>
+            
             <li class="nav-item">
                 <a
                     class="nav-link"
@@ -55,6 +58,7 @@
                     Mis Inscripciones
                 </a>
             </li>
+            {% endif %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'ferias:lista_resenas' %}">
                 Reseñas</a
@@ -65,13 +69,15 @@
                 Categorias</a
               >
             </li>
-
+            
             <div class="d-flex gap-2">
+              
             <li class="nav-item">
               <a class="nav-link" href="{% url 'ferias:lista_sector' %}">
                 Sectores</a
               >
             </li>
+          
             <li>
               <form action="{% url 'usuarios:logout' %}" method="post">
                 {% csrf_token %}
@@ -89,6 +95,7 @@
             </div>
             <!-- TODO: agregar links a Emprendedores e Inscripciones -->
           </ul>
+          
           {% else %}
           <ul class="navbar-nav ms-auto gap-1">
             <li class"nav-item">
