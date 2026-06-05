@@ -65,6 +65,11 @@
                 Categorias</a
               >
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'ferias:lista_sector' %}">
+                Sectores</a
+              >
+            </li>
             <li>
               <form action="{% url 'usuarios:logout' %}" method="post">
                 {% csrf_token %}

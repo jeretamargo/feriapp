@@ -1,7 +1,7 @@
 """Definición de rutas públicas de la aplicación."""
 
 from django.urls import path
-from app.views import  feria_view, categoria_view #, sector_view
+from app.views import  feria_view, categoria_view, sector_view #, sector_view
 from .core_views import HomeView
 from .views.resena_view import ListaResenasView
 from .views.inscripcion_view import NuevaInscripcionView,MisInscripcionesView,cancelar_inscripcion
@@ -23,6 +23,12 @@ urlpatterns = [
     path("categorias/nueva/", categoria_view.NuevaCategoriaView.as_view(), name="nueva_categoria"),
     path("categorias/<int:pk>/actualizar/", categoria_view.UpdateCategoriaView.as_view(), name="actualizar_categoria"),
     path("categorias/<int:pk>/borrar/", categoria_view.DeleteCategoriaView.as_view(), name="borrar_categoria"),
+    
+    path("sectores/", sector_view.SectorListView.as_view(), name="lista_sector"),
+    path("sectores/nueva/", sector_view.SectorCreateView.as_view(), name="nuevo_sector"),
+    path("sectores/<int:pk>/actualizar/", sector_view.SectorUpdateView.as_view(), name="actualizar_sector"),
+    path("sectores/<int:pk>/borrar/", sector_view.SectorDeleteView.as_view(), name="borrar_sector"),
+    path("sectores/<int:pk>/", sector_view.SectorDetailView.as_view(), name="detalle_sector"),
     
     path("inscripciones/nueva/", NuevaInscripcionView.as_view(), name="nueva_inscripcion"),
 
