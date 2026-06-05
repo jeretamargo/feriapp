@@ -15,39 +15,60 @@
     {% csrf_token %}
 
     <div class="form-group mb-3">
-      <label for="id_nombre">Nombre</label>
+      {{ form.nombre.label_tag }}
       {{ form.nombre }}
+      {% for error in form.nombre.errors %}
+        <div class="text-danger small">{{ error }}</div>
+      {% endfor %}
     </div>
 
     <div class="form-group mb-3">
-      <label for="id_categoria">Categoría</label>
+      {{ form.categoria.label_tag }}
       {{ form.categoria }}
+      {% for error in form.categoria.errors %}
+        <div class="text-danger small">{{ error }}</div>
+      {% endfor %}
     </div>
 
     <div class="form-group mb-3">
-      <label for="id_fecha_inicio">Fecha de inicio</label>
+      {{ form.fecha_inicio.label_tag }}
       {{ form.fecha_inicio }}
+      {% for error in form.fecha_inicio.errors %}
+        <div class="text-danger small">{{ error }}</div>
+      {% endfor %}
     </div>
 
     <div class="form-group mb-3">
-      <label for="id_fecha_fin">Fecha de fin</label>
+      {{ form.fecha_fin.label_tag }}
       {{ form.fecha_fin }}
+      {% for error in form.fecha_fin.errors %}
+        <div class="text-danger small">{{ error }}</div>
+      {% endfor %}
     </div>
 
     <div class="form-group mb-3">
-      <label for="id_ubicacion">Ubicación</label>
+      {{ form.ubicacion.label_tag }}
       {{ form.ubicacion }}
+      {% for error in form.ubicacion.errors %}
+        <div class="text-danger small">{{ error }}</div>
+      {% endfor %}
     </div>
 
     <div class="form-group mb-3">
-      <label for="id_capacidad_puestos">Capacidad de puestos</label>
+      {{ form.capacidad_puestos.label_tag }}
       {{ form.capacidad_puestos }}
+      {% for error in form.capacidad_puestos.errors %}
+        <div class="text-danger small">{{ error }}</div>
+      {% endfor %}
     </div>
 
-    <div class="form-check mb-3">
-      {{ form.activa }}
-      <label class="form-check-label" for="id_activa">Activa</label>
-    </div>
+  <div class="form-check form-group mb-3">
+    {{ form.activa }}
+    {{ form.activa.label_tag }}
+    {% for error in form.activa.errors %}
+      <div class="text-danger small">{{ error }}</div>
+    {% endfor %}
+  </div>
 
     <button type="submit" class="btn btn-primary">Actualizar</button>
   </form>
