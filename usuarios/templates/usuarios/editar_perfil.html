@@ -1,3 +1,4 @@
+<!-- prettier-ignore -->
 {% extends "base.html" %} {% block title %} Modificar Perfil {% endblock %}
 {%block content %}
 <div class="container py-5">
@@ -10,7 +11,43 @@
 
         <div class="card-body">
           <form method="post">
-            {% csrf_token %} {{ form.as_p }}
+            {% csrf_token %}
+            {% if request.user.es_emprendedor%}
+              <div class="mb-3">{{ form.nombre.label_tag }} {{ form.nombre}}</div>
+              {% if form.nombre.errors %}
+              <div class="text-danger">{{ form.nombre.errors }}</div>
+              {%endif%}
+              <div class="mb-3">
+                {{ form.apellido.label_tag }} {{ form.apellido}}
+              </div>
+              {% if form.apellido.errors %}
+              <div class="text-danger">{{ form.apellido.errors }}</div>
+              {%endif%}
+              <div class="mb-3">{{ form.rubro.label_tag }} {{ form.rubro}}</div>
+              {% if form.rubro.errors %}
+              <div class="text-danger">{{ form.rubro.errors }}</div>
+              {%endif%}
+              <div class="mb-3">
+                {{ form.telefono.label_tag }} {{ form.telefono}}
+              </div>
+              {% if form.telefono.errors %}
+              <div class="text-danger">{{ form.telefono.errors }}</div>
+              {%endif%} <div> <div/> 
+            {%endif%}
+            {% if request.user.es_visitante %}
+                <div class="mb-3">{{ form.nombre.label_tag }} {{ form.nombre}}</div>
+              {% if form.nombre.errors %}
+              <div class="text-danger">{{ form.nombre.errors }}</div>
+              {%endif%}
+              <div class="mb-3">
+                {{ form.apellido.label_tag }} {{ form.apellido}}
+              </div>
+              {% if form.apellido.errors %}
+              <div class="text-danger">{{ form.apellido.errors }}</div>
+              {%endif%} <div> <div/> 
+            {%endif%}
+
+            
 
             <button type="submit" class="btn btn-primary">
               Guardar cambios
