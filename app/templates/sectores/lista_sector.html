@@ -6,7 +6,9 @@
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Lista de Sectores</h1>
+        {% if request.user.is_superuser %}
         <a href="{% url 'ferias:nuevo_sector' %}" class="btn btn-primary mb-3">Crear Nuevo Sector</a>
+        {% endif %}
     </div>
     <table class="table table-striped">
         <thead>
@@ -16,7 +18,9 @@
                 <th>Capacidad de Puestos</th>
                 <th>Conexión Eléctrica</th>
                 <th>Feria Asociada</th>
+                {% if request.user.is_superuser %}
                 <th>Acciones</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -27,10 +31,12 @@
                 <td>{{ sector.capacidad_puestos }}</td>
                 <td>{{ sector.tiene_conexion_electrica|yesno:"Sí,No" }}</td>
                 <td>{{ sector.feria.nombre }}</td>
+                {% if request.user.is_superuser %}
                 <td>
                     <a href="{% url 'ferias:actualizar_sector' sector.id %}" class="btn btn-sm btn-warning">Editar</a>
                     <a href="{% url 'ferias:borrar_sector' sector.id %}" class="btn btn-sm btn-danger">Eliminar</a>
                 </td>
+                {% endif %}
             </tr>
             {% empty %}
             <tr>

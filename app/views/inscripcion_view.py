@@ -86,7 +86,7 @@ class NuevaInscripcionView(EmprendedorRequiredMixin, LoginRequiredMixin, CreateV
         return super().form_valid(form)
     
 
-class MisInscripcionesView(LoginRequiredMixin,ListView):
+class MisInscripcionesView(EmprendedorRequiredMixin, LoginRequiredMixin,ListView):
     model = Inscripcion
 
     template_name = "inscripciones/mis_inscripciones.html"

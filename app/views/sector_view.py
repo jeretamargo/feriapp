@@ -4,13 +4,13 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-
+from app.mixins.AdminReq import AdminRequiredMixin
 from app.models import Sector
 from app.forms.sector_form import SectorForm
 
 
 # List View 
-class SectorListView(LoginRequiredMixin, ListView):
+class SectorListView( LoginRequiredMixin, ListView):
     model = Sector
     template_name = 'sectores/lista_sector.html'
     context_object_name = 'sectores'
@@ -18,7 +18,7 @@ class SectorListView(LoginRequiredMixin, ListView):
 
 
 # Detail View 
-class SectorDetailView(LoginRequiredMixin, DetailView):
+class SectorDetailView(AdminRequiredMixin,LoginRequiredMixin, DetailView):
     model = Sector
     template_name = 'sectores/detalle_sector.html'
     context_object_name = 'sector'
@@ -33,7 +33,7 @@ class SectorDetailView(LoginRequiredMixin, DetailView):
 
 
 # Create View 
-class SectorCreateView(LoginRequiredMixin, CreateView):
+class SectorCreateView(AdminRequiredMixin, LoginRequiredMixin, CreateView):
     model = Sector
     template_name = 'sectores/nuevo_sector.html'
     #fields = '__all__'
@@ -59,7 +59,7 @@ class SectorCreateView(LoginRequiredMixin, CreateView):
     
 
 # Update View 
-class SectorUpdateView(LoginRequiredMixin, UpdateView):
+class SectorUpdateView(AdminRequiredMixin, LoginRequiredMixin, UpdateView):
     model = Sector
     template_name = 'sectores/actualizar_sector.html'
     #fields = '__all__'
@@ -86,7 +86,7 @@ class SectorUpdateView(LoginRequiredMixin, UpdateView):
 
 
 # Delete View  
-class SectorDeleteView(LoginRequiredMixin, DeleteView):
+class SectorDeleteView(AdminRequiredMixin,LoginRequiredMixin, DeleteView):
     model = Sector
     template_name = 'sectores/borrar_sector.html'
     success_url = reverse_lazy('ferias:lista_sector')

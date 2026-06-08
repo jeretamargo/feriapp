@@ -6,7 +6,7 @@ from django.contrib import messages
 class VisitanteRequiredMixin(UserPassesTestMixin):
 
     def test_func(self):
-        return self.request.user.groups.filter(name="Visitantes").exists()
+        return self.request.user.groups.filter(name="Visitante").exists()
 
     def handle_no_permission(self):
         messages.error(
