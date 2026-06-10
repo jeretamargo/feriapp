@@ -1,4 +1,6 @@
 from django.contrib import admin
+from app.models.inscripcion_models import Inscripcion
+from app.models.resena_models import Resena
 from usuarios.models.emprendedor_models import Emprendedor
 from usuarios.models.user_models import User
 from usuarios.models.visitante_models import Visitante
@@ -6,6 +8,17 @@ from usuarios.models.notificacion_models import Notificacion
 # Register your models here.
 
 
+
+class ResenaInline(admin.TabularInline):
+    model = Resena
+    extra = 0
+    
+
+
+class InscripcionInline(admin.TabularInline):
+    model = Inscripcion
+    extra = 0
+    
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     list_display = ('username', 'email', 'tipo_usuario' )
@@ -52,6 +65,7 @@ class EmprendedorAdmin(admin.ModelAdmin):
  'fields': ('usuario',)
  }),
  )
+    inlines=[InscripcionInline, ResenaInline]
     
     
 
@@ -75,6 +89,7 @@ class VisitanteAdmin(admin.ModelAdmin):
  'fields': ('usuario',)
  }),
  )
+    inlines=[ResenaInline]
 
 @admin.register(Notificacion)
 class NotificacionAdmin(admin.ModelAdmin):

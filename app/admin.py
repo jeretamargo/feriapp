@@ -10,6 +10,17 @@ from app.models.resena_models import Resena
 
 # TODO: reemplazar por @admin.register con list_display, list_filter, search_fields
 
+class SectorInline(admin.TabularInline):
+    model = Sector
+    extra = 0
+
+class InscripcionInline(admin.TabularInline):
+    model = Inscripcion
+    extra = 0
+
+class FeriaInline(admin.TabularInline):
+    model = Feria
+    extra = 0
 
 @admin.register(Feria)
 class FeriaAdmin(admin.ModelAdmin):
@@ -33,6 +44,7 @@ class FeriaAdmin(admin.ModelAdmin):
  'fields': ('fecha_inicio', 'fecha_fin', 'capacidad_puestos', 'activa')
  }),
  )
+ inlines = [InscripcionInline, SectorInline]
     
 
 @admin.register(Sector)
@@ -60,7 +72,8 @@ class CategoriaAdmin(admin.ModelAdmin):
      search_fields = ('nombre', 'descripcion')
    
      list_per_page = 10
-    
+
+     inlines=[FeriaInline]
 
 @admin.register(Inscripcion)
 class InscripcionAdmin(admin.ModelAdmin):
