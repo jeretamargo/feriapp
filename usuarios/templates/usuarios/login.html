@@ -1,3 +1,4 @@
+<!-- prettier-ignore-start -->
 {% extends "base.html" %} {% block title %}Iniciá sesión — FeriApp{%endblock %}
 {% block content %}
 <div class="d-flex justify-content-center align-items-center flex-column gap-3">
@@ -14,8 +15,22 @@
             class="d-flex justify-content-center align-items-center flex-column mt-3"
             method="post"
           >
-            {% csrf_token %} {{ form.as_p }}
+            {% csrf_token %}
+            <div class="mb-3">
+              {{ form.username.label_tag }} {{ form.username }}
+            </div>
+            {% if form.username.errors %}
+            <div class="text-danger">{{ form.username.errors }}</div>
+            {%endif%}
 
+            <div class="mb-3">
+              {{ form.password.label_tag }} {{ form.password }}
+            </div>
+            {% if form.password.errors %}
+            <div class="text-danger">{{ form.password.errors }}</div>
+            {%endif%} {% if form.non_field_errors %}
+            <div class="text-danger">{{ form.non_field_errors }}</div>
+            {%endif%}
             <button type="submit" class="btn btn-success mb-3">
               Iniciar sesión
             </button>
@@ -26,3 +41,4 @@
   </div>
 </div>
 {% endblock %}
+<!-- prettier-ignore-end -->
