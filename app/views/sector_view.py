@@ -7,6 +7,7 @@ from django.contrib import messages
 from app.mixins.AdminReq import AdminRequiredMixin
 from app.models import Sector
 from app.forms.sector_form import SectorForm
+from django.http import HttpResponseRedirect
 
 
 # List View 
@@ -42,10 +43,23 @@ class SectorCreateView(AdminRequiredMixin, LoginRequiredMixin, CreateView):
     
     def form_valid(self, form):
         """Agrega mensajes de éxito o error al crear un sector."""
-        response = super().form_valid(form)
+        data = form.cleaned_data
+        sector, errors = Sector.new(
+            data.get("nombre"),
+            data.get("edicion"),
+            data.get("capacidad_puestos"),
+            data.get("tiene_conexion_electrica"),
+            data.get("feria"),
+        )
+        if errors:
+            for err in errors:
+                messages.error(self.request, err)
+            return self.form_invalid(form)
+
+        self.object = sector
         messages.success(self.request, f"El sector '{self.object.nombre}' fue creado correctamente."
                          f" <a href='{reverse_lazy('ferias:detalle_sector', args=[self.object.pk])}' class='alert-link'>Ver detalle</a>")
-        return response
+        return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form):
         """Agrega mensajes de error al intentar crear un sector con datos inválidos."""
@@ -68,10 +82,22 @@ class SectorUpdateView(AdminRequiredMixin, LoginRequiredMixin, UpdateView):
     
     def form_valid(self, form):
         """Agrega mensajes de éxito o error al actualizar un sector."""
-        response = super().form_valid(form)
+        data = form.cleaned_data
+        errors = self.object.update(
+            data.get("nombre"),
+            data.get("edicion"),
+            data.get("capacidad_puestos"),
+            data.get("tiene_conexion_electrica"),
+            data.get("feria"),
+        )
+        if errors:
+            for err in errors:
+                messages.error(self.request, err)
+            return self.form_invalid(form)
+
         messages.success(self.request, f"El sector '{self.object.nombre}' fue actualizado correctamente."
                          f" <a href='{reverse_lazy('ferias:detalle_sector', args=[self.object.pk])}' class='alert-link'>Ver detalle</a>")
-        return response
+        return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form):
         """Agrega mensajes de error al intentar actualizar un sector con datos inválidos."""
