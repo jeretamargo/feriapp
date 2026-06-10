@@ -24,6 +24,15 @@ class FeriaAdmin(admin.ModelAdmin):
  search_field = ('nombre')
  # Paginación (cuántos ítems por página)
  list_per_page = 10
+
+ fieldsets = (
+ ('Información Principal', {
+ 'fields': ('nombre', 'categoria', 'ubicacion')
+ }),
+ ('Caracteristicas', {
+ 'fields': ('fecha_inicio', 'fecha_fin', 'capacidad_puestos', 'activa')
+ }),
+ )
     
 
 @admin.register(Sector)

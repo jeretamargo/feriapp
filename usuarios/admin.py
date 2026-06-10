@@ -17,6 +17,16 @@ class UserAdmin(admin.ModelAdmin):
     search_fields = ('username', 'email', 'tipo_usuario')
    
     list_per_page = 10
+    fieldsets = (
+    ('Información Principal', {
+    'fields': ('username', 'email', 'password')
+    }),
+    
+    ('Permisos', {
+    'fields': ('groups','is_superuser')
+    }),
+    )
+    
     
 
 @admin.register(Emprendedor)
@@ -30,6 +40,18 @@ class EmprendedorAdmin(admin.ModelAdmin):
     search_fields = ('nombre', 'apellido','usuario__username','rubro', 'usuario__email')
    
     list_per_page = 10
+
+    fieldsets = (
+ ('Información Principal', {
+ 'fields': ('nombre', 'apellido', 'rubro')
+ }),
+ ('Contacto', {
+ 'fields': ('telefono',)
+ }),
+ ('Usuario correspondiente', {
+ 'fields': ('usuario',)
+ }),
+ )
     
     
 
@@ -43,7 +65,16 @@ class VisitanteAdmin(admin.ModelAdmin):
     search_fields = ('nombre', 'apellido','usuario__username', 'usuario__email')
    
     list_per_page = 10
-    pass
+
+    fieldsets = (
+ ('Información Principal', {
+ 'fields': ('nombre', 'apellido')
+ }),
+ 
+ ('Usuario correspondiente', {
+ 'fields': ('usuario',)
+ }),
+ )
 
 @admin.register(Notificacion)
 class NotificacionAdmin(admin.ModelAdmin):
