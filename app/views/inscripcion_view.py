@@ -1,9 +1,5 @@
 from django.views.generic import CreateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
-<<<<<<< HEAD
-from app.models import Inscripcion
-from django.urls import reverse_lazy
-=======
 
 from app.mixins.EmprendedorReq import EmprendedorRequiredMixin
 
@@ -13,20 +9,11 @@ from app.forms.inscripcion_form import InscripcionForm
 from usuarios.models.notificacion_models import Notificacion
 from app.models.inscripcion_models import Inscripcion
 from django.contrib import messages
->>>>>>> dev
 
 
 class NuevaInscripcionView(EmprendedorRequiredMixin, LoginRequiredMixin, CreateView):
 
 
-<<<<<<< HEAD
-    model= Inscripcion
-    template_name = "ferias/nueva_inscripcion.html"
-    fields = ["emprendedor","feria", "numero_puesto",  "estado"]
-    success_url = reverse_lazy(
-        #"app:lista_inscripciones"
-    )
-=======
     model = Inscripcion
 
     template_name = "inscripciones/nueva_inscripcion.html"
@@ -70,8 +57,6 @@ class NuevaInscripcionView(EmprendedorRequiredMixin, LoginRequiredMixin, CreateV
 
         puestos_ocupados = Inscripcion.objects.filter(
             feria=feria
-        ).exclude(
-            estado="cancelada"
         ).values_list("numero_puesto", flat=True)
 
         puesto = 1
@@ -146,4 +131,3 @@ def cancelar_inscripcion(request, pk):
             f"Se canceló tu inscripción a '{inscripcion.feria.nombre}'."
             )
         return redirect("app:mis_inscripciones")
->>>>>>> dev
