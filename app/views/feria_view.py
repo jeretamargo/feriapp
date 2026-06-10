@@ -2,9 +2,10 @@ from django.views.generic import ListView, CreateView, DetailView, DeleteView, U
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from app.mixins.AdminReq import AdminRequiredMixin
 from app.forms.form_feria import FeriaForm
 from app.models.feria_models import Feria
+from django.http import HttpResponseRedirect
 
 
 class ListaFeriasView(LoginRequiredMixin,ListView):
@@ -20,7 +21,7 @@ class ListaFeriasView(LoginRequiredMixin,ListView):
     
     
 
-class NuevaFeriaView(LoginRequiredMixin,CreateView):
+class NuevaFeriaView(AdminRequiredMixin,LoginRequiredMixin,CreateView):
     """Vista para crear una nueva feria."""
 
     model = Feria
@@ -31,8 +32,23 @@ class NuevaFeriaView(LoginRequiredMixin,CreateView):
     
 
     def form_valid(self, form):
-        """Marca la feria como activa al crearla."""
-        response = super().form_valid(form)
+        # Usar el método `Feria.new` para crear la instancia usando cleaned_data
+        data = form.cleaned_data
+        feria, errors = Feria.new(
+            data.get("nombre"),
+            data.get("categoria"),
+            data.get("fecha_inicio"),
+            data.get("fecha_fin"),
+            data.get("ubicacion"),
+            data.get("capacidad_puestos"),
+        )
+        if errors:
+            for err in errors:
+                messages.error(self.request, err)
+            return self.form_invalid(form)
+
+        self.object = feria
+        response = HttpResponseRedirect(self.get_success_url())
         # if not self.request.user.has_perm("ferias.add_feria"):
         #     messages.error(self.request, "No tienes permisos para crear ferias.")
         #     return self.form_invalid(form)
@@ -68,7 +84,7 @@ class DetalleFeriaView(LoginRequiredMixin, DetailView):
         context["puestos_disponibles"] = self.object.puestos_disponibles() # pyright: ignore[reportAttributeAccessIssue]
         return context
     
-class DeleteFeriaView(LoginRequiredMixin,DeleteView):
+class DeleteFeriaView(AdminRequiredMixin,LoginRequiredMixin,DeleteView):
     """Vista para eliminar una feria."""
 
     model = Feria
@@ -79,7 +95,7 @@ class DeleteFeriaView(LoginRequiredMixin,DeleteView):
         messages.warning(self.request, f"La feria '{self.object.nombre}' fue borrada exitosamente.")
         return super().get_success_url()
 
-class UpdateFeriaView(LoginRequiredMixin,UpdateView):
+class UpdateFeriaView(AdminRequiredMixin,LoginRequiredMixin,UpdateView):
     """Vista para actualizar una feria."""
 
     model = Feria
@@ -90,11 +106,33 @@ class UpdateFeriaView(LoginRequiredMixin,UpdateView):
     
     def form_valid(self, form):
         """Marca la feria como activa al actualizarla."""
-        
-        form.instance.activa = True
+        data = form.cleaned_data
+        errors = self.object.update(
+            data.get("nombre"),
+            data.get("categoria"),
+            data.get("fecha_inicio"),
+            data.get("fecha_fin"),
+            data.get("ubicacion"),
+            data.get("capacidad_puestos"),
+        )
+        if errors:
+            for err in errors:
+                messages.error(self.request, err)
+            return self.form_invalid(form)
+
         messages.info(
-        self.request,
-        f"La Feria '{self.object.nombre}' fue actualizada correctamente. "
-        f"<a href='{reverse_lazy('ferias:detalle_feria', args=[self.object.pk])}' class='alert-link'>Ver detalle</a>")
-        
-        return super().form_valid(form)
+            self.request,
+            f"La Feria '{self.object.nombre}' fue actualizada correctamente. "
+            f"<a href='{reverse_lazy('ferias:detalle_feria', args=[self.object.pk])}' class='alert-link'>Ver detalle</a>")
+        return HttpResponseRedirect(self.get_success_url())
+    
+    def form_invalid(self, form):
+        # Enviar todos los errores del formulario como mensajes
+        for field, errors in form.errors.items():
+            for error in errors:
+                if field == "__all__":
+                    messages.error(self.request, f"Error general: {error}")
+                else:
+                    messages.error(self.request, f"Error en {field}: {error}")
+        return super().form_invalid(form)
+    

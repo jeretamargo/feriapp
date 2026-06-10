@@ -5,7 +5,8 @@ from app.forms.categoria_form import CategoriaForm
 from app.models.categoria_models import Categoria
 from django.contrib import messages
 from django.shortcuts import redirect
-
+from app.mixins.AdminReq import AdminRequiredMixin
+from django.http import HttpResponseRedirect
 
 
 class ListaCategoriaView(LoginRequiredMixin,ListView):
@@ -15,9 +16,8 @@ class ListaCategoriaView(LoginRequiredMixin,ListView):
     template_name = "categorias/lista_categorias.html"
     context_object_name = "categorias"
 
-class NuevaCategoriaView(LoginRequiredMixin,CreateView):
+class NuevaCategoriaView(AdminRequiredMixin, LoginRequiredMixin,CreateView):
     """Formulario para crear una nueva categoría."""
-
     model = Categoria
     form_class = CategoriaForm
     template_name = "categorias/nueva_categoria.html"
@@ -25,10 +25,16 @@ class NuevaCategoriaView(LoginRequiredMixin,CreateView):
     
     def form_valid(self, form):
         """Marca la categoría como activa al crearla."""
-        form.instance.activa = True
-        response = super().form_valid(form)
+        data = form.cleaned_data
+        categoria, errors = Categoria.new(data.get("nombre"), data.get("descripcion"))
+        if errors:
+            for err in errors:
+                messages.error(self.request, err)
+            return self.form_invalid(form)
+
+        self.object = categoria
         messages.success(self.request, f"La categoría '{self.object.nombre}' fue creada exitosamente.")
-        return response
+        return HttpResponseRedirect(self.get_success_url())
     
     def form_invalid(self, form):
         # Enviar todos los errores del formulario como mensajes
@@ -41,22 +47,27 @@ class NuevaCategoriaView(LoginRequiredMixin,CreateView):
         return super().form_invalid(form)
     
 
-class UpdateCategoriaView(LoginRequiredMixin,UpdateView):
+class UpdateCategoriaView(AdminRequiredMixin, LoginRequiredMixin, UpdateView):
     """Vista para actualizar una categoría."""
-
     model = Categoria
     form_class = CategoriaForm
     template_name = "categorias/actualizar_categoria.html"
     success_url = reverse_lazy("app:lista_categorias")
     
     def form_valid(self, form):
-        response = super().form_valid(form)
+        data = form.cleaned_data
+        errors = self.object.update(data.get("nombre"), data.get("descripcion"))
+        if errors:
+            for err in errors:
+                messages.error(self.request, err)
+            return self.form_invalid(form)
+
         messages.info(self.request, f"La categoría '{self.object.nombre}' fue actualizada correctamente.")
-        return response
+        return HttpResponseRedirect(self.get_success_url())
     
     
 
-class DeleteCategoriaView(LoginRequiredMixin, DeleteView):
+class DeleteCategoriaView(AdminRequiredMixin, LoginRequiredMixin, DeleteView):
     """Vista para eliminar una categoría."""
 
     model = Categoria
