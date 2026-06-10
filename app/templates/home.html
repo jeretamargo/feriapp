@@ -15,7 +15,7 @@
       <div class="row g-3">
         <div class="card text-bg-success mb-3" style="max-width: 18rem">
           <div class="card-body">
-            <h1 class="card-title text-center">25</h1>
+            <h1 class="card-title text-center">{{nro_ferias_totales}}</h1>
             <p class="card-text h5 text-center">Ferias celebradas</p>
           </div>
         </div>
@@ -23,7 +23,7 @@
       <div class="row g-3">
         <div class="card text-bg-primary mb-3" style="max-width: 18rem">
           <div class="card-body">
-            <h1 class="card-title text-center">104</h1>
+            <h1 class="card-title text-center">{{nro_emprendedores}}</h1>
             <p class="card-text h5 text-center">Emprendedores Activos</p>
           </div>
         </div>
@@ -31,7 +31,7 @@
       <div class="row g-3">
         <div class="card text-bg-warning mb-3" style="max-width: 18rem">
           <div class="card-body">
-            <h1 class="card-title text-center">1245</h1>
+            <h1 class="card-title text-center">{{nro_visitantes}}</h1>
             <p class="card-text h5 text-center">Visitantes Contentos</p>
           </div>
         </div>
@@ -39,7 +39,7 @@
       <div class="row g-3">
         <div class="card text-bg-info mb-3" style="max-width: 18rem">
           <div class="card-body">
-            <h1 class="card-title text-center">5</h1>
+            <h1 class="card-title text-center">{{nro_ferias_activas}}</h1>
             <p class="card-text h5 text-center">Ferias Activas</p>
           </div>
         </div>
@@ -140,4 +140,20 @@
     </div>
   </div>
 </div>
-{% endblock %}
+<div class="container">
+  <h2>Últimas Ferias Activas</h2>
+  <div class="row row-cols-4 g-4">
+    {% for feria in ferias_activas %}
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{feria.nombre}}</h5>
+          <p class="card-text">{{feria.descripcion}}</p>
+          <a href="" class="btn btn-primary">Ver más información</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endblock %}
+</div>
