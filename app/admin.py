@@ -9,8 +9,24 @@ from app.models.resena_models import Resena
 
 
 # TODO: reemplazar por @admin.register con list_display, list_filter, search_fields
-admin.site.register(Feria)
-admin.site.register(Sector)
-admin.site.register(Categoria)
-admin.site.register(Inscripcion)
-admin.site.register(Resena)
+
+
+@admin.register(Feria)
+class FeriaAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Sector)
+class SectorAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Categoria)
+class CategoriaAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Inscripcion)
+class InscripcionAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Resena)
+class ResenaAdmin(admin.ModelAdmin):
+    pass
