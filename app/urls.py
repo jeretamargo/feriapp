@@ -3,7 +3,7 @@
 from django.urls import path
 from app.views import  feria_view, categoria_view, sector_view #, sector_view
 from .core_views import HomeView
-from .views.resena_view import ListaResenasView
+from .views.resena_view import ListaResenasView,ListadeTodasResenasView,NuevaResenaView
 from .views.inscripcion_view import NuevaInscripcionView,MisInscripcionesView,cancelar_inscripcion
 
 #from usuarios import views as user_views
@@ -36,9 +36,13 @@ urlpatterns = [
     
     path("inscripciones/<int:pk>/cancelar/",cancelar_inscripcion,name="cancelar_inscripcion"),
 
+    path("resenas/todas/", ListadeTodasResenasView.as_view(),name="lista_completa_de_resenas"),
+
     path("resenas/", ListaResenasView.as_view(),name="lista_resenas"),
     
-    
+    path("resenas/nueva/", NuevaResenaView.as_view(),name="nueva_resena"),
+
+
     ]
     
     
