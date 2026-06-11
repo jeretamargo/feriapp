@@ -31,8 +31,8 @@ class Resena(models.Model):
 )
 
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-    class Meta:
-        unique_together = ("visitante", "emprendedor")
+    class Meta: #impide logicamente que un visitante resene mas de dos veces a un mismo emprendedor
+        unique_together = ("visitante", "emprendedor") 
 
     def __str__(self):
         return f"Reseña de {self.emprendedor.nombre}"
