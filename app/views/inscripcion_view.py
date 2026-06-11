@@ -57,8 +57,6 @@ class NuevaInscripcionView(EmprendedorRequiredMixin, LoginRequiredMixin, CreateV
 
         puestos_ocupados = Inscripcion.objects.filter(
             feria=feria
-        ).exclude(
-            estado="cancelada"
         ).values_list("numero_puesto", flat=True)
 
         puesto = 1
