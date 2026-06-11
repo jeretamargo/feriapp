@@ -14,17 +14,24 @@
           <div
             class="d-flex gap-5 justify-content-center align-items-center mt-3 mb-3"
           >
-            <a
-              href="{% url 'usuarios:registro_emprendedor' %}"
-              class="text-decoration-none text-white btn btn-primary btn-lg p-3"
-              >Soy Emprendedor</a
-            >
-
-            <a
-              href="{% url 'usuarios:registro_visitante' %}"
-              class="text-decoration-none text-white btn btn-primary btn-lg p-3"
-              >Soy Visitante</a
-            >
+            <div class="container">
+              <div class="row">
+                <div class="col-6">
+                  <a
+                    href="{% url 'usuarios:registro_emprendedor' %}"
+                    class="text-decoration-none text-white btn btn-primary btn-lg p-3 w-100 h-100 d-flex align-items-center justify-content-center"
+                    >Soy Emprendedor</a
+                  >
+                </div>
+                <div class="col-6">
+                  <a
+                    href="{% url 'usuarios:registro_visitante' %}"
+                    class="text-decoration-none text-white btn btn-primary btn-lg p-3 w-100 h-100 d-flex align-items-center justify-content-center"
+                    >Soy Visitante</a
+                  >
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
