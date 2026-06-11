@@ -42,19 +42,19 @@
             >{{ feria.capacidad_puestos }} totales</span
           >
         </td>
-        <td>
+        <td class="d-flex flex-column gap-2">
           {% if request.user.is_superuser %}
           {% comment "" %} Reemplazar por url de editar_feria {% endcomment %}
           <a
             href="{% url 'ferias:actualizar_feria' pk=feria.id %}"
-            class="btn btn-sm btn-warning mx-2"
+            class="btn btn-sm btn-warning  w-100 h-100"
           >
             Editar
           </a>
           {% comment "" %} Reemplazar por url de borrar_feria {% endcomment %}
           <a
             href="{% url 'ferias:borrar_feria' pk=feria.id %}"
-            class="btn btn-sm btn-danger"
+            class="btn btn-sm btn-danger w-100 h-100"
           >
             Borrar
           </a>
