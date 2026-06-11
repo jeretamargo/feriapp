@@ -3,41 +3,43 @@
 {% block content %}
 <div class="row mb-4">
   <div class="col">
-    <h1 class="h3">Bienvenido a FeriApp🏪</h1>
+    <div class="d-flex flex-row ">
+    <h1 class="h1 text-center fw-bold mb-3">Bienvenido a FeriApp🏪</h1>
+    </div>
     <p class="h5 fw-bold text-muted">Home</p>
   </div>
 </div>
 
 <!-- TODO: reemplazar con estadísticas reales del contexto -->
 <div class="container">
-  <div class="row">
-    <div class="col-md-4">
+  <div class="row g-4">
+    <div class="col-12 col-lg-4">
       <div class="row g-3">
-        <div class="card text-bg-success mb-3" style="max-width: 18rem">
+        <div class="card text-bg-success mb-3 col-6 col-lg-12" style="max-width: 18rem">
           <div class="card-body">
             <h1 class="card-title text-center">{{nro_ferias_totales}}</h1>
             <p class="card-text h5 text-center">Ferias celebradas</p>
           </div>
         </div>
-      </div>
-      <div class="row g-3">
-        <div class="card text-bg-primary mb-3" style="max-width: 18rem">
+      
+      
+        <div class="card text-bg-primary mb-3 col-6 col-lg-12" style="max-width: 18rem">
           <div class="card-body">
             <h1 class="card-title text-center">{{nro_emprendedores}}</h1>
             <p class="card-text h5 text-center">Emprendedores Activos</p>
           </div>
         </div>
-      </div>
-      <div class="row g-3">
-        <div class="card text-bg-warning mb-3" style="max-width: 18rem">
+      
+     
+        <div class="card text-bg-warning mb-3 col-6 col-lg-12" style="max-width: 18rem">
           <div class="card-body">
             <h1 class="card-title text-center">{{nro_visitantes}}</h1>
             <p class="card-text h5 text-center">Visitantes Contentos</p>
           </div>
         </div>
-      </div>
-      <div class="row g-3">
-        <div class="card text-bg-info mb-3" style="max-width: 18rem">
+      
+      
+        <div class="card text-bg-info mb-3 col-6 col-lg-12" style="max-width: 18rem">
           <div class="card-body">
             <h1 class="card-title text-center">{{nro_ferias_activas}}</h1>
             <p class="card-text h5 text-center">Ferias Activas</p>
@@ -45,7 +47,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-8 d-flex align-items-center">
+    <div class="col-12 col-lg-8 d-flex align-items-center">
       <div id="carouselExampleCaptions" class="carousel slide">
         <div class="carousel-indicators">
           <button
@@ -141,14 +143,14 @@
   </div>
 </div>
 <div class="container">
-  <h2>Últimas Ferias Activas</h2>
+  <h2 class="text-center fw-bold mt-5 mb-3 h2">Últimas Ferias Activas</h2>
 
-  <div class="row g-4">
+  <div class="row g-3">
     {% for feria in ferias_activas %}
     <div class="col-md-4">
       <div class="card h-100">
-        <div class="card-body">
-          <h5 class="card-title">{{ feria.nombre }}</h5>
+        <div class="card-body ">
+          <h5 class="card-title text-center">{{ feria.nombre }}</h5>
           <p class="card-text">{{ feria.descripcion }}</p>
           <a href={% url 'ferias:detalle_feria' feria.id %} class="btn btn-primary">Ver más información</a>
         </div>
