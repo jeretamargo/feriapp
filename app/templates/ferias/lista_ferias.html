@@ -10,9 +10,11 @@
     </div>
     {% endif %}
 </div>
+<div>
+
 
 <div class="table-responsive">
-  <table class="table table-hover align-middle">
+  <table class="table table-hover  align-middle ">
     <thead class="table-light">
       <tr>
         <th>Nombre</th>
@@ -38,8 +40,8 @@
         <td>{{ feria.ubicacion }}</td>
         <td>
           <!-- TODO: completar con puestos_ocupados() cuando implementen Inscripcion -->
-          <span class="badge bg-secondary"
-            >{{ feria.capacidad_puestos }} totales</span
+          <span class="badge bg-primary fs-6"
+            > {{ feria.puestos_ocupados }} / {{ feria.capacidad_puestos }}</span
           >
         </td>
         <td>

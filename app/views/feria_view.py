@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from app.mixins.AdminReq import AdminRequiredMixin
 from app.forms.form_feria import FeriaForm
+from app.forms.feria_filter_form import FeriaFilterForm
 from app.models.feria_models import Feria
 
 
@@ -15,8 +16,41 @@ class ListaFeriasView(LoginRequiredMixin,ListView):
     context_object_name = "ferias"
 
     def get_queryset(self):
-        """Retorna solo las ferias marcadas como activas."""
-        return Feria.objects.filter(activa=True)
+        qs = Feria.objects.all()
+        # aplicar filtros desde query params
+        form = FeriaFilterForm(self.request.GET)
+        if form.is_valid():
+            nombre = form.cleaned_data.get("nombre")
+            categoria = form.cleaned_data.get("categoria")
+            fecha_from = form.cleaned_data.get("fecha_inicio_from")
+            fecha_to = form.cleaned_data.get("fecha_inicio_to")
+            ubicacion = form.cleaned_data.get("ubicacion")
+            activa = form.cleaned_data.get("activa")
+
+            if nombre:
+                qs = qs.filter(nombre__icontains=nombre)
+            if categoria:
+                qs = qs.filter(categoria=categoria)
+            if fecha_from:
+                qs = qs.filter(fecha_inicio__gte=fecha_from)
+            if fecha_to:
+                qs = qs.filter(fecha_inicio__lte=fecha_to)
+            if ubicacion:
+                qs = qs.filter(ubicacion__icontains=ubicacion)
+            if activa == "true":
+                qs = qs.filter(activa=True)
+            elif activa == "false":
+                qs = qs.filter(activa=False)
+        else:
+            # por defecto mostrar solo activas
+            qs = qs.filter(activa=True)
+
+        return qs.order_by("fecha_inicio")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["filter_form"] = FeriaFilterForm(self.request.GET)
+        return context
     
     
 
