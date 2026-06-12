@@ -1,10 +1,8 @@
 """Definición de rutas públicas de la aplicación."""
 
 from django.urls import path
-from app.views import  feria_view, categoria_view, sector_view #, sector_view
+from app.views import  feria_view, categoria_view, sector_view,inscripcion_view,resena_view #, sector_view
 from .core_views import HomeView
-from .views.resena_view import ListaResenasView,ListadeTodasResenasView,NuevaResenaView
-from .views.inscripcion_view import NuevaInscripcionView,MisInscripcionesView,cancelar_inscripcion
 
 #from usuarios import views as user_views
 
@@ -30,19 +28,25 @@ urlpatterns = [
     path("sectores/<int:pk>/borrar/", sector_view.SectorDeleteView.as_view(), name="borrar_sector"),
     path("sectores/<int:pk>/", sector_view.SectorDetailView.as_view(), name="detalle_sector"),
     
-    path("inscripciones/nueva/", NuevaInscripcionView.as_view(), name="nueva_inscripcion"),
+    path("inscripciones/nueva/", inscripcion_view.NuevaInscripcionView.as_view(), name="nueva_inscripcion"),
 
-    path("mis-inscripciones/", MisInscripcionesView.as_view(), name="mis_inscripciones"),
+    path("mis-inscripciones/", inscripcion_view.MisInscripcionesView.as_view(), name="mis_inscripciones"),
     
-    path("inscripciones/<int:pk>/cancelar/",cancelar_inscripcion,name="cancelar_inscripcion"),
+    path("inscripciones/<int:pk>/cancelar/",inscripcion_view.CancelarInscripcionView.as_view(),name="cancelar_inscripcion"),  
+      
+    path("inscripciones/solicitudes/",inscripcion_view.ListaSolicitudesView.as_view(),name="solicitudes_inscripciones"),
+    path("inscripciones/<int:pk>/aprobar/",inscripcion_view.AprobarInscripcionView.as_view(),name="aprobar_inscripcion"),
+    path("inscripciones/<int:pk>/rechazar/",inscripcion_view.RechazarInscripcionView.as_view(),name="rechazar_inscripcion"),
 
-    path("resenas/todas/", ListadeTodasResenasView.as_view(),name="lista_completa_de_resenas"),
 
-    path("resenas/", ListaResenasView.as_view(),name="lista_resenas"),
+
+    path("resenas/todas/", resena_view.ListadeTodasResenasView.as_view(),name="lista_completa_de_resenas"),
+
+    path("resenas/", resena_view.ListaResenasView.as_view(),name="lista_resenas"),
     
-    path("resenas/nueva/", NuevaResenaView.as_view(),name="nueva_resena"),
+    path("resenas/nueva/", resena_view.NuevaResenaView.as_view(),name="nueva_resena"),
 
-
+    
     ]
     
     
