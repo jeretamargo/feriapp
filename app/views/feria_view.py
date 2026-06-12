@@ -6,6 +6,8 @@ from app.mixins.AdminReq import AdminRequiredMixin
 from app.forms.form_feria import FeriaForm
 from app.models.feria_models import Feria
 from app.models.categoria_models import Categoria
+from datetime import date
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponseRedirect
 
 
@@ -57,6 +59,49 @@ class ListaFeriasView(LoginRequiredMixin,ListView):
         # pasar las categorias y ubicaciones para los dropdowns
         context["categorias"] = Categoria.objects.all()
         context["ubicaciones"] = Feria.objects.values_list('ubicacion', flat=True).distinct()
+        # separar ferias en próximas y pasadas según fecha_fin
+        today = date.today()
+        qs = self.get_queryset()
+        proximas_qs = qs.filter(fecha_fin__gte=today).order_by('fecha_inicio')
+        pasadas_qs = qs.filter(fecha_fin__lt=today).order_by('-fecha_inicio')
+
+        # paginar 6 por página en cada sección
+        per_page = 6
+        page_proximas = self.request.GET.get('page_proximas')
+        page_pasadas = self.request.GET.get('page_pasadas')
+
+        # Próximas
+        if proximas_qs.exists():
+            proximas_paginator = Paginator(proximas_qs, per_page)
+            try:
+                proximas_page = proximas_paginator.page(page_proximas)
+            except PageNotAnInteger:
+                proximas_page = proximas_paginator.page(1)
+            except EmptyPage:
+                proximas_page = proximas_paginator.page(proximas_paginator.num_pages)
+        else:
+            proximas_page = None
+
+        # Pasadas
+        if pasadas_qs.exists():
+            pasadas_paginator = Paginator(pasadas_qs, per_page)
+            try:
+                pasadas_page = pasadas_paginator.page(page_pasadas)
+            except PageNotAnInteger:
+                pasadas_page = pasadas_paginator.page(1)
+            except EmptyPage:
+                pasadas_page = pasadas_paginator.page(pasadas_paginator.num_pages)
+        else:
+            pasadas_page = None
+
+        context['proximas_page_obj'] = proximas_page
+        context['pasadas_page_obj'] = pasadas_page
+
+        # base_query: parámetros GET sin paginación, para preservar filtros en enlaces de página
+        params = self.request.GET.copy()
+        params.pop('page_proximas', None)
+        params.pop('page_pasadas', None)
+        context['base_query'] = params.urlencode()
         return context
     
     
