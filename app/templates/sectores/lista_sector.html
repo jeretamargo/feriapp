@@ -15,7 +15,6 @@
         <thead>
             <tr>
                 <th>Nombre</th>
-                <th>Edición</th>
                 <th>Capacidad de Puestos</th>
                 <th>Conexión Eléctrica</th>
                 <th>Feria Asociada</th>
@@ -28,12 +27,11 @@
             {% for sector in sectores %}
             <tr>
                 <a><td><a href="{% url 'ferias:detalle_sector' sector.id %}">{{ sector.nombre }}</a></td>
-                <td>{{ sector.edicion }}</td>
                 <td>{{ sector.capacidad_puestos }}</td>
                 <td>{{ sector.tiene_conexion_electrica|yesno:"Sí,No" }}</td>
                 <td>{{ sector.feria.nombre }}</td>
                 {% if request.user.is_superuser %}
-                <td class="d-flex flex-column gap-2">
+                <td class="d-flex  gap-2">
                     <a href="{% url 'ferias:actualizar_sector' sector.id %}" class="btn btn-sm btn-warning w-100 h-100">Editar</a>
                     <a href="{% url 'ferias:borrar_sector' sector.id %}" class="btn btn-sm btn-danger w-100 h-100">Eliminar</a>
                 </td>
