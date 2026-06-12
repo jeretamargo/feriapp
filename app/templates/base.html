@@ -41,6 +41,17 @@
                 >Emprendedores</a
               >
             </li>
+            <!-- para aprobar o no a los emprendedores siendo admin o organizador -->
+            {% if user.is_superuser %} 
+            <li class="nav-item">
+                <a
+                    class="nav-link"
+                    href="{% url 'app:solicitudes_inscripciones' %}"
+                >
+                    Solicitudes
+                </a>
+            </li>
+            {% endif %}
             {% if user.es_emprendedor %}
             <li class="nav-item">
               <a
