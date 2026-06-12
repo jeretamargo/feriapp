@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}
+Solicitudes de Inscripción
+{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    Solicitudes Pendientes
+</h2>
+
+<div class="card">
+
+    <div class="card-body">
+
+        <table class="table">
+
+            <thead>
+
+                <tr>
+                    <th>Emprendedor</th>
+                    <th>Feria</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for inscripcion in solicitudes %}
+
+                <tr>
+
+                    <td>
+                        {{ inscripcion.emprendedor.nombre_completo }}
+                    </td>
+
+                    <td>
+                        {{ inscripcion.feria.nombre }}
+                    </td>
+
+                    <td>
+                        {{ inscripcion.estado }}
+                    </td>
+
+                    <td>
+
+                        <form
+                            method="post"
+                            action="{% url 'app:aprobar_inscripcion' inscripcion.id %}"
+                            class="d-inline"
+                        >
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="btn btn-success btn-sm"
+                            >
+                                Aprobar
+                            </button>
+
+                        </form>
+
+                        <form
+                            method="post"
+                            action="{% url 'app:rechazar_inscripcion' inscripcion.id %}"
+                            class="d-inline"
+                        >
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="btn btn-danger btn-sm"
+                            >
+                                Rechazar
+                            </button>
+
+                        </form>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="4" class="text-center">
+
+                        No hay solicitudes pendientes.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}
