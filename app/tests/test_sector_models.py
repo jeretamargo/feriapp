@@ -161,7 +161,7 @@ class SectorModelTest(TestCase):
 
     def test_new_con_datos_invalidos_retorna_errores_y_no_crea(self):
         count_antes = Sector.objects.count()
-        sector, errors = Sector.new("", None, 0, False)
+        sector, errors = Sector.new("", None, 0, False, self.feria)
         self.assertIsNone(sector)
         self.assertTrue(len(errors) > 0)
         self.assertEqual(Sector.objects.count(), count_antes)
@@ -170,11 +170,11 @@ class SectorModelTest(TestCase):
     def test_new_con_datos_validos_intenta_guardar(self):
         # Sector.new actualmente no recibe 'feria' y al crear puede lanzar IntegrityError
         try:
-            sector, errors = Sector.new("Nuevo", date(2026, 7, 1), 5, True)
+            sector, errors = Sector.new("Nuevo", date(2026, 7, 1), 5, True, self.feria)
         except IntegrityError:
             # comportamiento aceptable dado que falta la FK 'feria'
             return
         # si no lanzó excepción, asegurar que devolvió instancia válida
-        self.assertIsNone(errors) or self.assertEqual(errors, [])
+        self.assertTrue(errors is None or errors == [])
         if sector:
             self.assertTrue(Sector.objects.filter(pk=sector.pk).exists())

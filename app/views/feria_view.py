@@ -6,6 +6,7 @@ from app.mixins.AdminReq import AdminRequiredMixin
 from app.forms.form_feria import FeriaForm
 from app.models.feria_models import Feria
 from app.models.categoria_models import Categoria
+from django.http import HttpResponseRedirect
 
 
 class ListaFeriasView(LoginRequiredMixin,ListView):
@@ -71,8 +72,23 @@ class NuevaFeriaView(AdminRequiredMixin,LoginRequiredMixin,CreateView):
     
 
     def form_valid(self, form):
-        """Marca la feria como activa al crearla."""
-        response = super().form_valid(form)
+        # Usar el método `Feria.new` para crear la instancia usando cleaned_data
+        data = form.cleaned_data
+        feria, errors = Feria.new(
+            data.get("nombre"),
+            data.get("categoria"),
+            data.get("fecha_inicio"),
+            data.get("fecha_fin"),
+            data.get("ubicacion"),
+            data.get("capacidad_puestos"),
+        )
+        if errors:
+            for err in errors:
+                messages.error(self.request, err)
+            return self.form_invalid(form)
+
+        self.object = feria
+        response = HttpResponseRedirect(self.get_success_url())
         # if not self.request.user.has_perm("ferias.add_feria"):
         #     messages.error(self.request, "No tienes permisos para crear ferias.")
         #     return self.form_invalid(form)
@@ -131,12 +147,25 @@ class UpdateFeriaView(AdminRequiredMixin,LoginRequiredMixin,UpdateView):
     def form_valid(self, form):
         """Marca la feria como activa al actualizarla."""
         
+        data = form.cleaned_data
+        errors = self.object.update(
+            data.get("nombre"),
+            data.get("categoria"),
+            data.get("fecha_inicio"),
+            data.get("fecha_fin"),
+            data.get("ubicacion"),
+            data.get("capacidad_puestos"),
+        )
+        if errors:
+            for err in errors:
+                messages.error(self.request, err)
+            return self.form_invalid(form)
+
         messages.info(
-        self.request,
-        f"La Feria '{self.object.nombre}' fue actualizada correctamente. "
-        f"<a href='{reverse_lazy('ferias:detalle_feria', args=[self.object.pk])}' class='alert-link'>Ver detalle</a>")
-        
-        return super().form_valid(form)
+            self.request,
+            f"La Feria '{self.object.nombre}' fue actualizada correctamente. "
+            f"<a href='{reverse_lazy('ferias:detalle_feria', args=[self.object.pk])}' class='alert-link'>Ver detalle</a>")
+        return HttpResponseRedirect(self.get_success_url())
     
     def form_invalid(self, form):
         # Enviar todos los errores del formulario como mensajes
