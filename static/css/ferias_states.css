@@ -1,0 +1,9 @@
+/* Styles for feria card states */
+.state-card{position:relative}
+.state-card.active-card{border:2px solid #198754;background-color:#ffffff;box-shadow:0 6px 18px rgba(25,135,84,0.08)}
+.state-card.inactive-card{border:1px solid #ced4da;background-color:#f8f9fa;box-shadow:0 2px 6px rgba(0,0,0,0.04)}
+.state-card .card-body{transition:box-shadow .18s ease,transform .12s ease}
+@media (max-width:575px){.state-card.active-card,.state-card.inactive-card{border-left-width:6px}} 
+
+/* Estado badge sizing */
+.small-estado-badge{padding:.28rem .45rem;font-size:.75rem}
