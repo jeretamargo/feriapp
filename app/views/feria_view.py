@@ -4,8 +4,8 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from app.mixins.AdminReq import AdminRequiredMixin
 from app.forms.form_feria import FeriaForm
-from app.forms.feria_filter_form import FeriaFilterForm
 from app.models.feria_models import Feria
+from app.models.categoria_models import Categoria
 
 
 class ListaFeriasView(LoginRequiredMixin,ListView):
@@ -14,18 +14,18 @@ class ListaFeriasView(LoginRequiredMixin,ListView):
     model = Feria
     template_name = "ferias/lista_ferias.html"
     context_object_name = "ferias"
+    
 
     def get_queryset(self):
         qs = Feria.objects.all()
         # aplicar filtros desde query params
-        form = FeriaFilterForm(self.request.GET)
-        if form.is_valid():
-            nombre = form.cleaned_data.get("nombre")
-            categoria = form.cleaned_data.get("categoria")
-            fecha_from = form.cleaned_data.get("fecha_inicio_from")
-            fecha_to = form.cleaned_data.get("fecha_inicio_to")
-            ubicacion = form.cleaned_data.get("ubicacion")
-            activa = form.cleaned_data.get("activa")
+        if self.request.GET:
+            nombre = self.request.GET.get("nombre")
+            categoria = self.request.GET.get("categoria")
+            fecha_from = self.request.GET.get("fecha_inicio_from")
+            fecha_to = self.request.GET.get("fecha_inicio_to")
+            ubicacion = self.request.GET.get("ubicacion")
+            activa = self.request.GET.get("activa")
 
             if nombre:
                 qs = qs.filter(nombre__icontains=nombre)
@@ -37,19 +37,25 @@ class ListaFeriasView(LoginRequiredMixin,ListView):
                 qs = qs.filter(fecha_inicio__lte=fecha_to)
             if ubicacion:
                 qs = qs.filter(ubicacion__icontains=ubicacion)
-            if activa == "true":
-                qs = qs.filter(activa=True)
-            elif activa == "false":
-                qs = qs.filter(activa=False)
+            # Si el parámetro 'activa' vino explícitamente en la query y vale
+            # "true" o "false", aplicarlo. Si no viene o viene vacío, no
+            # aplicamos filtro (por defecto mostrar todas).
+            if 'activa' in self.request.GET:
+                if activa == "true":
+                    qs = qs.filter(activa=True)
+                elif activa == "false":
+                    qs = qs.filter(activa=False)
         else:
-            # por defecto mostrar solo activas
-            qs = qs.filter(activa=True)
+            # form inválido: no aplicar filtro por defecto (mostrar todas)
+            pass
 
         return qs.order_by("fecha_inicio")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["filter_form"] = FeriaFilterForm(self.request.GET)
+        # pasar las categorias y ubicaciones para los dropdowns
+        context["categorias"] = Categoria.objects.all()
+        context["ubicaciones"] = Feria.objects.values_list('ubicacion', flat=True).distinct()
         return context
     
     
@@ -125,7 +131,6 @@ class UpdateFeriaView(AdminRequiredMixin,LoginRequiredMixin,UpdateView):
     def form_valid(self, form):
         """Marca la feria como activa al actualizarla."""
         
-        form.instance.activa = True
         messages.info(
         self.request,
         f"La Feria '{self.object.nombre}' fue actualizada correctamente. "
