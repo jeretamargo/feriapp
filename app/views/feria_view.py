@@ -9,6 +9,8 @@ from app.models.categoria_models import Categoria
 from datetime import date
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponseRedirect
+from django.db.models import Avg
+from app.models.resena_models import Resena
 
 
 class ListaFeriasView(LoginRequiredMixin,ListView):
@@ -167,6 +169,14 @@ class DetalleFeriaView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context["puestos_ocupados"] = self.object.puestos_ocupados() # pyright: ignore[reportAttributeAccessIssue]
         context["puestos_disponibles"] = self.object.puestos_disponibles() # pyright: ignore[reportAttributeAccessIssue]
+        # Obtener inscripciones y añadir promedio de reseñas (evitar N+1)
+        inscripciones_qs = list(self.object.inscripcion_set.select_related('emprendedor').order_by('numero_puesto'))
+        emprendedor_ids = [i.emprendedor_id for i in inscripciones_qs]
+        avg_map = Resena.avg_for_emprendedores(emprendedor_ids)
+        # Adjuntar atributo dinámico a cada inscripcion
+        for ins in inscripciones_qs:
+            ins.avg_puntuacion = avg_map.get(ins.emprendedor_id)
+        context['inscripciones'] = inscripciones_qs
         return context
     
 class DeleteFeriaView(AdminRequiredMixin,LoginRequiredMixin,DeleteView):

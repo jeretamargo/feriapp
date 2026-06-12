@@ -3,6 +3,7 @@ from __future__ import annotations
 from django.db import models
 
 from usuarios.models.emprendedor_models import Emprendedor
+from django.db.models import Avg
 from usuarios.models.visitante_models import Visitante
 
 
@@ -89,3 +90,35 @@ class Resena(models.Model):
         self.save()
 
         return []
+
+    @classmethod
+    def avg_for_emprendedor(cls, emprendedor):
+        """
+        Devuelve el promedio de `puntuacion` para un `Emprendedor`.
+
+        Parámetros:
+        - emprendedor: instancia de `Emprendedor` o su `pk` (int).
+
+        Retorna:
+        - float con el promedio (ej. 4.2) o `None` si no hay reseñas.
+        """
+        if emprendedor is None:
+            return None
+
+        # Normalizar a id
+        emp_id = emprendedor.pk if hasattr(emprendedor, 'pk') else emprendedor
+        try:
+            avg_map = cls.avg_for_emprendedores([emp_id])
+            return avg_map.get(emp_id)
+        except Exception:
+            return None
+
+    @classmethod
+    def avg_for_emprendedores(cls, emprendedor_ids):
+        """
+        Devuelve un dict {emprendedor_id: avg_puntuacion} para los ids proporcionados.
+        """
+        if not emprendedor_ids:
+            return {}
+        qs = cls.objects.filter(emprendedor__in=emprendedor_ids).values('emprendedor').annotate(avg=Avg('puntuacion'))
+        return {item['emprendedor']: item['avg'] for item in qs}
