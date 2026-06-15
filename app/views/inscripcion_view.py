@@ -60,7 +60,7 @@ class NuevaInscripcionView(EmprendedorRequiredMixin, LoginRequiredMixin, CreateV
         form.instance.emprendedor = emprendedor
         form.instance.numero_puesto = None
         form.instance.estado = "lista_espera"
-        form.instance.registrado_por = self.request.user
+        form.instance.registrado_por = None
 
         Notificacion.new(
             usuario=self.request.user,
@@ -140,11 +140,9 @@ class CancelarInscripcionView(EmprendedorRequiredMixin,LoginRequiredMixin,ListVi
 
 class ListaSolicitudesView(AdminRequiredMixin,LoginRequiredMixin, ListView):
     model = Inscripcion
-
     template_name = "inscripciones/solicitudes.html"
-
     context_object_name = "solicitudes"
-
+    #ver las que esten en "lista_espera"
     def get_queryset(self):
         return Inscripcion.objects.filter(
             estado="lista_espera"
@@ -152,6 +150,18 @@ class ListaSolicitudesView(AdminRequiredMixin,LoginRequiredMixin, ListView):
             "feria",
             "emprendedor"
         )
+    #para ver un historial de las aprobaciones, osea las que no esten en  "lista_espera"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["historial"] = (
+            Inscripcion.objects
+            .exclude(estado="lista_espera")
+            .select_related("feria", "emprendedor")
+            .order_by("-id")
+        )
+
+        return context
 class AprobarInscripcionView(AdminRequiredMixin,LoginRequiredMixin,ListView):
     def post(self, request, pk):
         inscripcion = get_object_or_404(
@@ -165,6 +175,16 @@ class AprobarInscripcionView(AdminRequiredMixin,LoginRequiredMixin,ListView):
             )
             return redirect(
                 "app:inscripciones_pendientes"
+            )
+        if not inscripcion.feria.tiene_lugar(): #validacion
+
+            messages.error(
+                request,
+                "La feria ya no tiene puestos disponibles."
+            )
+
+            return redirect(
+                "app:lista_solicitudes"
             )
 
         puestos_ocupados = Inscripcion.objects.filter(
@@ -197,7 +217,8 @@ class AprobarInscripcionView(AdminRequiredMixin,LoginRequiredMixin,ListView):
                 "app:inscripciones_pendientes"
             )
         inscripcion.numero_puesto = puesto
-        inscripcion.estado = "confirmada"        
+        inscripcion.estado = "confirmada"
+        inscripcion.registrado_por = request.user  #agregue para que se registre quien lo aprobo      
         inscripcion.save()
 
         Notificacion.new(
@@ -238,7 +259,10 @@ class RechazarInscripcionView(AdminRequiredMixin,LoginRequiredMixin,ListView):
                 "app:inscripciones_pendientes"
             )
 
-        inscripcion.delete()
+        inscripcion.estado = "cancelada"
+        inscripcion.registrado_por = request.user
+        inscripcion.save()
+
 
         Notificacion.new(
             usuario=inscripcion.emprendedor.usuario,
