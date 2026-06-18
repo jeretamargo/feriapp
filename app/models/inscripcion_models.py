@@ -25,8 +25,8 @@ class Inscripcion(models.Model):
         Feria,
         on_delete=models.CASCADE
     )
-
-    numero_puesto = models.PositiveIntegerField()
+    #cambio aca para que me deje ponerlo en estado de lista_espera y que este en none hasta q el admin lo acepte
+    numero_puesto = models.PositiveIntegerField( null=True, blank=True)
 
     fecha_inscripcion = models.DateField(auto_now_add=True)
 
@@ -45,8 +45,8 @@ class Inscripcion(models.Model):
     #para que cada empprendedor solo pueda estar inscripto una vez en la feria
     class Meta:
         unique_together = [
-        ("feria", "numero_puesto"),
         ("feria", "emprendedor"),
+        #cambie la logica para solamente no te permita inscribir un emprendedor dos veces en la misma feria
     ]
 
     def __str__(self):
@@ -58,7 +58,8 @@ class Inscripcion(models.Model):
         #verifica si el puesto ya está ocupado cuando se crea una inscripción nueva
         if feria and cls.objects.filter(
             feria=feria,
-            numero_puesto=numero_puesto
+            numero_puesto=numero_puesto,
+            estado="confirmada"
             ).exists():
             errors.append(
                 "El puesto ya está ocupado."
@@ -71,8 +72,19 @@ class Inscripcion(models.Model):
         if not emprendedor:
             errors.append("El emprendedor es obligatorio.")
 
-        if numero_puesto is None or numero_puesto <= 0:
-            errors.append("El número de puesto debe ser mayor a cero.")
+        #cambie el validate porq una inscripcion en espera no tiene puesto
+        if (
+            estado == "confirmada"
+            and
+            (
+                numero_puesto is None
+                or
+                numero_puesto <= 0
+            )
+        ):
+            errors.append(
+                "El número de puesto debe ser mayor a cero."
+            )
 
         estados_validos = [e[0] for e in cls.ESTADOS]
 

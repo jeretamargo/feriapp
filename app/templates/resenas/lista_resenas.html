@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Reseñas</h2>
+
+{% for resena in resenas %}
+
+<div class="card mb-3">
+
+    <div class="card-body">
+
+        <h5>
+            {{ resena.emprendedor.nombre }}
+            {{ resena.emprendedor.apellido }}
+        </h5>
+
+        <p>
+            <strong>Puntuación:</strong>
+            {{ resena.puntuacion }}/5
+        </p>
+
+        <p>
+            {{ resena.comentario }}
+        </p>
+
+        <small>
+            Por {{ resena.visitante.nombre }}
+            {{ resena.visitante.apellido }}
+        </small>
+
+    </div>
+
+</div>
+
+{% empty %}
+
+<p>No hay reseñas.</p>
+
+{% endfor %}
+
+{% endblock %}
