@@ -44,7 +44,7 @@ class Emprendedor (models.Model):
             errors.append("El rubro es obligatorio") 
 
         if not telefono or not telefono.strip():
-            errors.append("El número de teléfono es obligatorio")
+            errors.append("El numero de teléfono es obligatorio")
 
         if not usuario:
             errors.append("El user es obligatorio")

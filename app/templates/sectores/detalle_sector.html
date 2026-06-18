@@ -5,7 +5,6 @@
 {% block content %}
     <h1>Detalle del Sector</h1>
     <p><strong>Nombre:</strong> {{ sector.nombre }}</p>
-    <p><strong>Edición:</strong> {{ sector.edicion }}</p>
     <p><strong>Capacidad de Puestos:</strong> {{ sector.capacidad_puestos }}</p>
     <p><strong>Conexión Eléctrica:</strong> {{ sector.tiene_conexion_electrica|yesno:"Sí,No" }}</p>
     <p><strong>Feria Asociada:</strong> {{ sector.feria.nombre }}</p>

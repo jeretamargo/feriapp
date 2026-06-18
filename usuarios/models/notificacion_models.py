@@ -19,7 +19,7 @@ class Notificacion(models.Model):
          errors = []
 
          if not usuario:
-            errors.append("No existe usario asignado a la notificación.")
+            errors.append("No existe usuario asignado a la notificación")
 
          if not asunto or not asunto.strip() :
             errors.append("El asunto es obligatorio")

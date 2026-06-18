@@ -5,7 +5,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from app.mixins.AdminReq import AdminRequiredMixin
 from app.forms.form_feria import FeriaForm
 from app.models.feria_models import Feria
+from app.models.categoria_models import Categoria
+from datetime import date
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponseRedirect
+from django.db.models import Avg
+from app.models.resena_models import Resena
 
 
 class ListaFeriasView(LoginRequiredMixin,ListView):
@@ -14,10 +19,92 @@ class ListaFeriasView(LoginRequiredMixin,ListView):
     model = Feria
     template_name = "ferias/lista_ferias.html"
     context_object_name = "ferias"
+    
 
     def get_queryset(self):
-        """Retorna solo las ferias marcadas como activas."""
-        return Feria.objects.filter(activa=True)
+        qs = Feria.objects.all()
+        # aplicar filtros desde query params
+        if self.request.GET:
+            nombre = self.request.GET.get("nombre")
+            categoria = self.request.GET.get("categoria")
+            fecha_from = self.request.GET.get("fecha_inicio_from")
+            fecha_to = self.request.GET.get("fecha_inicio_to")
+            ubicacion = self.request.GET.get("ubicacion")
+            activa = self.request.GET.get("activa")
+
+            if nombre:
+                qs = qs.filter(nombre__icontains=nombre)
+            if categoria:
+                qs = qs.filter(categoria=categoria)
+            if fecha_from:
+                qs = qs.filter(fecha_inicio__gte=fecha_from)
+            if fecha_to:
+                qs = qs.filter(fecha_inicio__lte=fecha_to)
+            if ubicacion:
+                qs = qs.filter(ubicacion__icontains=ubicacion)
+            # Si el parámetro 'activa' vino explícitamente en la query y vale
+            # "true" o "false", aplicarlo. Si no viene o viene vacío, no
+            # aplicamos filtro (por defecto mostrar todas).
+            if 'activa' in self.request.GET:
+                if activa == "true":
+                    qs = qs.filter(activa=True)
+                elif activa == "false":
+                    qs = qs.filter(activa=False)
+        else:
+            # form inválido: no aplicar filtro por defecto (mostrar todas)
+            pass
+
+        return qs.order_by("fecha_inicio")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # pasar las categorias y ubicaciones para los dropdowns
+        context["categorias"] = Categoria.objects.all()
+        context["ubicaciones"] = Feria.objects.values_list('ubicacion', flat=True).distinct()
+        # separar ferias en próximas y pasadas según fecha_fin
+        today = date.today()
+        qs = self.get_queryset()
+        proximas_qs = qs.filter(fecha_fin__gte=today).order_by('fecha_inicio')
+        pasadas_qs = qs.filter(fecha_fin__lt=today).order_by('-fecha_inicio')
+
+        # paginar 6 por página en cada sección
+        per_page = 6
+        page_proximas = self.request.GET.get('page_proximas')
+        page_pasadas = self.request.GET.get('page_pasadas')
+
+        # Próximas
+        if proximas_qs.exists():
+            proximas_paginator = Paginator(proximas_qs, per_page)
+            try:
+                proximas_page = proximas_paginator.page(page_proximas)
+            except PageNotAnInteger:
+                proximas_page = proximas_paginator.page(1)
+            except EmptyPage:
+                proximas_page = proximas_paginator.page(proximas_paginator.num_pages)
+        else:
+            proximas_page = None
+
+        # Pasadas
+        if pasadas_qs.exists():
+            pasadas_paginator = Paginator(pasadas_qs, per_page)
+            try:
+                pasadas_page = pasadas_paginator.page(page_pasadas)
+            except PageNotAnInteger:
+                pasadas_page = pasadas_paginator.page(1)
+            except EmptyPage:
+                pasadas_page = pasadas_paginator.page(pasadas_paginator.num_pages)
+        else:
+            pasadas_page = None
+
+        context['proximas_page_obj'] = proximas_page
+        context['pasadas_page_obj'] = pasadas_page
+
+        # base_query: parámetros GET sin paginación, para preservar filtros en enlaces de página
+        params = self.request.GET.copy()
+        params.pop('page_proximas', None)
+        params.pop('page_pasadas', None)
+        context['base_query'] = params.urlencode()
+        return context
     
     
 
@@ -82,6 +169,14 @@ class DetalleFeriaView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context["puestos_ocupados"] = self.object.puestos_ocupados() # pyright: ignore[reportAttributeAccessIssue]
         context["puestos_disponibles"] = self.object.puestos_disponibles() # pyright: ignore[reportAttributeAccessIssue]
+        # Obtener inscripciones y añadir promedio de reseñas (evitar N+1)
+        inscripciones_qs = list(self.object.inscripcion_set.select_related('emprendedor').order_by('numero_puesto'))
+        emprendedor_ids = [i.emprendedor_id for i in inscripciones_qs]
+        avg_map = Resena.avg_for_emprendedores(emprendedor_ids)
+        # Adjuntar atributo dinámico a cada inscripcion
+        for ins in inscripciones_qs:
+            ins.avg_puntuacion = avg_map.get(ins.emprendedor_id)
+        context['inscripciones'] = inscripciones_qs
         return context
     
 class DeleteFeriaView(AdminRequiredMixin,LoginRequiredMixin,DeleteView):
@@ -106,6 +201,7 @@ class UpdateFeriaView(AdminRequiredMixin,LoginRequiredMixin,UpdateView):
     
     def form_valid(self, form):
         """Marca la feria como activa al actualizarla."""
+        
         data = form.cleaned_data
         errors = self.object.update(
             data.get("nombre"),

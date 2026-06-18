@@ -9,178 +9,150 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
   </head>
 
   <body class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-lg navbar-dark bg-success">
       <div class="container">
-        <a class="navbar-brand fw-bold" href="{% url 'ferias:home' %}"
-          >🏪 FeriApp</a
-        >
+        <a class="navbar-brand fw-bold" href="{% url 'ferias:home' %}">
+          🏪 FeriApp
+        </a>
+
         <button
           class="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navMenu"
+          aria-controls="navMenu"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
           <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navMenu">
           {% if user.is_authenticated %}
-          
-          <ul class="navbar-nav ms-auto">
+
+          <ul class="navbar-nav me-auto mb-3 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'ferias:lista_ferias' %}"
-                >Ferias</a
-              >
+              <a class="nav-link" href="{% url 'ferias:lista_ferias' %}">
+                Ferias
+              </a>
             </li>
+
             <li class="nav-item">
               <a
                 class="nav-link"
                 href="{% url 'usuarios:lista_emprendedores' %}"
-                >Emprendedores</a
               >
+                Emprendedores
+              </a>
             </li>
-            <!-- para aprobar o no a los emprendedores siendo admin o organizador -->
-            {% if user.is_superuser %} 
-            <li class="nav-item">
-                <a
-                    class="nav-link"
-                    href="{% url 'app:solicitudes_inscripciones' %}"
-                >
-                    Solicitudes
-                </a>
-            </li>
-            {% endif %}
+
             {% if user.es_emprendedor %}
             <li class="nav-item">
-              <a
-                class="nav-link"
-                href="{% url 'app:nueva_inscripcion' %}">
+              <a class="nav-link" href="{% url 'app:nueva_inscripcion' %}">
                 Inscribir
               </a>
             </li>
-            <li class="nav-item">
-                <a
-                    class="nav-link"
-                    href="{% url 'app:mis_inscripciones' %}"
-                >
-                    Mis Inscripciones
-                </a>
-            </li>
-            {% endif %}
-            
-            <!-- para ver solamente todas las resenas que se hicieron -->
-            {% if user.is_superuser %}
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'ferias:lista_completa_de_resenas' %}">
-                Todas las Resenas</a
-              >
-            </li>
-            {% endif %}
-            {% if user.es_visitante %}
-            <li class="nav-item">
-                <a
-                    class="nav-link"
-                    href="{% url 'app:nueva_resena' %}"
-                >
-                    Crear Reseña
-                </a>
-            </li>
 
             <li class="nav-item">
-                <a
-                    class="nav-link"
-                    href="{% url 'app:lista_resenas' %}"
-                >
-                    Mis Reseñas
-                </a>
+              <a class="nav-link" href="{% url 'app:mis_inscripciones' %}">
+                Mis Inscripciones
+              </a>
             </li>
             {% endif %}
 
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'ferias:lista_resenas' %}">
+                Reseñas
+              </a>
+            </li>
 
             <li class="nav-item">
               <a class="nav-link" href="{% url 'ferias:lista_categorias' %}">
-                Categorias</a
-              >
+                Categorías
+              </a>
             </li>
-            
-            <div class="d-flex gap-2">
-              
+
             <li class="nav-item">
               <a class="nav-link" href="{% url 'ferias:lista_sector' %}">
-                Sectores</a
-              >
+                Sectores
+              </a>
             </li>
-          
-            <li>
-              <form action="{% url 'usuarios:logout' %}" method="post">
-                {% csrf_token %}
+          </ul>
 
-                <button type="submit" class="btn btn-danger">Logout</button>
-              </form>
-            
-            </li>
-            <li>
-              <a
-                href="{% url 'usuarios:perfil' %}"
-                class="text-decoration-none btn btn-info text-white"
-                >Mi Perfil</a
-              >
-            </li>
-            </div>
-            <!-- TODO: agregar links a Emprendedores e Inscripciones -->
-          </ul>
-          
+          <div
+            class="d-flex flex-column flex-lg-row gap-2 mt-3 mt-lg-0 align-items-center"
+          >
+            <a
+              href="{% url 'usuarios:perfil' %}"
+              class="btn btn-warning d-flex-inline"
+            >
+              Mi Perfil
+            </a>
+
+            <form action="{% url 'usuarios:logout' %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger w-100 d-flex-inline">
+                Logout
+              </button>
+            </form>
+          </div>
+
           {% else %}
-          <ul class="navbar-nav ms-auto gap-1">
-            <li class"nav-item">
-              <a
-                href="{% url 'usuarios:login' %}"
-                class="text-decoration-none text-black btn btn-light"
-                >Iniciar Sesion</a
-              >
-            </li>
-            <li class"nav-item">
-              <a
-                href="{% url 'usuarios:registro' %}"
-                class="text-decoration-none text-white btn btn-primary "
-                >Registrarse</a
-              >
-            </li>
-          </ul>
+
+          <div
+            class="d-flex flex-column flex-lg-row gap-2 ms-lg-auto mt-3 mt-lg-0 align-items-center"
+          >
+            <a
+              href="{% url 'usuarios:login' %}"
+              class="btn btn-light d-flex-inline"
+            >
+              Iniciar Sesión
+            </a>
+
+            <a
+              href="{% url 'usuarios:registro' %}"
+              class="btn btn-primary d-flex-inline"
+            >
+              Registrarse
+            </a>
+          </div>
+
           {% endif %}
         </div>
       </div>
     </nav>
-    
-		{% if messages %}
-		<div class="container mt-3">
-			{% for message in messages %}
-			<div
-				class="alert alert-{{ message.tags }} alert-dismissible fade show"
-				role="alert"
-			>
-				{{ message|safe }}
-				<button
-					type="button"
-					class="btn-close"
-					data-bs-dismiss="alert"
-					aria-label="Close"
-				></button>
-			</div>
-			{% endfor %}
-		</div>
-		{% endif %}
 
-    <main class="container my-4 ">{% block content %}{% endblock %}</main>
+    {% if messages %}
+    <div class="container mt-3">
+      {% for message in messages %}
+      <div
+        class="alert alert-{{ message.tags }} alert-dismissible fade show"
+        role="alert"
+      >
+        {{ message|safe }}
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
 
+    <main class="container my-4">{% block content %}{% endblock %}</main>
 
     <footer class="bg-light text-center text-muted py-3 mt-auto border-top">
       <small>FeriApp 2026</small>
     </footer>
 
-		<script src="/static/scripts/mensaje_html.js"></script>
+    <script src="/static/scripts/mensaje_html.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

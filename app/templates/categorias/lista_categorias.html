@@ -28,11 +28,12 @@ FeriApp{%endblock%} {% block content %}
           <h6 class="fw-bold">Ferias:</h6>
           <ul class="list-group list-group-flush mb-3">
             {% for feria in categoria.ferias.all %}
-            <li class="list-group-item">
-              {{ feria.nombre }} ({{ feria.fecha_inicio }} - {{ feria.fecha_fin}})
+            <li class="list-group-item d-flex justify-content-between">
+              {{ feria.nombre }} ({{ feria.fecha_inicio }} -
+              {{feria.fecha_fin}})
               <a
                 href="{% url 'ferias:detalle_feria' feria.id %}"
-                class="btn btn-sm btn-info"
+                class="btn btn-sm btn-info align-self-start mt-2"
               >
                 Ver detalle
               </a>

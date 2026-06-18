@@ -1,74 +1,191 @@
-{% extends "base.html" %} {% block title %}Ferias — FeriApp{% endblock %}
-{%block content %}
-<div class="row mb-3">
-    <div class="col">
-        <h3>Ferias Activas</h1>
-    </div>
-    {% if request.user.is_superuser %}
-    <div class="col text-end">
+{% extends "base.html" %}
+{% block title %}Ferias — FeriApp{% endblock %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/ferias_states.css' %}">
+
+<div class="row">
+  <!-- Cards de ferias -->
+  <div class="col-md-10">
+    <div class="row mb-3">
+      <div class="col">
+        <h3>Ferias</h3>
+      </div>
+      {% if request.user.is_superuser %}
+      <div class="col text-end">
         <a href="{% url 'ferias:nueva_feria' %}" class="btn btn-primary">Crear Nueva Feria</a>
+      </div>
+      {% endif %}
     </div>
-    {% endif %}
+
+    <div class="container mt-4">
+      {# Ferias próximas (no finalizadas) #}
+      {% if proximas_page_obj and proximas_page_obj.object_list %}
+      <div class="mb-4">
+        <h4>Ferias próximas</h4>
+        <div class="row">
+          {% for feria in proximas_page_obj.object_list %}
+          <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 state-card {% if feria.activa %}active-card{% else %}inactive-card{% endif %}">
+              <div class=" card-body d-flex flex-column ">
+                <h5 class="card-title d-flex justify-content-between align-items-start">
+                  <span class="me-2 text-truncate" style="max-width: 75%;" title="{{ feria.nombre }}">{{ feria.nombre }}</span>
+                  {% if request.user.is_superuser %}
+                  <div class="btn-group" role="group">
+                    <a href="{% url 'ferias:actualizar_feria' feria.id %}" class="btn btn-sm btn-outline-warning" title="Editar"><i class="bi bi-pencil-square"></i></a>
+                    <a href="{% url 'ferias:borrar_feria' feria.id %}" class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></a>
+                  </div>
+                  {% endif %}
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ feria.categoria }}</h6>
+                <p class="card-text">📍 {{ feria.ubicacion }}<br>📅 {{ feria.fecha_inicio }} → {{ feria.fecha_fin }}<br>🏬 <span class="badge bg-primary">{{ feria.puestos_ocupados }} / {{ feria.capacidad_puestos }} puestos</span>
+                  <br>
+                  <small class="text-muted">Estado: <span class="badge {% if feria.activa %}bg-success text-white{% else %}bg-danger text-white{% endif %} ms-1">{% if feria.activa %}Activa{% else %}Inactiva{% endif %}</span></small>
+                </p>
+                <a href="{% url 'ferias:detalle_feria' pk=feria.id %}" class="btn btn-primary btn-sm mt-auto align-self-end">Ver detalle</a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        {# Paginación próximas #}
+        {% if proximas_page_obj.paginator.num_pages > 1 %}
+        <nav aria-label="Proximas pagination ">
+          <ul class="pagination justify-content-center">
+            {% if proximas_page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?{% if base_query %}{{ base_query }}&{% endif %}page_proximas={{ proximas_page_obj.previous_page_number }}">Anterior</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Anterior</span></li>
+            {% endif %}
+            <li class="page-item disabled"><span class="page-link"> {{ proximas_page_obj.number }} de {{ proximas_page_obj.paginator.num_pages }}</span></li>
+            {% if proximas_page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?{% if base_query %}{{ base_query }}&{% endif %}page_proximas={{ proximas_page_obj.next_page_number }}">Siguiente</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Siguiente</span></li>
+            {% endif %}
+          </ul>
+        </nav>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      {# Ferias pasadas #}
+      {% if pasadas_page_obj and pasadas_page_obj.object_list %}
+      <div class="mb-4">
+        <h4>Ferias pasadas</h4>
+        <div class="row">
+          {% for feria in pasadas_page_obj.object_list %}
+          <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 state-card {% if feria.activa %}active-card{% else %}inactive-card{% endif %}">
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title">{{ feria.nombre }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ feria.categoria }}</h6>
+                <p class="card-text text-muted">📍 {{ feria.ubicacion }}<br>📅 {{ feria.fecha_inicio }} → {{ feria.fecha_fin }}
+                  <br>
+                  <small class="text-muted">Estado: <span class="badge {% if feria.activa %}bg-success text-white{% else %}bg-danger text-white{% endif %} ms-1">{% if feria.activa %}Activa{% else %}Inactiva{% endif %}</span></small>
+                </p>
+              <a href="{% url 'ferias:detalle_feria' pk=feria.id %}" class="btn btn-primary btn-sm mt-auto align-self-end">Ver detalle</a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {# Paginación pasadas #}
+        {% if pasadas_page_obj.paginator.num_pages > 1 %}
+        <nav aria-label="Pasadas pagination">
+          <ul class="pagination justify-content-center">
+            {% if pasadas_page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?{% if base_query %}{{ base_query }}&{% endif %}page_pasadas={{ pasadas_page_obj.previous_page_number }}">Anterior</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Anterior</span></li>
+            {% endif %}
+            <li class="page-item disabled"><span class="page-link">Página {{ pasadas_page_obj.number }} de {{ pasadas_page_obj.paginator.num_pages }}</span></li>
+            {% if pasadas_page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?{% if base_query %}{{ base_query }}&{% endif %}page_pasadas={{ pasadas_page_obj.next_page_number }}">Siguiente</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">Siguiente</span></li>
+            {% endif %}
+          </ul>
+        </nav>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      {# Mensaje si no hay ferias en ninguna sección #}
+      {% if not proximas_page_obj and not pasadas_page_obj %}
+      <div class="text-center my-5">
+        <h3 class="mb-3">No hay ferias cargadas aún</h3>
+        <p class="text-muted">¡Comienza creando tu primera feria!</p>
+        <a href="{% url 'ferias:nueva_feria' %}" class="btn btn-lg btn-success">
+          <i class="bi bi-plus-circle"></i> Agregar Feria
+        </a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Aside derecho con filtros -->
+  <div class="col-md-2 border-start">
+    <form id="filters-form" method="get" class="p-3">
+      <h5>Filtros</h5>
+
+      <!-- Switch Activa (Bootstrap) + hidden input para controlar el valor enviado -->
+      <div class="form-check form-switch mb-3">
+        <input class="form-check-input" type="checkbox" id="switchActiva">
+        <label class="form-check-label" for="switchActiva">Mostrar solo ferias activas</label>
+      </div>
+      <input type="hidden" name="activa" id="activa-input" value="{{ request.GET.activa|default:'' }}">
+
+      <!-- Categoría dropdown -->
+      <div class="mb-3">
+        <label for="categoria-select" class="form-label">Categoría</label>
+        <select id="categoria-select" name="categoria" class="form-select">
+          <option value="" {% if request.GET.categoria == None or request.GET.categoria == '' %}selected{% endif %}>Todas</option>
+          {% for cat in categorias %}
+          <option value="{{ cat.id }}" {% if request.GET.categoria == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.nombre }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Ubicación dropdown -->
+      <div class="mb-3">
+        <label for="ubicacion-select" class="form-label">Ubicación</label>
+        <select id="ubicacion-select" name="ubicacion" class="form-select">
+          <option value="" {% if request.GET.ubicacion == None or request.GET.ubicacion == '' %}selected{% endif %}>Todas</option>
+          {% for ub in ubicaciones %}
+          <option value="{{ ub }}" {% if request.GET.ubicacion == ub %}selected{% endif %}>{{ ub }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Fechas -->
+      <div class="mb-3">
+        <label class="form-label">Fecha inicio desde</label>
+        <input type="date" name="fecha_inicio_from" class="form-control" value="{{ request.GET.fecha_inicio_from|default:'' }}">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Fecha inicio hasta</label>
+        <input type="date" name="fecha_inicio_to" class="form-control" value="{{ request.GET.fecha_inicio_to|default:'' }}">
+      </div>
+
+      <div class="d-flex gap-2">
+        <a href="{% url 'ferias:lista_ferias' %}" class="btn btn-secondary btn-sm">Resetear filtros</a>
+      </div>
+    </form>
+
+  </div>
 </div>
 
-<div class="table-responsive">
-  <table class="table table-hover align-middle">
-    <thead class="table-light">
-      <tr>
-        <th>Nombre</th>
-        <th>Categoría</th>
-        <th>Fechas</th>
-        <th>Ubicación</th>
-        <th>Puestos</th>
-        {% if request.user.is_superuser %}
-        <th>Acciones</th>
-        {% endif %}
-      </tr>
-    </thead>
-    <tbody>
-      {% for feria in ferias %}
-      <tr>
-        <td class="fw-semibold">
-          <a href="{% url 'ferias:detalle_feria' pk=feria.id %}">
-            {{ feria.nombre }}
-          </a>
-        </td>
-        <td>{{ feria.categoria }}</td>
-        <td>{{ feria.fecha_inicio }} → {{ feria.fecha_fin }}</td>
-        <td>{{ feria.ubicacion }}</td>
-        <td>
-          <!-- TODO: completar con puestos_ocupados() cuando implementen Inscripcion -->
-          <span class="badge bg-secondary"
-            >{{ feria.capacidad_puestos }} totales</span
-          >
-        </td>
-        <td>
-          {% if request.user.is_superuser %}
-          {% comment "" %} Reemplazar por url de editar_feria {% endcomment %}
-          <a
-            href="{% url 'ferias:actualizar_feria' pk=feria.id %}"
-            class="btn btn-sm btn-warning mx-2"
-          >
-            Editar
-          </a>
-          {% comment "" %} Reemplazar por url de borrar_feria {% endcomment %}
-          <a
-            href="{% url 'ferias:borrar_feria' pk=feria.id %}"
-            class="btn btn-sm btn-danger"
-          >
-            Borrar
-          </a>
-        </td>
-      </tr>
-      {% endif %}
-      {% empty %}
-      <tr>
-        <td colspan="5" class="text-center text-muted">
-          No hay ferias activas.
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
+
+  <script src="{% static 'scripts/filters.js' %}"></script>
+
 {% endblock %}
