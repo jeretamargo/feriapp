@@ -75,11 +75,33 @@
             </li>
             {% endif %}
 
+            <!-- para ver solamente todas las resenas que se hicieron -->
+            {% if user.is_superuser %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'ferias:lista_resenas' %}">
-                Reseñas
-              </a>
+              <a class="nav-link" href="{% url 'ferias:lista_completa_de_resenas' %}">
+                Todas las Resenas</a
+              >
             </li>
+            {% endif %}
+            {% if user.es_visitante %}
+            <li class="nav-item">
+                <a
+                    class="nav-link"
+                    href="{% url 'app:nueva_resena' %}"
+                >
+                    Crear Reseña
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a
+                    class="nav-link"
+                    href="{% url 'app:lista_resenas' %}"
+                >
+                    Mis Reseñas
+                </a>
+            </li>
+            {% endif %}
 
             <li class="nav-item">
               <a class="nav-link" href="{% url 'ferias:lista_categorias' %}">
