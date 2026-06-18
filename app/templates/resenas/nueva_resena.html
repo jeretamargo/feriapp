@@ -3,17 +3,53 @@
 {% block content %}
 
 <h2>Nueva reseña</h2>
+<div class="card mb-4">
+    <div class="card-body">
 
+        <form method="get">
+
+            <label class="form-label">
+                Seleccione una feria
+            </label>
+
+            <select
+                name="feria"
+                class="form-select"
+                onchange="this.form.submit()"
+            >
+
+                <option value="">
+                    Seleccione una feria
+                </option>
+
+                {% for feria in ferias %}
+                    <option
+                        value="{{ feria.id }}"
+                        {% if request.GET.feria == feria.id|stringformat:"s" %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ feria.nombre }}
+                    </option>
+                {% endfor %}
+
+            </select>
+
+        </form>
+
+    </div>
+</div>
 <form method="post">
-
     {% csrf_token %}
 
     {{ form.as_p }}
 
-    <button type="submit" class="btn btn-primary">
-        Enviar reseña
+    <button
+        type="submit"
+        class="btn btn-primary"
+    >
+        Crear reseña
     </button>
-
 </form>
 
 {% endblock %}
