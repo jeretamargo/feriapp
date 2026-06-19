@@ -1,18 +1,32 @@
+<<<<<<< HEAD
 <!-- prettier-ignore-start -->
 {% extends "base.html" %} {% block title %}Nueva inscripción{% endblock %}
 <div></div>
+=======
+{% extends "base.html" %}
+
+{% block title %}Nueva inscripción{% endblock %}
+
+>>>>>>> 4bb5ed268cec23f6f3e44ee3443b894c41629df1
 {% block content %}
 <div class="card shadow-sm">
-  <div class="card-body">
-    <h2 class="mb-4">Inscribirse a una feria</h2>
+    <div class="card-body">
+        <h2 class="mb-4">Inscribirse a una feria</h2>
 
-    <form method="post">
-      {% csrf_token %} {{ form.as_p }} {% if form.non_field_errors %}
-      <div class="alert alert-danger">{{ form.non_field_errors }}</div>
-      {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
 
-      <button type="submit" class="btn btn-primary">Inscribirme</button>
-    </form>
-  </div>
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <button type="submit" class="btn btn-primary">
+                Inscribirme
+            </button>
+        </form>
+    </div>
 </div>
 {% endblock %}

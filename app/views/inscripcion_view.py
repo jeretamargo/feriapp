@@ -2,7 +2,7 @@ from django.views.generic import CreateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from app.mixins.EmprendedorReq import EmprendedorRequiredMixin
-
+from app.mixins.AdminReq import AdminRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from app.forms.inscripcion_form import InscripcionForm
@@ -21,7 +21,7 @@ class NuevaInscripcionView(EmprendedorRequiredMixin, LoginRequiredMixin, CreateV
     form_class = InscripcionForm
 
     success_url = reverse_lazy(
-        "app:home"
+        "app:mis_inscripciones"
     )
 
     def form_valid(self, form):
@@ -55,21 +55,12 @@ class NuevaInscripcionView(EmprendedorRequiredMixin, LoginRequiredMixin, CreateV
             )
             return self.form_invalid(form)
 
-        puestos_ocupados = Inscripcion.objects.filter(
-            feria=feria
-        ).exclude(
-            estado="cancelada"
-        ).values_list("numero_puesto", flat=True)
 
-        puesto = 1
-
-        while puesto in puestos_ocupados:
-            puesto += 1
 
         form.instance.emprendedor = emprendedor
-        form.instance.numero_puesto = puesto
-        form.instance.estado = "confirmada"
-        form.instance.registrado_por = self.request.user
+        form.instance.numero_puesto = None
+        form.instance.estado = "lista_espera"
+        form.instance.registrado_por = None
 
         Notificacion.new(
             usuario=self.request.user,
@@ -82,10 +73,10 @@ class NuevaInscripcionView(EmprendedorRequiredMixin, LoginRequiredMixin, CreateV
         )
         messages.success(
             self.request,
-            f"Te inscribiste correctamente en la feria '{feria.nombre}'.")
-
+            f"Tu solicitud para la feria '{feria.nombre}' fue enviada."
+        )
         return super().form_valid(form)
-    
+     
 
 class MisInscripcionesView(EmprendedorRequiredMixin, LoginRequiredMixin,ListView):
     model = Inscripcion
@@ -105,33 +96,191 @@ class MisInscripcionesView(EmprendedorRequiredMixin, LoginRequiredMixin,ListView
             emprendedor=self.request.user.emprendedor
         ).select_related("feria")
 
-
-    #vista para cancelar inscripcion
-def cancelar_inscripcion(request, pk):
-        if request.method != "POST":
-            return redirect("app:mis_inscripciones")
-        #el get_object_or_404 es para que un emprendedor no puede cancelar la inscripción de otro emprendedor
+class CancelarInscripcionView(EmprendedorRequiredMixin,LoginRequiredMixin,ListView):
+    def post(self, request, pk):
         inscripcion = get_object_or_404(
             Inscripcion,
             pk=pk,
             emprendedor=request.user.emprendedor
         )
 
-        inscripcion.estado = "cancelada"
-        inscripcion.save()
+        # Validacion para que si esta en lista de espera o confimado cancele
+        if inscripcion.estado == "cancelada":
+
+            messages.warning(
+                request,
+                "La inscripción ya estaba cancelada."
+            )
+
+            return redirect(
+                "app:mis_inscripciones"
+            )
+
+        nombre_feria = inscripcion.feria.nombre
+        inscripcion.delete()
 
         Notificacion.new(
             usuario=request.user,
             asunto="Inscripción cancelada",
             mensaje=(
                 f"Tu inscripción a la feria "
-                f"'{inscripcion.feria.nombre}' "
+                f"'{nombre_feria}' "
                 f"fue cancelada correctamente."
             ),
             url= reverse("ferias:mis_inscripciones")
         )
+
         messages.success(
             request,
-            f"Se canceló tu inscripción a '{inscripcion.feria.nombre}'."
+            f"Se canceló tu inscripción a "
+            f"'{inscripcion.feria.nombre}'."
+        )
+
+        return redirect(
+            "app:mis_inscripciones"
+        )
+
+class ListaSolicitudesView(AdminRequiredMixin,LoginRequiredMixin, ListView):
+    model = Inscripcion
+    template_name = "inscripciones/solicitudes.html"
+    context_object_name = "solicitudes"
+    #ver las que esten en "lista_espera"
+    def get_queryset(self):
+        return Inscripcion.objects.filter(
+            estado="lista_espera"
+        ).select_related(
+            "feria",
+            "emprendedor"
+        )
+    #para ver un historial de las aprobaciones, osea las que no esten en  "lista_espera"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["historial"] = (
+            Inscripcion.objects
+            .exclude(estado="lista_espera")
+            .select_related("feria", "emprendedor")
+            .order_by("-id")
+        )
+
+        return context
+class AprobarInscripcionView(AdminRequiredMixin,LoginRequiredMixin,ListView):
+    def post(self, request, pk):
+        inscripcion = get_object_or_404(
+            Inscripcion,
+            pk=pk
+        )
+        if inscripcion.estado == "confirmada":
+            messages.warning(
+                request,
+                "La inscripción ya estaba aprobada."
             )
-        return redirect("app:mis_inscripciones")
+            return redirect(
+                "app:inscripciones_pendientes"
+            )
+        if not inscripcion.feria.tiene_lugar(): #validacion
+
+            messages.error(
+                request,
+                "La feria ya no tiene puestos disponibles."
+            )
+
+            return redirect(
+                "app:lista_solicitudes"
+            )
+
+        puestos_ocupados = Inscripcion.objects.filter(
+            feria=inscripcion.feria,
+            estado="confirmada"
+        ).values_list(
+            "numero_puesto",
+            flat=True
+        )
+
+        puesto = 1
+        while puesto in puestos_ocupados:
+            puesto += 1
+        
+        #valdacion por la moscas
+        if Inscripcion.objects.filter( #busca las inscripciones confirmadas 
+            feria=inscripcion.feria,
+            numero_puesto=puesto,
+            estado="confirmada"
+        ).exclude(
+            pk=inscripcion.pk #Ignora la inscripción actual para no compararla consigo misma
+        ).exists():
+
+            messages.error(
+                request,
+                "Ese puesto ya está ocupado."
+            )
+
+            return redirect(
+                "app:inscripciones_pendientes"
+            )
+        inscripcion.numero_puesto = puesto
+        inscripcion.estado = "confirmada"
+        inscripcion.registrado_por = request.user  #agregue para que se registre quien lo aprobo      
+        inscripcion.save()
+
+        Notificacion.new(
+            usuario=inscripcion.emprendedor.usuario,
+            asunto="Inscripción aprobada",
+            mensaje=(
+                f"Tu inscripción a la feria "
+                f"'{inscripcion.feria.nombre}' "
+                f"fue aprobada. "
+                f"Tu puesto asignado es el Nº {puesto}."
+            )
+        )
+
+        messages.success(
+            request,
+            "Inscripción aprobada correctamente."
+        )
+
+        return redirect(
+            "app:solicitudes_inscripciones"
+        )
+    
+class RechazarInscripcionView(AdminRequiredMixin,LoginRequiredMixin,ListView):
+    def post(self, request, pk):
+        inscripcion = get_object_or_404(
+            Inscripcion,
+            pk=pk
+        )
+
+        if inscripcion.estado == "cancelada":
+
+            messages.warning(
+                request,
+                "La inscripción ya estaba rechazada."
+            )
+
+            return redirect(
+                "app:inscripciones_pendientes"
+            )
+
+        inscripcion.estado = "cancelada"
+        inscripcion.registrado_por = request.user
+        inscripcion.save()
+
+
+        Notificacion.new(
+            usuario=inscripcion.emprendedor.usuario,
+            asunto="Inscripción rechazada",
+            mensaje=(
+                f"Tu inscripción a la feria "
+                f"'{inscripcion.feria.nombre}' "
+                f"fue rechazada."
+            )
+        )
+
+        messages.warning(
+            request,
+            "Inscripción rechazada correctamente."
+        )
+
+        return redirect(
+            "app:solicitudes_inscripciones"
+        )
