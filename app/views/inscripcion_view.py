@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from app.mixins.EmprendedorReq import EmprendedorRequiredMixin
 
 from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from app.forms.inscripcion_form import InscripcionForm
 from usuarios.models.notificacion_models import Notificacion
 from app.models.inscripcion_models import Inscripcion
@@ -77,7 +77,8 @@ class NuevaInscripcionView(EmprendedorRequiredMixin, LoginRequiredMixin, CreateV
             mensaje=(
                 f"Te inscribiste correctamente "
                 f"en la feria '{feria.nombre}'."
-            )
+            ),
+            url= reverse("ferias:mis_inscripciones")
         )
         messages.success(
             self.request,
@@ -126,7 +127,8 @@ def cancelar_inscripcion(request, pk):
                 f"Tu inscripción a la feria "
                 f"'{inscripcion.feria.nombre}' "
                 f"fue cancelada correctamente."
-            )
+            ),
+            url= reverse("ferias:mis_inscripciones")
         )
         messages.success(
             request,
