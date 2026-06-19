@@ -1,5 +1,5 @@
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from app.mixins.AdminReq import AdminRequiredMixin
@@ -11,6 +11,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponseRedirect
 from django.db.models import Avg
 from app.models.resena_models import Resena
+from usuarios.models.notificacion_models import Notificacion
+from usuarios.models.user_models import User
 
 
 class ListaFeriasView(LoginRequiredMixin,ListView):
@@ -145,6 +147,17 @@ class NuevaFeriaView(AdminRequiredMixin,LoginRequiredMixin,CreateView):
         f"La Feria '{self.object.nombre}' fue creada correctamente. "
         f"<a href='{reverse_lazy('ferias:detalle_feria', args=[self.object.pk])}' class='alert-link'>Ver detalle</a>")
         
+        usuarios = User.objects.all()
+        for user in usuarios:
+            Notificacion.new(usuario=user,
+                            asunto ="Nueva Feria",
+                            mensaje= f"Se ha publicado una nueva feria: {feria.nombre}",
+                            url=reverse(
+                                    "ferias:detalle_feria",
+                                    kwargs={"pk": feria.pk}
+                                )
+                            )
+
         return response
     
     def form_invalid(self, form):

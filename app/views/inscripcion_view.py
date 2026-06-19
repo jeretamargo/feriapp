@@ -4,11 +4,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from app.mixins.EmprendedorReq import EmprendedorRequiredMixin
 from app.mixins.AdminReq import AdminRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from app.forms.inscripcion_form import InscripcionForm
 from usuarios.models.notificacion_models import Notificacion
 from app.models.inscripcion_models import Inscripcion
 from django.contrib import messages
+
+from usuarios.models.user_models import User
 
 
 class NuevaInscripcionView(EmprendedorRequiredMixin, LoginRequiredMixin, CreateView):
@@ -61,15 +63,31 @@ class NuevaInscripcionView(EmprendedorRequiredMixin, LoginRequiredMixin, CreateV
         form.instance.numero_puesto = None
         form.instance.estado = "lista_espera"
         form.instance.registrado_por = None
+        
 
         Notificacion.new(
             usuario=self.request.user,
             asunto="Inscripción realizada",
             mensaje=(
-                f"Te inscribiste correctamente "
-                f"en la feria '{feria.nombre}'."
-            )
+                f"Enviaste correctamente tu inscripcion "
+                f"en la feria '{feria.nombre}, en espera de aprobación'."
+            ),
+            url= reverse("ferias:mis_inscripciones")
         )
+
+        admins = User.objects.filter(is_superuser=True)
+
+        for admin in admins:
+            Notificacion.new(
+            usuario=admin,
+            asunto="Inscripcion Pendiente",
+            mensaje=(
+                f"Hay una inscripcion pendiente por confirmar, "
+                f"Feria '{feria.nombre}, por el usuario {self.request.user.username}'."
+            ),
+            url= reverse("ferias:solicitudes_inscripciones")
+        )
+
         messages.success(
             self.request,
             f"Tu solicitud para la feria '{feria.nombre}' fue enviada."
@@ -125,7 +143,8 @@ class CancelarInscripcionView(EmprendedorRequiredMixin,LoginRequiredMixin,ListVi
                 f"Tu inscripción a la feria "
                 f"'{nombre_feria}' "
                 f"fue cancelada correctamente."
-            )
+            ),
+            url= reverse("ferias:mis_inscripciones")
         )
 
         messages.success(
@@ -229,7 +248,8 @@ class AprobarInscripcionView(AdminRequiredMixin,LoginRequiredMixin,ListView):
                 f"'{inscripcion.feria.nombre}' "
                 f"fue aprobada. "
                 f"Tu puesto asignado es el Nº {puesto}."
-            )
+            ),
+            url=reverse("ferias:mis_inscripciones")
         )
 
         messages.success(
@@ -271,7 +291,8 @@ class RechazarInscripcionView(AdminRequiredMixin,LoginRequiredMixin,ListView):
                 f"Tu inscripción a la feria "
                 f"'{inscripcion.feria.nombre}' "
                 f"fue rechazada."
-            )
+            ),
+            url=reverse("ferias:mis_inscripciones")
         )
 
         messages.warning(
