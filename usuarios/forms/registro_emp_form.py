@@ -136,21 +136,4 @@ class RegistroEmprendedorForm(UserCreationForm):
         if not re.match(r"^(?=.*[A-Za-z])(?=.*\d).{8,}$", password1):
             raise forms.ValidationError("Debe tener al menos 8 caracteres, una letra y un número.")
         return password1.strip()
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        user.tipo_usuario = "emprendedor"
-        if commit:
-         user.save()
-        errores = Emprendedor.new(
-            usuario=user,
-            nombre=self.cleaned_data["nombre"],
-            apellido=self.cleaned_data["apellido"],
-            rubro=self.cleaned_data["rubro"],
-            telefono=self.cleaned_data["telefono"],
-        )
-        if errores:
-            for error in errores:
-                self.add_error(None, error)
-        grupo = Group.objects.get(name="Emprendedor")
-        user.groups.add(grupo)
-        return user
+    
