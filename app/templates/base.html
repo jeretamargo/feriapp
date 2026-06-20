@@ -16,10 +16,12 @@
   </head>
 
   <body class="d-flex flex-column min-vh-100">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    {% comment %} Navbar {% endcomment %}
+    {%  include "navbar.html" %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-warning ">
       <div class="container">
-        <a class="navbar-brand fw-bold" href="{% url 'ferias:home' %}">
-          🏪 FeriApp
+        <a class="navbar-brand fw-bold text-dark" href="{% url 'ferias:home' %}">
+          🏪 FeriasTDF
         </a>
 
         <button
@@ -34,19 +36,19 @@
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navMenu">
+        <div class="collapse navbar-collapse " id="navMenu">
           {% if user.is_authenticated %}
 
-          <ul class="navbar-nav me-auto mb-3 mb-lg-0">
+          <ul class="navbar-nav me-auto mb-3 mb-lg-0 ">
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'ferias:lista_ferias' %}">
+              <a class="nav-link text-dark" href="{% url 'ferias:lista_ferias' %}">
                 Ferias
               </a>
             </li>
 
             <li class="nav-item">
               <a
-                class="nav-link"
+                class="nav-link text-dark"
                 href="{% url 'usuarios:lista_emprendedores' %}"
               >
                 Emprendedores
@@ -54,9 +56,9 @@
             </li>
             <!-- para aprobar o no a los emprendedores siendo admin o organizador -->
             {% if user.is_superuser %} 
-            <li class="nav-item">
+            <li class="nav-item text-dark">
                 <a
-                    class="nav-link"
+                    class="nav-link text-dark"
                     href="{% url 'app:solicitudes_inscripciones' %}"
                 >
                     Solicitudes
@@ -64,14 +66,14 @@
             </li>
             {% endif %}
             {% if user.es_emprendedor %}
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'app:nueva_inscripcion' %}">
+            <li class="nav-item ">
+              <a class="nav-link text-dark" href="{% url 'app:nueva_inscripcion' %}">
                 Inscribir
               </a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'app:mis_inscripciones' %}">
+              <a class="nav-link text-dark" href="{% url 'app:mis_inscripciones' %}">
                 Mis Inscripciones
               </a>
             </li>
@@ -80,7 +82,7 @@
             <!-- para ver solamente todas las resenas que se hicieron -->
             {% if user.is_superuser %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'ferias:lista_completa_de_resenas' %}">
+              <a class="nav-link text-dark" href="{% url 'ferias:lista_completa_de_resenas' %}">
                 Todas las Resenas</a
               >
             </li>
@@ -88,7 +90,7 @@
             {% if user.es_visitante %}
             <li class="nav-item">
                 <a
-                    class="nav-link"
+                    class="nav-link text-dark"
                     href="{% url 'app:nueva_resena' %}"
                 >
                     Crear Reseña
@@ -97,7 +99,7 @@
 
             <li class="nav-item">
                 <a
-                    class="nav-link"
+                    class="nav-link text-dark"
                     href="{% url 'app:lista_resenas' %}"
                 >
                     Mis Reseñas
@@ -106,19 +108,19 @@
             {% endif %}
 
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'ferias:lista_categorias' %}">
+              <a class="nav-link text-dark" href="{% url 'ferias:lista_categorias' %}">
                 Categorías
               </a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'ferias:lista_sector' %}">
+              <a class="nav-link text-dark" href="{% url 'ferias:lista_sector' %}">
                 Sectores
               </a>
             </li>
             <li class="nav-item dropdown">
               <a
-                class="nav-link dropdown-toggle"
+                class="nav-link dropdown-toggle text-dark"
                 href="#"
                 data-bs-toggle="dropdown"
               >
@@ -133,7 +135,7 @@
                     <span class="badge rounded-pill text-bg-primary">
                       {{notificacion.asunto}}
                     </span>
-                    <a class="dropdown-item" href="{{ notificacion.url }}">
+                    <a class="dropdown-item text-dark" href="{{ notificacion.url }}">
                       {{ notificacion.mensaje }}
                     </a>
                     <form
@@ -162,14 +164,14 @@
           >
             <a
               href="{% url 'usuarios:perfil' %}"
-              class="btn btn-warning d-flex-inline"
+              class="btn btn-sm btn-outline-primary  d-flex "
             >
               Mi Perfil
             </a>
 
             <form action="{% url 'usuarios:logout' %}" method="post">
               {% csrf_token %}
-              <button type="submit" class="btn btn-danger w-100 d-flex-inline">
+              <button type="submit" class="btn btn-sm btn-outline-danger w-100 d-flex-inline ">
                 Logout
               </button>
             </form>
@@ -182,14 +184,14 @@
           >
             <a
               href="{% url 'usuarios:login' %}"
-              class="btn btn-light d-flex-inline"
+              class="btn btn-sm btn-outline-light d-flex-inline"
             >
               Iniciar Sesión
             </a>
 
             <a
               href="{% url 'usuarios:registro' %}"
-              class="btn btn-primary d-flex-inline"
+              class="btn btn-sm btn-outline-primary d-flex-inline"
             >
               Registrarse
             </a>
@@ -221,8 +223,8 @@
 
     <main class="container my-4">{% block content %}{% endblock %}</main>
 
-    <footer class="bg-light text-center text-muted py-3 mt-auto border-top">
-      <small>FeriApp 2026</small>
+    <footer class="bg-dark  text-center text-muted py-3 mt-auto border-top">
+      <small class="text-light">FeriApp 2026</small>
     </footer>
 
     <script src="/static/scripts/mensaje_html.js"></script>

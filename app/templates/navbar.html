@@ -1,0 +1,73 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-warning">
+  <div class="container">
+    <a class="navbar-brand fw-bold text-dark" href="#">🏪 FeriasTDF</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav me-auto mb-3 mb-lg-0">
+        <!-- Ferias -->
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFerias" aria-controls="offcanvasFerias">
+            Ferias
+          </a>
+        </li>
+
+        <!-- Emprendedores -->
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasEmprendedores" aria-controls="offcanvasEmprendedores">
+            Emprendedores
+          </a>
+        </li>
+
+        <!-- Categorías -->
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCategorias" aria-controls="offcanvasCategorias">
+            Categorías
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Offcanvas Ferias -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasFerias" aria-labelledby="offcanvasFeriasLabel">
+  <div class="offcanvas-header">
+    <h5 id="offcanvasFeriasLabel">Ferias</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <p>Contenido relacionado con Ferias.</p>
+    <ul>
+        <li><a class="nav-link text-dark" href="{% url 'ferias:nueva_feria' %}">Crear Feria</a></li>          
+        <li><a class="nav-link text-dark" href="{% url 'ferias:lista_ferias' %}">
+                Ferias
+              </a>
+        </li>
+  </div>
+</div>
+
+<!-- Offcanvas Emprendedores -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasEmprendedores" aria-labelledby="offcanvasEmprendedoresLabel">
+  <div class="offcanvas-header">
+    <h5 id="offcanvasEmprendedoresLabel">Emprendedores</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <p>Contenido relacionado con Emprendedores.</p>
+  </div>
+</div>
+
+<!-- Offcanvas Categorías -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasCategorias" aria-labelledby="offcanvasCategoriasLabel">
+  <div class="offcanvas-header">
+    <h5 id="offcanvasCategoriasLabel">Categorías</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <p>Contenido relacionado con Categorías.</p>
+  </div>
+</div>
