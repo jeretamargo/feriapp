@@ -1,61 +1,58 @@
-{% extends "base.html" %} {% block title %}Lista Categorias —
-FeriApp{%endblock%} {% block content %}
-<div class="row">
-  <div class="col">
-    <h1>Lista de Categorías</h1>
-  </div>
-  {% if request.user.is_superuser %}
-  <div class="col text-end">
-    <a href="{% url 'ferias:nueva_categoria' %}" class="btn btn-primary"
-      >Crear Nueva Categoría</a
-    >
-  </div>
-  {% endif %}
-</div>
-
+{% extends "base.html" %}
+{% block title %}Lista Categorías — FeriApp{% endblock %}
+{% block content %}
 <div class="container mt-4">
-  <div class="row d-flex justify-content-center">
-    {% for categoria in categorias %} {% comment %} sacar col-md-6 para que se
-    vea de a 1 feria por columna{% endcomment %}
+
+  <div class="row align-items-center mb-4">
+    <div class="col">
+      <h1 class="h3 text-primary">Lista de Categorías</h1>
+    </div>
+    <div class="col-auto">
+      {% if request.user.is_superuser %}
+      <a href="{% url 'ferias:nueva_categoria' %}" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i> Crear Nueva Categoría
+      </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    {% for categoria in categorias %}
     <div class="col-10 mb-4">
       <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header bg-primary text-white fw-bold">
           {{ categoria.nombre }}
         </div>
         <div class="card-body">
           <p class="card-text">{{ categoria.descripcion }}</p>
 
-          <h6 class="fw-bold">Ferias:</h6>
+          <h6 class="fw-bold">Ferias asociadas:</h6>
           <ul class="list-group list-group-flush mb-3">
             {% for feria in categoria.ferias.all %}
-            <li class="list-group-item d-flex justify-content-between">
-              {{ feria.nombre }} ({{ feria.fecha_inicio }} -
-              {{feria.fecha_fin}})
-              <a
-                href="{% url 'ferias:detalle_feria' feria.id %}"
-                class="btn btn-sm btn-info align-self-start mt-2"
-              >
-                Ver detalle
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span>
+                {{ feria.nombre }}
+                <span class="badge bg-info ms-2">
+                  {{ feria.fecha_inicio }} → {{ feria.fecha_fin }}
+                </span>
+              </span>
+              <a href="{% url 'ferias:detalle_feria' feria.id %}" class="btn btn-sm btn-outline-info">
+                <i class="bi bi-eye"></i> Ver detalle
               </a>
             </li>
-
             {% empty %}
             <li class="list-group-item text-muted">No hay ferias asociadas</li>
             {% endfor %}
           </ul>
-          {% if request.user.is_superuser %}
-          <div class="d-flex justify-content-end accordion mx-2">
-            <a
-              href="{% url 'ferias:actualizar_categoria' categoria.id %}"
-              class="btn btn btn-warning mx-2"
-              >Editar</a
-            >
 
-            <a
-              href="{% url 'ferias:borrar_categoria' categoria.id %}"
-              class="btn btn btn-danger mx-2"
-              >Borrar</a
-            >
+          {% if request.user.is_superuser %}
+          <div class="d-flex justify-content-end gap-2">
+            <a href="{% url 'ferias:actualizar_categoria' categoria.id %}" class="btn btn-sm btn-warning">
+              <i class="bi bi-pencil-square"></i> Editar
+            </a>
+            <a href="{% url 'ferias:borrar_categoria' categoria.id %}" class="btn btn-sm btn-danger">
+              <i class="bi bi-trash"></i> Borrar
+            </a>
           </div>
           {% endif %}
         </div>
@@ -64,5 +61,4 @@ FeriApp{%endblock%} {% block content %}
     {% endfor %}
   </div>
 </div>
-
 {% endblock %}
