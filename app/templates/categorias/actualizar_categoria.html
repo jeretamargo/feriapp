@@ -2,7 +2,16 @@
 {% block title  %}Editar Categoria{% endblock title%}
 
 {% block content %}
-<h1>Editar Categoria</h1>
+<div class="row align-items-center mb-4">
+  <div class="col-auto">
+    <a href="{% url 'ferias:lista_categorias' %}" class="btn btn-outline-secondary">
+      <i class="bi bi-arrow-left"></i> Volver
+    </a>
+  </div>
+  <div class="col">
+    <h3 class="mb-0">Editar Categoría</h3>
+  </div>
+</div>
 <form method="post">
     {% csrf_token %}
     {% for field in form %}
@@ -13,7 +22,7 @@
       {% endif %}
     </div>
     {% endfor %}   
-    <button type="submit" class="btn btn-primary">Actualizar Categoria</button> 
-    <a class="btn btn-secondary" href="{% url 'ferias:lista_categorias' %}">Cancelar</a>
+    <button type="submit" class="btn btn-primary col-4">Actualizar Categoria</button> 
+    <a class="btn btn-secondary col-4" href="{% url 'ferias:lista_categorias' %}">Cancelar</a>
 </form>
 {% endblock content %}

@@ -1,41 +1,62 @@
 {% extends "base.html" %}
-
-{% block title %}Actualizar Sector{% endblock %}
-
+{% block title %}Actualizar Sector — FeriApp{% endblock %}
 {% block content %}
-    <h1>Actualizar Sector</h1>
-    <form method="post">
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-warning text-dark">
+      <h5 class="mb-0">Actualizar Sector</h5>
+    </div>
+    <div class="card-body">
+      <form method="post" class="row g-3 needs-validation" novalidate>
         {% csrf_token %}
-                <div class="mb-3">
-            {{ form.nombre.label_tag }}
-            {{ form.nombre }}
-            {% for error in form.nombre.errors %}
-                <div class="text-danger small">{{ error }}</div>
-            {% endfor %}
-        </div>
-        <div class="mb-3">
-            {{ form.capacidad_puestos.label_tag }}
-            {{ form.capacidad_puestos }}
-            {% for error in form.capacidad_puestos.errors %}
-                <div class="text-danger small">{{ error }}</div>
-            {% endfor %}
-        </div>
-        <div class="mb-3">
-            {{ form.feria.label_tag }}
-            {{ form.feria }}
-            {% for error in form.feria.errors %}
-                <div class="text-danger small">{{ error }}</div>
-            {% endfor %}
+
+        <div class="col-md-6">
+          {{ form.nombre.label_tag }}
+          {{ form.nombre }}
+          {% for error in form.nombre.errors %}
+            <div class="text-danger small">{{ error }}</div>
+          {% endfor %}
         </div>
 
-        <div class="mb-3">
-            {{ form.tiene_conexion_electrica.label_tag }}
-            {{ form.tiene_conexion_electrica }}
-            {% for error in form.tiene_conexion_electrica.errors %}
-                <div class="text-danger small">{{ error }}</div>
-            {% endfor %}
+        <div class="col-md-6">
+          {{ form.capacidad_puestos.label_tag }}
+          {{ form.capacidad_puestos }}
+          {% for error in form.capacidad_puestos.errors %}
+            <div class="text-danger small">{{ error }}</div>
+          {% endfor %}
         </div>
-        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-        <a href="{% url 'ferias:lista_sector' %}" class="btn btn-secondary">Cancelar</a>
-    </form>
+
+        <div class="col-md-6">
+          {{ form.feria.label_tag }}
+          {{ form.feria }}
+          {% for error in form.feria.errors %}
+            <div class="text-danger small">{{ error }}</div>
+          {% endfor %}
+        </div>
+
+        <!-- Switch para conexión eléctrica -->
+        <div class="col-12">
+          <div class="form-check form-switch form-switch-lg">
+            {{ form.tiene_conexion_electrica }}
+            <label class="form-check-label fw-bold text-success" for="id_tiene_conexion_electrica">
+              Conexión eléctrica disponible
+            </label>
+          </div>
+          {% for error in form.tiene_conexion_electrica.errors %}
+            <div class="text-danger small">{{ error }}</div>
+          {% endfor %}
+        </div>
+
+        <div class="col-12 d-flex gap-2">
+          <button type="submit" class="btn btn-warning">
+            <i class="bi bi-pencil-square"></i> Guardar Cambios
+          </button>
+          <a href="{% url 'ferias:lista_sector' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-x-circle"></i> Cancelar
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
