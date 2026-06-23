@@ -28,9 +28,33 @@
           {{ inscripcion.feria.fecha_inicio }} - {{inscripcion.feria.fecha_fin}}
         </td>
 
-        <td>{{ inscripcion.numero_puesto }}</td>
+        <td>
+                {% if inscripcion.estado == "confirmada" %}
+                    {{ inscripcion.numero_puesto }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
 
-        <td>{{ inscripcion.get_estado_display }}</td>
+        <td>
+                {% if inscripcion.estado == "confirmada" %}
+                    <span class="badge bg-success">
+                        {{ inscripcion.get_estado_display }}
+                    </span>
+
+                {% elif inscripcion.estado == "lista_espera" %}
+                    <span class="badge bg-warning text-dark">
+                        {{ inscripcion.get_estado_display }}
+                    </span>
+
+                {% else %}
+                    <span class="badge bg-danger">
+                        {{ inscripcion.get_estado_display }}
+                    </span>
+                {% endif %}
+                
+            </td>
+
         <td>
           {% if inscripcion.estado != "cancelada" %}
           <form
