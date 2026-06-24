@@ -163,9 +163,9 @@
     {% for feria in ferias_activas %}
     <div class="col-md-4">
       <div class="card h-100">
-        <div class="card-body flex flex-column">
-          <h5 class="card-title text-center">{{ feria.nombre }}</h5>
-          <p class="card-text text-center  badge bg-success">{{ feria.categoria.nombre }}</p>
+        <div class="card-body text-center d-flex flex-column align-items-center">
+          <h5 class="card-title text-center mb-2">{{ feria.nombre }}</h5>
+          <span class="card-text  badge bg-success mb-2">{{ feria.categoria.nombre }}</span>
           <a href={% url 'ferias:detalle_feria' feria.id %} class="btn btn-primary">Ver más información</a>
         </div>
       </div>
