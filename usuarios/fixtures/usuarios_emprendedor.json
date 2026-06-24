@@ -1,0 +1,112 @@
+[
+  {
+    "model": "usuarios.emprendedor",
+    "pk": 2001,
+    "fields": {
+      "nombre": "Lucas",
+      "apellido": "Fernandez",
+      "rubro": "Impresiones 3D",
+      "telefono": "+54 9 2901-445566",
+      "usuario": 1001
+    }
+  },
+  {
+    "model": "usuarios.emprendedor",
+    "pk": 2002,
+    "fields": {
+      "nombre": "Camila",
+      "apellido": "Ruiz",
+      "rubro": "Velas Artesanales",
+      "telefono": "+54 9 11 2233-4455",
+      "usuario": 1002
+    }
+  },
+  {
+    "model": "usuarios.emprendedor",
+    "pk": 2003,
+    "fields": {
+      "nombre": "Matias",
+      "apellido": "Sosa",
+      "rubro": "Ceramica",
+      "telefono": "2901 554433",
+      "usuario": 1003
+    }
+  },
+  {
+    "model": "usuarios.emprendedor",
+    "pk": 2004,
+    "fields": {
+      "nombre": "Valentina",
+      "apellido": "Martinez",
+      "rubro": "Indumentaria",
+      "telefono": "+54 9 2901-321654",
+      "usuario": 1004
+    }
+  },
+  {
+    "model": "usuarios.emprendedor",
+    "pk": 2005,
+    "fields": {
+      "nombre": "Federico",
+      "apellido": "Benitez",
+      "rubro": "Muebles de Madera",
+      "telefono": "+54 9 351-4455667",
+      "usuario": 1005
+    }
+  },
+  {
+    "model": "usuarios.emprendedor",
+    "pk": 2006,
+    "fields": {
+      "nombre": "Sofia",
+      "apellido": "Lopez",
+      "rubro": "Cosmetica Natural",
+      "telefono": "+54 9 11-66778899",
+      "usuario": 1006
+    }
+  },
+  {
+    "model": "usuarios.emprendedor",
+    "pk": 2007,
+    "fields": {
+      "nombre": "Mariana",
+      "apellido": "Garcia",
+      "rubro": "Pasteleria Artesanal",
+      "telefono": "+54 9 261-998877",
+      "usuario": 1007
+    }
+  },
+  {
+    "model": "usuarios.emprendedor",
+    "pk": 2008,
+    "fields": {
+      "nombre": "Diego",
+      "apellido": "Torres",
+      "rubro": "Tecnologia y Electronica",
+      "telefono": "+54 9 2901-778899",
+      "usuario": 1008
+    }
+  },
+  {
+    "model": "usuarios.emprendedor",
+    "pk": 2009,
+    "fields": {
+      "nombre": "Paula",
+      "apellido": "Romero",
+      "rubro": "Tejidos Artesanales",
+      "telefono": "+54 9 299-556677",
+      "usuario": 1009
+    }
+  },
+  {
+    "model": "usuarios.emprendedor",
+    "pk": 2010,
+    "fields": {
+      "nombre": "Martin",
+      "apellido": "Vargas",
+      "rubro": "Marroquineria",
+      "telefono": "+54 9 223-112233",
+      "usuario": 1010
+    }
+  }
+]

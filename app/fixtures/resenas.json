@@ -1,35 +1,222 @@
 [
   {
     "model": "app.resena",
-    "pk": 1,
+    "pk": 8001,
     "fields": {
-      "visitante": 1,
-      "emprendedor": 1,
-      "comentario": "Excelente organización y mucha concurrencia.",
+      "emprendedor": 2001,
+      "visitante": 3001,
+      "comentario": "Excelente calidad de procductos y muy buena atención.",
       "puntuacion": 5,
-      "fecha_creacion": "2026-05-20T15:00:00Z"
+      "fecha_creacion": "2026-06-15T10:00:00Z"
     }
   },
   {
     "model": "app.resena",
-    "pk": 2,
+    "pk": 8002,
     "fields": {
-      "visitante": 2,
-      "emprendedor": 2,
-      "comentario": "Muy buena experiencia.",
+      "emprendedor": 2002,
+      "visitante": 3001,
+      "comentario": "Las velas tienen una presentación impecable.",
+      "puntuacion": 5,
+      "fecha_creacion": "2026-06-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "app.resena",
+    "pk": 8003,
+    "fields": {
+      "emprendedor": 2003,
+      "visitante": 3002,
+      "comentario": "Muy lindos trabajos de cerámica.",
       "puntuacion": 4,
-      "fecha_creacion": "2026-05-20T15:10:00Z"
+      "fecha_creacion": "2026-06-15T10:00:00Z"
     }
   },
   {
     "model": "app.resena",
-    "pk": 3,
+    "pk": 8004,
     "fields": {
-      "visitante": 1,
-      "emprendedor": 3,
-      "comentario": "Productos interesantes y buena atención.",
+      "emprendedor": 2004,
+      "visitante": 3002,
+      "comentario": "Buen diseño y excelente atención.",
       "puntuacion": 5,
-      "fecha_creacion": "2026-05-26T18:00:00Z"
+      "fecha_creacion": "2026-06-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "app.resena",
+    "pk": 8005,
+    "fields": {
+      "emprendedor": 2005,
+      "visitante": 3003,
+      "comentario": "Muebles de muy buena calidad.",
+      "puntuacion": 5,
+      "fecha_creacion": "2026-06-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "app.resena",
+    "pk": 8006,
+    "fields": {
+      "emprendedor": 2006,
+      "visitante": 3003,
+      "comentario": "Productos naturales muy recomendables.",
+      "puntuacion": 4,
+      "fecha_creacion": "2026-06-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "app.resena",
+    "pk": 8007,
+    "fields": {
+      "emprendedor": 2007,
+      "visitante": 3004,
+      "comentario": "Excelente sabor y presentación.",
+      "puntuacion": 5,
+      "fecha_creacion": "2026-06-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "app.resena",
+    "pk": 8008,
+    "fields": {
+      "emprendedor": 2008,
+      "visitante": 3004,
+      "comentario": "Productos tecnológicos interesantes.",
+      "puntuacion": 4,
+      "fecha_creacion": "2026-06-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "app.resena",
+    "pk": 8009,
+    "fields": {
+      "emprendedor": 2009,
+      "visitante": 3005,
+      "comentario": "Muy buenos tejidos artesanales.",
+      "puntuacion": 5,
+      "fecha_creacion": "2026-06-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "app.resena",
+    "pk": 8010,
+    "fields": {
+      "emprendedor": 2010,
+      "visitante": 3005,
+      "comentario": "Excelente trabajo en cuero.",
+      "puntuacion": 4,
+      "fecha_creacion": "2026-06-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "app.resena",
+    "pk": 8011,
+    "fields": {
+      "emprendedor": 2001,
+      "visitante": 3006,
+      "comentario": "Muy profesional y atento.",
+      "puntuacion": 5,
+      "fecha_creacion": "2026-06-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "app.resena",
+    "pk": 8012,
+    "fields": {
+      "emprendedor": 2002,
+      "visitante": 3007,
+      "comentario": "Productos originales y de calidad.",
+      "puntuacion": 4,
+      "fecha_creacion": "2026-06-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "app.resena",
+    "pk": 8013,
+    "fields": {
+      "emprendedor": 2004,
+      "visitante": 3008,
+      "comentario": "La atención fue excelente.",
+      "puntuacion": 5,
+      "fecha_creacion": "2026-06-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "app.resena",
+    "pk": 8014,
+    "fields": {
+      "emprendedor": 2005,
+      "visitante": 3009,
+      "comentario": "Cumplió con todas mis expectativas.",
+      "puntuacion": 5,
+      "fecha_creacion": "2026-06-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "app.resena",
+    "pk": 8015,
+    "fields": {
+      "emprendedor": 2007,
+      "visitante": 3010,
+      "comentario": "Muy rico todo y buenos precios.",
+      "puntuacion": 5,
+      "fecha_creacion": "2026-06-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "app.resena",
+    "pk": 8016,
+    "fields": {
+      "emprendedor": 2003,
+      "visitante": 3007,
+      "comentario": "Buen producto aunque demoró un poco la atención.",
+      "puntuacion": 3,
+      "fecha_creacion": "2026-06-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "app.resena",
+    "pk": 8017,
+    "fields": {
+      "emprendedor": 2008,
+      "visitante": 3008,
+      "comentario": "Buena experiencia en general.",
+      "puntuacion": 4,
+      "fecha_creacion": "2026-06-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "app.resena",
+    "pk": 8018,
+    "fields": {
+      "emprendedor": 2009,
+      "visitante": 3009,
+      "comentario": "Excelente atención personalizada.",
+      "puntuacion": 5,
+      "fecha_creacion": "2026-06-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "app.resena",
+    "pk": 8019,
+    "fields": {
+      "emprendedor": 2010,
+      "visitante": 3010,
+      "comentario": "Muy recomendable.",
+      "puntuacion": 4,
+      "fecha_creacion": "2026-06-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "app.resena",
+    "pk": 8020,
+    "fields": {
+      "emprendedor": 2001,
+      "visitante": 3002,
+      "comentario": "Volvería a comprar sin dudas.",
+      "puntuacion": 5,
+      "fecha_creacion": "2026-06-15T10:00:00Z"
     }
   }
 ]

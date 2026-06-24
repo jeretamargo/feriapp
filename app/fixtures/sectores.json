@@ -1,68 +1,273 @@
 [
   {
     "model": "app.sector",
-    "pk": 1,
+    "pk": 6001,
     "fields": {
-      "nombre": "Sector Alimenticio Norte",
-      "edicion": null,
-      "capacidad_puestos": 8,
+      "nombre": "Hardware y Electronica",
+      "edicion": "2026-08-15",
+      "capacidad_puestos": 15,
       "tiene_conexion_electrica": true,
-      "feria": 1
+      "feria": 5001
     }
   },
   {
     "model": "app.sector",
-    "pk": 2,
+    "pk": 6002,
     "fields": {
-      "nombre": "Sector Artesanal Central",
-      "edicion": null,
-      "capacidad_puestos": 6,
-      "tiene_conexion_electrica": false,
-      "feria": 1
-    }
-  },
-  {
-    "model": "app.sector",
-    "pk": 3,
-    "fields": {
-      "nombre": "Sector Diseño",
-      "edicion": null,
-      "capacidad_puestos": 5,
+      "nombre": "Software y Servicios",
+      "edicion": "2026-08-15",
+      "capacidad_puestos": 15,
       "tiene_conexion_electrica": true,
-      "feria": 2
+      "feria": 5001
     }
   },
   {
     "model": "app.sector",
-    "pk": 4,
+    "pk": 6003,
     "fields": {
-      "nombre": "Sector Manualidades",
-      "edicion": null,
-      "capacidad_puestos": 7,
-      "tiene_conexion_electrica": false,
-      "feria": 2
-    }
-  },
-  {
-    "model": "app.sector",
-    "pk": 5,
-    "fields": {
-      "nombre": "Sector Tecnología Móvil",
-      "edicion": null,
-      "capacidad_puestos": 4,
+      "nombre": "Innovacion Digital",
+      "edicion": "2026-10-10",
+      "capacidad_puestos": 12,
       "tiene_conexion_electrica": true,
-      "feria": 3
+      "feria": 5002
     }
   },
   {
     "model": "app.sector",
-    "pk": 6,
+    "pk": 6004,
     "fields": {
-      "nombre": "Sector Diseño Experimental",
-      "edicion": null,
-      "capacidad_puestos": 3,
+      "nombre": "Robótica",
+      "edicion": "2026-10-10",
+      "capacidad_puestos": 13,
+      "tiene_conexion_electrica": true,
+      "feria": 5002
+    }
+  },
+
+  {
+    "model": "app.sector",
+    "pk": 6005,
+    "fields": {
+      "nombre": "Food Trucks",
+      "edicion": "2026-09-05",
+      "capacidad_puestos": 20,
+      "tiene_conexion_electrica": true,
+      "feria": 5003
+    }
+  },
+  {
+    "model": "app.sector",
+    "pk": 6006,
+    "fields": {
+      "nombre": "Productos Regionales",
+      "edicion": "2026-09-05",
+      "capacidad_puestos": 20,
       "tiene_conexion_electrica": false,
-      "feria": 4
+      "feria": 5003
+    }
+  },
+  {
+    "model": "app.sector",
+    "pk": 6007,
+    "fields": {
+      "nombre": "Gastronomia Gourmet",
+      "edicion": "2026-11-20",
+      "capacidad_puestos": 25,
+      "tiene_conexion_electrica": true,
+      "feria": 5004
+    }
+  },
+  {
+    "model": "app.sector",
+    "pk": 6008,
+    "fields": {
+      "nombre": "Cerveceros Artesanales",
+      "edicion": "2026-11-20",
+      "capacidad_puestos": 25,
+      "tiene_conexion_electrica": true,
+      "feria": 5004
+    }
+  },
+
+  {
+    "model": "app.sector",
+    "pk": 6009,
+    "fields": {
+      "nombre": "Artes Manuales",
+      "edicion": "2026-07-12",
+      "capacidad_puestos": 18,
+      "tiene_conexion_electrica": false,
+      "feria": 5005
+    }
+  },
+  {
+    "model": "app.sector",
+    "pk": 6010,
+    "fields": {
+      "nombre": "Decoracion Artesanal",
+      "edicion": "2026-07-12",
+      "capacidad_puestos": 17,
+      "tiene_conexion_electrica": false,
+      "feria": 5005
+    }
+  },
+  {
+    "model": "app.sector",
+    "pk": 6011,
+    "fields": {
+      "nombre": "Ceramica y Vidrio",
+      "edicion": "2026-12-05",
+      "capacidad_puestos": 12,
+      "tiene_conexion_electrica": false,
+      "feria": 5006
+    }
+  },
+  {
+    "model": "app.sector",
+    "pk": 6012,
+    "fields": {
+      "nombre": "Artesanos Independientes",
+      "edicion": "2026-12-05",
+      "capacidad_puestos": 13,
+      "tiene_conexion_electrica": false,
+      "feria": 5006
+    }
+  },
+
+  {
+    "model": "app.sector",
+    "pk": 6013,
+    "fields": {
+      "nombre": "Indumentaria Urbana",
+      "edicion": "2026-08-28",
+      "capacidad_puestos": 10,
+      "tiene_conexion_electrica": false,
+      "feria": 5007
+    }
+  },
+  {
+    "model": "app.sector",
+    "pk": 6014,
+    "fields": {
+      "nombre": "Accesorios y Joyeria",
+      "edicion": "2026-08-28",
+      "capacidad_puestos": 10,
+      "tiene_conexion_electrica": true,
+      "feria": 5007
+    }
+  },
+  {
+    "model": "app.sector",
+    "pk": 6015,
+    "fields": {
+      "nombre": "Diseño Textil",
+      "edicion": "2026-11-06",
+      "capacidad_puestos": 9,
+      "tiene_conexion_electrica": false,
+      "feria": 5008
+    }
+  },
+  {
+    "model": "app.sector",
+    "pk": 6016,
+    "fields": {
+      "nombre": "Moda Sustentable",
+      "edicion": "2026-11-06",
+      "capacidad_puestos": 9,
+      "tiene_conexion_electrica": false,
+      "feria": 5008
+    }
+  },
+
+  {
+    "model": "app.sector",
+    "pk": 6017,
+    "fields": {
+      "nombre": "Muebles y Diseño",
+      "edicion": "2026-09-18",
+      "capacidad_puestos": 14,
+      "tiene_conexion_electrica": false,
+      "feria": 5009
+    }
+  },
+  {
+    "model": "app.sector",
+    "pk": 6018,
+    "fields": {
+      "nombre": "Decoracion Interior",
+      "edicion": "2026-09-18",
+      "capacidad_puestos": 14,
+      "tiene_conexion_electrica": true,
+      "feria": 5009
+    }
+  },
+
+  {
+    "model": "app.sector",
+    "pk": 6019,
+    "fields": {
+      "nombre": "Emprendedores Emergentes",
+      "edicion": "2026-10-24",
+      "capacidad_puestos": 22,
+      "tiene_conexion_electrica": false,
+      "feria": 5010
+    }
+  },
+  {
+    "model": "app.sector",
+    "pk": 6020,
+    "fields": {
+      "nombre": "Produccion Local",
+      "edicion": "2026-10-24",
+      "capacidad_puestos": 23,
+      "tiene_conexion_electrica": false,
+      "feria": 5010
+    }
+  },
+
+  {
+    "model": "app.sector",
+    "pk": 6021,
+    "fields": {
+      "nombre": "Reciclaje Creativo",
+      "edicion": "2026-09-12",
+      "capacidad_puestos": 11,
+      "tiene_conexion_electrica": false,
+      "feria": 5011
+    }
+  },
+  {
+    "model": "app.sector",
+    "pk": 6022,
+    "fields": {
+      "nombre": "Economia Circular",
+      "edicion": "2026-09-12",
+      "capacidad_puestos": 11,
+      "tiene_conexion_electrica": false,
+      "feria": 5011
+    }
+  },
+
+  {
+    "model": "app.sector",
+    "pk": 6023,
+    "fields": {
+      "nombre": "Arte Visual",
+      "edicion": "2026-11-14",
+      "capacidad_puestos": 15,
+      "tiene_conexion_electrica": true,
+      "feria": 5012
+    }
+  },
+  {
+    "model": "app.sector",
+    "pk": 6024,
+    "fields": {
+      "nombre": "Fotografia y Diseño",
+      "edicion": "2026-11-14",
+      "capacidad_puestos": 15,
+      "tiene_conexion_electrica": true,
+      "feria": 5012
     }
   }
 ]
