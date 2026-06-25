@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from app.forms.inscripcion_form import InscripcionForm
 from usuarios.models.notificacion_models import Notificacion
+from app.models.feria_models import Feria
 from app.models.inscripcion_models import Inscripcion
 from django.contrib import messages
 
@@ -25,6 +26,23 @@ class NuevaInscripcionView(EmprendedorRequiredMixin, LoginRequiredMixin, CreateV
     success_url = reverse_lazy(
         "app:mis_inscripciones"
     )
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # ferias activas disponibles
+        context["ferias"] = Feria.objects.filter(activa=True)
+
+        # ferias en las que el emprendedor ya está inscripto
+        if hasattr(self.request.user, "emprendedor"):
+            context["ferias_inscripto"] = set(
+                Inscripcion.objects.filter(
+                    emprendedor=self.request.user.emprendedor
+                ).values_list("feria_id", flat=True)
+            )
+        else:
+            context["ferias_inscripto"] = set()
+
+        return context
 
     def form_valid(self, form):
         #en caso que un visitante entra aca, para que no explote agrego esta verificacion
@@ -64,6 +82,7 @@ class NuevaInscripcionView(EmprendedorRequiredMixin, LoginRequiredMixin, CreateV
         form.instance.estado = "lista_espera"
         form.instance.registrado_por = None
         
+        
 
         Notificacion.new(
             usuario=self.request.user,
@@ -93,6 +112,7 @@ class NuevaInscripcionView(EmprendedorRequiredMixin, LoginRequiredMixin, CreateV
             f"Tu solicitud para la feria '{feria.nombre}' fue enviada."
         )
         return super().form_valid(form)
+    
      
 
 class MisInscripcionesView(EmprendedorRequiredMixin, LoginRequiredMixin,ListView):
