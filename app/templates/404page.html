@@ -1,0 +1,33 @@
+<!-- prettier-ignore -->
+{% extends "base.html" %} {% block title %}404 - Página no encontrada{%endblock%} }
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body text-center p-5">
+          <h1 class="display-1 fw-bold text-primary mb-0">404</h1>
+
+          <h3 class="fw-semibold text-success mt-3">Página no encontrada</h3>
+
+          <p class="text-secondary mt-3 mb-4">
+            La página que intentás visitar no existe, fue movida o la URL es
+            incorrecta.
+          </p>
+
+          <div class="d-grid gap-2 d-sm-flex justify-content-center">
+            <a href={%url 'app:home'%} class="btn btn-success px-4"> 🏠 Volver al inicio </a>
+
+            <button
+              onclick="history.back()"
+              class="btn btn-outline-primary px-4"
+            >
+              ⬅ Volver atrás
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
