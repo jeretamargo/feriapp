@@ -9,7 +9,9 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "emprendedor"
+      "tipo_usuario": "emprendedor",
+      "groups": [3],
+      "user_permissions": []
     }
   },
   {
@@ -22,7 +24,9 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "emprendedor"
+      "tipo_usuario": "emprendedor",
+      "groups": [3],
+      "user_permissions": []
     }
   },
   {
@@ -35,7 +39,9 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "emprendedor"
+      "tipo_usuario": "emprendedor",
+      "groups": [3],
+      "user_permissions": []
     }
   },
   {
@@ -48,7 +54,9 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "emprendedor"
+      "tipo_usuario": "emprendedor",
+      "groups": [3],
+      "user_permissions": []
     }
   },
   {
@@ -61,7 +69,9 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "emprendedor"
+      "tipo_usuario": "emprendedor",
+      "groups": [3],
+      "user_permissions": []
     }
   },
   {
@@ -74,7 +84,9 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "emprendedor"
+      "tipo_usuario": "emprendedor",
+      "groups": [3],
+      "user_permissions": []
     }
   },
   {
@@ -87,7 +99,9 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "emprendedor"
+      "tipo_usuario": "emprendedor",
+      "groups": [3],
+      "user_permissions": []
     }
   },
   {
@@ -100,7 +114,9 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "emprendedor"
+      "tipo_usuario": "emprendedor",
+      "groups": [3],
+      "user_permissions": []
     }
   },
   {
@@ -113,7 +129,9 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "emprendedor"
+      "tipo_usuario": "emprendedor",
+      "groups": [3],
+      "user_permissions": []
     }
   },
   {
@@ -126,7 +144,9 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "emprendedor"
+      "tipo_usuario": "emprendedor",
+      "groups": [3],
+      "user_permissions": []
     }
   },
 
@@ -140,7 +160,9 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "visitante"
+      "tipo_usuario": "visitante",
+      "groups": [2],
+      "user_permissions": []
     }
   },
   {
@@ -153,7 +175,9 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "visitante"
+      "tipo_usuario": "visitante",
+      "groups": [2],
+      "user_permissions": []
     }
   },
   {
@@ -166,7 +190,9 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "visitante"
+      "tipo_usuario": "visitante",
+      "groups": [2],
+      "user_permissions": []
     }
   },
   {
@@ -179,7 +205,9 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "visitante"
+      "tipo_usuario": "visitante",
+      "groups": [2],
+      "user_permissions": []
     }
   },
   {
@@ -192,7 +220,9 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "visitante"
+      "tipo_usuario": "visitante",
+      "groups": [2],
+      "user_permissions": []
     }
   },
   {
@@ -205,7 +235,9 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "visitante"
+      "tipo_usuario": "visitante",
+      "groups": [2],
+      "user_permissions": []
     }
   },
   {
@@ -218,7 +250,9 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "visitante"
+      "tipo_usuario": "visitante",
+      "groups": [2],
+      "user_permissions": []
     }
   },
   {
@@ -231,7 +265,9 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "visitante"
+      "tipo_usuario": "visitante",
+      "groups": [2],
+      "user_permissions": []
     }
   },
   {
@@ -244,7 +280,9 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "visitante"
+      "tipo_usuario": "visitante",
+      "groups": [2],
+      "user_permissions": []
     }
   },
   {
@@ -257,7 +295,9 @@
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "visitante"
+      "tipo_usuario": "visitante",
+      "groups": [2],
+      "user_permissions": []
     }
   }
 ]

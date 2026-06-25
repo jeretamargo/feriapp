@@ -7,9 +7,10 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from app.mixins.AdminReq import AdminRequiredMixin
 from django.http import HttpResponseRedirect
+from app.mixins.EmprendedorOAdminReq import EmprendedorOAdminRequiredMixin
 
 
-class ListaCategoriaView(LoginRequiredMixin,ListView):
+class ListaCategoriaView(EmprendedorOAdminRequiredMixin, LoginRequiredMixin,ListView):
     """Lista todas las Categorias activas."""
 
     model = Categoria
