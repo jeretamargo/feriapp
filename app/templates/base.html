@@ -44,6 +44,17 @@
               </a>
             </li>
 
+            <!-- para aprobar o no a los emprendedores siendo admin o organizador -->
+            {% if user.is_superuser %}
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="{% url 'app:solicitudes_inscripciones' %}"
+              >
+                Solicitudes
+              </a>
+            </li>
+            {% endif %} {% if user.es_emprendedor %}
             <li class="nav-item">
               <a
                 class="nav-link"
@@ -52,18 +63,6 @@
                 Emprendedores
               </a>
             </li>
-            <!-- para aprobar o no a los emprendedores siendo admin o organizador -->
-            {% if user.is_superuser %} 
-            <li class="nav-item">
-                <a
-                    class="nav-link"
-                    href="{% url 'app:solicitudes_inscripciones' %}"
-                >
-                    Solicitudes
-                </a>
-            </li>
-            {% endif %}
-            {% if user.es_emprendedor %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'app:nueva_inscripcion' %}">
                 Inscribir
@@ -80,31 +79,26 @@
             <!-- para ver solamente todas las resenas que se hicieron -->
             {% if user.is_superuser %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'ferias:lista_completa_de_resenas' %}">
+              <a
+                class="nav-link"
+                href="{% url 'ferias:lista_completa_de_resenas' %}"
+              >
                 Todas las Resenas</a
               >
             </li>
-            {% endif %}
-            {% if user.es_visitante %}
+            {% endif %} {% if user.es_visitante %}
             <li class="nav-item">
-                <a
-                    class="nav-link"
-                    href="{% url 'app:nueva_resena' %}"
-                >
-                    Crear Reseña
-                </a>
+              <a class="nav-link" href="{% url 'app:nueva_resena' %}">
+                Crear Reseña
+              </a>
             </li>
 
             <li class="nav-item">
-                <a
-                    class="nav-link"
-                    href="{% url 'app:lista_resenas' %}"
-                >
-                    Mis Reseñas
-                </a>
+              <a class="nav-link" href="{% url 'app:lista_resenas' %}">
+                Mis Reseñas
+              </a>
             </li>
-            {% endif %}
-
+            {% endif %} {% if user.es_emprendedor or user.is_superuser %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'ferias:lista_categorias' %}">
                 Categorías
@@ -116,6 +110,7 @@
                 Sectores
               </a>
             </li>
+            {%endif%}
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
@@ -156,6 +151,13 @@
               </ul>
             </li>
           </ul>
+          {%if request.user.is_superuser%}
+          <span class="badge badge-danger">Admin</span>
+          {%elif request.user.es_emprendedor %}
+          <span class="badge badge-warning">Emprendedor</span>
+          {%elif request.user.es_visitante %}
+          <span class="badge badge-info">Visitante</span>
+          {%endif%}
 
           <div
             class="d-flex flex-column flex-lg-row gap-2 mt-3 mt-lg-0 align-items-center"
