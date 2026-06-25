@@ -30,13 +30,14 @@
           </div>
         </div>
 
-
+        {%if not request.user.es_visitante %}
         <div class="card text-bg-warning mb-3 col-6 col-lg-12" style="max-width: 18rem">
           <div class="card-body">
             <h1 class="card-title text-center">{{nro_visitantes}}</h1>
             <p class="card-text h5 text-center">Visitantes Contentos</p>
           </div>
         </div>
+        {%endif%}
 
 
         <div class="card text-bg-info mb-3 col-6 col-lg-12" style="max-width: 18rem">

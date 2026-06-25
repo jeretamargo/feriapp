@@ -151,13 +151,7 @@
               </ul>
             </li>
           </ul>
-          {%if request.user.is_superuser%}
-          <span class="badge badge-danger">Admin</span>
-          {%elif request.user.es_emprendedor %}
-          <span class="badge badge-warning">Emprendedor</span>
-          {%elif request.user.es_visitante %}
-          <span class="badge badge-info">Visitante</span>
-          {%endif%}
+ 
 
           <div
             class="d-flex flex-column flex-lg-row gap-2 mt-3 mt-lg-0 align-items-center"

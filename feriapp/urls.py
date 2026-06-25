@@ -9,5 +9,6 @@ urlpatterns = [
     path("", include("app.urls", namespace="ferias")),
     path("users/", include("usuarios.urls", namespace="usuarios")),
     path("accounts/", include(auth_urls)),
+    
 ]
 
