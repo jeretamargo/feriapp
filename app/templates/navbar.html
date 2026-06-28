@@ -1,12 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-warning">
-  <div class="container">
-    <a class="navbar-brand fw-bold text-dark" href="#">🏪 FeriasTDF</a>
+  <div class="container my-2">
+    <a class="navbar-brand fw-bold text-dark" href="{% url 'ferias:home' %}">🏪 FeriasTDF</a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navMenu">
+      {% if user.is_authenticated %}
       <ul class="navbar-nav me-auto mb-3 mb-lg-0">
         <!-- Ferias -->
         <li class="nav-item">
@@ -14,60 +15,201 @@
             Ferias
           </a>
         </li>
-
+      
+      {% if not user.es_visitante %}
         <!-- Emprendedores -->
         <li class="nav-item">
           <a class="nav-link text-dark" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasEmprendedores" aria-controls="offcanvasEmprendedores">
             Emprendedores
           </a>
         </li>
+      {% endif %}
 
-        <!-- Categorías -->
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCategorias" aria-controls="offcanvasCategorias">
-            Categorías
+    <!-- para aprobar o no a los emprendedores siendo admin o organizador -->
+        {% if user.is_superuser %}
+        <li class="nav-item ">
+          <a
+            class="nav-link text-dark"
+            href="{% url 'app:solicitudes_inscripciones' %}"
+          >
+            Solicitudes
           </a>
         </li>
+
+
+        {% endif %}
+
       </ul>
+
     </div>
+
+
+      <li class="nav-item dropdown mx-3">
+              <a
+                class="nav-link dropdown-toggle text-dark"
+                href="#"
+                data-bs-toggle="dropdown"
+              >
+                🔔 Notificaciones ({{num_notificaciones}})
+              </a>
+
+              <ul class="dropdown-menu dropdown-menu-end">
+                {% for notificacion in notificaciones %}
+
+                <li>
+                  <div class="d-flex align-items-center p-1">
+                    <span class="badge rounded-pill text-bg-primary">
+                      {{notificacion.asunto}}
+                  </span>
+                    <a class="dropdown-item text-dark" href="{{ notificacion.url }}">
+                      {{ notificacion.mensaje }}
+                    </a>
+                    <form
+                      method="post"
+                      action="{% url 'usuarios:marcar_notificacion_leida' notificacion.pk %}"
+                    >
+                      {% csrf_token %}
+                      <button type="submit" class="btn border-0">✅</button>
+                    </form>
+                  </div>
+                </li>
+
+                {% empty %}
+                <li>
+                  <span class="dropdown-item-text">
+                    No hay notificaciones
+                  </span>
+                </li>
+                {% endfor %}
+              </ul>
+            </li>
+
+      {% comment %} Control de session {% endcomment %}
+
+      <div
+        class="d-flex flex-column flex-lg-row gap-2 mt-3 mt-lg-0 align-items-center"
+      >
+          {% if user.is_superuser %}
+          <a
+            class=" text-light btn btn-sm btn-secondary"
+            href="{% url 'admin:index' %}"
+          >
+            Administración
+          </a>
+          {% endif %}
+        
+      
+        <a
+          href="{% url 'usuarios:perfil' %}"
+          class="btn btn-sm btn-primary  text-hover-white d-flex "
+        >
+          Mi Perfil
+        </a>
+
+        <form action="{% url 'usuarios:logout' %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-sm btn-danger w-100 d-flex-inline ">
+            Logout
+          </button>
+        </form>
+      </div>
+
+  {% else %}
+
+      <div
+        class="d-flex flex-column flex-lg-row gap-2 ms-lg-auto mt-3 mt-lg-0 align-items-center"
+      >
+        <a
+          href="{% url 'usuarios:login' %}"
+          class="btn btn-sm btn-light d-flex-inline"
+        >
+          Iniciar Sesión
+        </a>
+
+        <a
+          href="{% url 'usuarios:registro' %}"
+          class="btn btn-sm btn-primary d-flex-inline"
+        >
+          Registrarse
+        </a>
+      </div>
+
+    {% endif %}
+      </div>
   </div>
 </nav>
 
 <!-- Offcanvas Ferias -->
 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasFerias" aria-labelledby="offcanvasFeriasLabel">
-  <div class="offcanvas-header">
-    <h5 id="offcanvasFeriasLabel">Ferias</h5>
+  <div class="offcanvas-header bg-warning text-dark">
+    <h5 class="fw-bold mb-0" id="offcanvasFeriasLabel">🏪 Ferias</h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
   </div>
   <div class="offcanvas-body">
-    <p>Contenido relacionado con Ferias.</p>
-    <ul>
-        <li><a class="nav-link text-dark" href="{% url 'ferias:nueva_feria' %}">Crear Feria</a></li>          
-        <li><a class="nav-link text-dark" href="{% url 'ferias:lista_ferias' %}">
-                Ferias
-              </a>
-        </li>
+    <p class="text-muted">Todo sobre Ferias.</p>
+
+    <p class="fw-bold text-secondary">Ferias</p>
+    <div class="list-group">
+      <a href="{% url 'ferias:lista_ferias' %}" class="list-group-item list-group-item-action">
+        📋 Ver Ferias
+      </a>
+      {% if user.is_superuser %}
+      <a href="{% url 'ferias:nueva_feria' %}" class="list-group-item list-group-item-action">
+        ➕ Crear Feria
+      </a>
+      {% endif %}
+
+    </div>
+
+    <hr class="my-3">
+
+    <h6 class="fw-bold text-secondary">Categorías</h6>
+    <div class="list-group">
+      <a href="{% url 'ferias:lista_categorias' %}" class="list-group-item list-group-item-action">📋 Ver todas las categorías de ferias</a>
+      {% if user.is_superuser %}
+
+      <a href="{% url 'ferias:nueva_categoria' %}" class="list-group-item list-group-item-action">➕ Crear una categoría</a>
+      {% endif %}
+    </div>
+
+    <hr class="my-3">
+
+        <h6 class="fw-bold text-secondary">Sectores</h6>
+    <div class="list-group">
+      <a href="{% url 'ferias:lista_sector' %}" class="list-group-item list-group-item-action">📋 Ver Sectores de Ferias</a>
+      {% if user.is_superuser %}
+
+      <a href="{% url 'ferias:nuevo_sector' %}" class="list-group-item list-group-item-action">➕ Crear un Sector</a>
+      {% endif %}
+    </div>
+
   </div>
 </div>
 
 <!-- Offcanvas Emprendedores -->
 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasEmprendedores" aria-labelledby="offcanvasEmprendedoresLabel">
-  <div class="offcanvas-header">
-    <h5 id="offcanvasEmprendedoresLabel">Emprendedores</h5>
+  <div class="offcanvas-header bg-warning text-dark">
+    <h5 class="fw-bold mb-0" id="offcanvasEmprendedoresLabel">👩‍💼 Emprendedores</h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
   </div>
   <div class="offcanvas-body">
-    <p>Contenido relacionado con Emprendedores.</p>
+    <p class="text-muted">Todo sobre Emprendedores.</p>
+    <div class="list-group">
+    <h6 class="fw-bold text-secondary">Gestion de Usuarios</h6>
+    <div class="list-group">
+      <a href="{% url 'ferias:mis_inscripciones' %}" class="list-group-item list-group-item-action"> 📌 Mis Inscripciones</a>
+      <a href="{% url 'ferias:lista_resenas' %}" class="list-group-item list-group-item-action"> 📝  Mis Reseñas</a>
+      
+      {% if user.is_superuser %}
+      <hr class="my-3">
+      
+      <h6 class="fw-bold text-secondary">Emprendedores Registrados</h6>
+      <a href="{% url 'usuarios:lista_emprendedores' %}" class="list-group-item list-group-item-action">📋 Ver Emprendedores</a>
+      <a href="{% url 'ferias:lista_resenas' %}" class="list-group-item list-group-item-action">⭐ Ver Todas Las Reseñas</a>
+      {% endif %}
+    </div>
   </div>
 </div>
 
-<!-- Offcanvas Categorías -->
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasCategorias" aria-labelledby="offcanvasCategoriasLabel">
-  <div class="offcanvas-header">
-    <h5 id="offcanvasCategoriasLabel">Categorías</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-  </div>
-  <div class="offcanvas-body">
-    <p>Contenido relacionado con Categorías.</p>
-  </div>
+
 </div>
