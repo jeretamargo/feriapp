@@ -202,28 +202,29 @@
   <div class="offcanvas-body">
     <p class="text-muted">Todo sobre Emprendedores.</p>
     <div class="list-group">
-    {# Solo los emprendedores ven Gestión de Usuarios #}
-    {% if user.es_emprendedor %}
-    <h6 class="fw-bold text-secondary">Gestion de Usuarios</h6>
-    <div class="list-group">
-      <a href="{% url 'ferias:nueva_inscripcion' %}" class="list-group-item list-group-item-action"> 📝 Inscribirse</a>
-      <a href="{% url 'ferias:mis_inscripciones' %}" class="list-group-item list-group-item-action"> 📌 Mis Inscripciones</a>
-      <a href="{% url 'ferias:mis_resenas' %}" class="list-group-item list-group-item-action"> 📋  Mis Reseñas</a>
-    </div>
-    {% endif %}
-    {# Solo el admin ve Emprendedores Registrados #}
-    {% if user.is_superuser %}
-      <hr class="my-3">
-      
-      <h6 class="fw-bold text-secondary">Emprendedores Registrados</h6>
-      <a href="{% url 'usuarios:lista_emprendedores' %}" class="list-group-item list-group-item-action">📋 Ver Emprendedores</a>
-      <a href="{% url 'ferias:lista_completa_de_resenas' %}" class="list-group-item list-group-item-action">⭐ Ver Todas Las Reseñas</a>
+
+      {# solo los emprendedores ven Gestión de Usuarios #}
+      {% if user.es_emprendedor %}
+      <h6 class="fw-bold text-secondary">Gestión de Usuarios</h6>
+      <div class="list-group mb-3">
+        <a href="{% url 'ferias:nueva_inscripcion' %}" class="list-group-item list-group-item-action">📝 Inscribirse</a>
+        <a href="{% url 'ferias:mis_inscripciones' %}" class="list-group-item list-group-item-action">📌 Mis Inscripciones</a>
+        <a href="{% url 'ferias:mis_resenas' %}" class="list-group-item list-group-item-action">📋 Mis Reseñas</a>
+      </div>
       {% endif %}
+
+      {# solo el admin ve Emprendedores Registrados #}
+      {% if user.is_superuser %}
+      <hr class="my-3">
+      <h6 class="fw-bold text-secondary">Emprendedores Registrados</h6>
+      <div class="list-group">
+        <a href="{% url 'usuarios:lista_emprendedores' %}" class="list-group-item list-group-item-action">📋 Ver Emprendedores</a>
+        <a href="{% url 'ferias:lista_completa_de_resenas' %}" class="list-group-item list-group-item-action">⭐ Ver Todas Las Reseñas</a>
+      </div>
+      {% endif %}
+
     </div>
   </div>
-</div>
-
-
 </div>
 
 <!-- Offcanvas Visitantes -->
