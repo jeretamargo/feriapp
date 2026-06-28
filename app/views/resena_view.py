@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from app.mixins.VisitanteReq import VisitanteRequiredMixin
 from app.mixins.AdminReq import AdminRequiredMixin
+from app.mixins.EmprendedorReq import EmprendedorRequiredMixin
 from app.models.resena_models import Resena
 from django.contrib import messages
 from usuarios.models.emprendedor_models import Emprendedor
@@ -159,3 +160,36 @@ class ListaResenasView(
         ).select_related(
             "emprendedor"
         )
+    
+class MisResenasView(EmprendedorRequiredMixin, LoginRequiredMixin, ListView):
+    model = Resena
+    template_name = "resenas/mis_resenas.html"
+    context_object_name = "resenas"
+
+    def get_queryset(self):
+        emprendedor = self.request.user.emprendedor
+        qs = Resena.objects.filter(
+            emprendedor=emprendedor
+        ).select_related("visitante", "emprendedor")
+
+        # filtro por feria si viene en GET
+        feria_id = self.request.GET.get("feria")
+        if feria_id:
+            qs = qs.filter(
+                emprendedor__inscripcion__feria_id=feria_id,
+                emprendedor__inscripcion__estado="confirmada"
+            ).distinct()
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # ferias en las que el emprendedor participó confirmado
+        context["ferias"] = Feria.objects.filter(
+            inscripcion__emprendedor=self.request.user.emprendedor,
+            inscripcion__estado="confirmada"
+        ).distinct()
+
+        context["feria_seleccionada"] = self.request.GET.get("feria", "")
+        return context
