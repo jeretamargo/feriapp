@@ -38,6 +38,13 @@
 
 
         {% endif %}
+        {% if user.es_visitante %}
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVisitante" aria-controls="offcanvasVisitante">
+            Visitante
+          </a>
+        </li>
+        {% endif %}
 
       </ul>
 
@@ -213,4 +220,24 @@
 </div>
 
 
+</div>
+
+<!-- Offcanvas Visitantes -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasVisitante" aria-labelledby="offcanvasVisitanteLabel">
+  <div class="offcanvas-header bg-warning text-dark">
+    <h5 class="fw-bold mb-0" id="offcanvasVisitanteLabel">👤 Visitante</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <p class="text-muted">Todo sobre tus reseñas.</p>
+    <h6 class="fw-bold text-secondary">Reseñas</h6>
+    <div class="list-group">
+      <a href="{% url 'app:nueva_resena' %}" class="list-group-item list-group-item-action">
+        ➕ Crear Reseña
+      </a>
+      <a href="{% url 'app:lista_resenas' %}" class="list-group-item list-group-item-action">
+        📋 Mis Reseñas
+      </a>
+    </div>
+  </div>
 </div>
