@@ -1,123 +1,303 @@
 [
   {
     "model": "usuarios.user",
-    "pk": 1,
+    "pk": 1001,
     "fields": {
       "username": "lucasf",
       "email": "lucas.fernandez@gmail.com",
-      "password": "pbkdf2_sha256$720000$fakehash$fakehash",
+      "password": "pbkdf2_sha256$1000000$A1PdTexsf62d1JsRObkHsR$HEYU5TfUxwpjcmF0cxtntLMc5arEZXPeyzoZvFdwMdg=",
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "emprendedor"
+      "tipo_usuario": "emprendedor",
+      "groups": [3],
+      "user_permissions": []
     }
   },
   {
     "model": "usuarios.user",
-    "pk": 2,
+    "pk": 1002,
     "fields": {
       "username": "camilar",
       "email": "camila.ruiz@gmail.com",
-      "password": "pbkdf2_sha256$720000$fakehash$fakehash",
+      "password": "pbkdf2_sha256$1000000$A1PdTexsf62d1JsRObkHsR$HEYU5TfUxwpjcmF0cxtntLMc5arEZXPeyzoZvFdwMdg=",
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "emprendedor"
+      "tipo_usuario": "emprendedor",
+      "groups": [3],
+      "user_permissions": []
     }
   },
   {
     "model": "usuarios.user",
-    "pk": 3,
+    "pk": 1003,
     "fields": {
       "username": "matiass",
       "email": "matias.sosa@gmail.com",
-      "password": "pbkdf2_sha256$720000$fakehash$fakehash",
+      "password": "pbkdf2_sha256$1000000$A1PdTexsf62d1JsRObkHsR$HEYU5TfUxwpjcmF0cxtntLMc5arEZXPeyzoZvFdwMdg=",
       "is_superuser": false,
       "is_staff": false,
       "is_active": true,
-      "tipo_usuario": "emprendedor"
+      "tipo_usuario": "emprendedor",
+      "groups": [3],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "usuarios.user",
+    "pk": 1004,
+    "fields": {
+      "username": "valentinam",
+      "email": "valentina.martinez@gmail.com",
+      "password": "pbkdf2_sha256$1000000$A1PdTexsf62d1JsRObkHsR$HEYU5TfUxwpjcmF0cxtntLMc5arEZXPeyzoZvFdwMdg=",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "tipo_usuario": "emprendedor",
+      "groups": [3],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "usuarios.user",
+    "pk": 1005,
+    "fields": {
+      "username": "federicob",
+      "email": "federico.benitez@gmail.com",
+      "password": "pbkdf2_sha256$1000000$A1PdTexsf62d1JsRObkHsR$HEYU5TfUxwpjcmF0cxtntLMc5arEZXPeyzoZvFdwMdg=",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "tipo_usuario": "emprendedor",
+      "groups": [3],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "usuarios.user",
+    "pk": 1006,
+    "fields": {
+      "username": "sofial",
+      "email": "sofia.lopez@gmail.com",
+      "password": "pbkdf2_sha256$1000000$A1PdTexsf62d1JsRObkHsR$HEYU5TfUxwpjcmF0cxtntLMc5arEZXPeyzoZvFdwMdg=",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "tipo_usuario": "emprendedor",
+      "groups": [3],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "usuarios.user",
+    "pk": 1007,
+    "fields": {
+      "username": "marianag",
+      "email": "mariana.garcia@gmail.com",
+      "password": "pbkdf2_sha256$1000000$A1PdTexsf62d1JsRObkHsR$HEYU5TfUxwpjcmF0cxtntLMc5arEZXPeyzoZvFdwMdg=",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "tipo_usuario": "emprendedor",
+      "groups": [3],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "usuarios.user",
+    "pk": 1008,
+    "fields": {
+      "username": "diegot",
+      "email": "diego.torres@gmail.com",
+      "password": "pbkdf2_sha256$1000000$A1PdTexsf62d1JsRObkHsR$HEYU5TfUxwpjcmF0cxtntLMc5arEZXPeyzoZvFdwMdg=",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "tipo_usuario": "emprendedor",
+      "groups": [3],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "usuarios.user",
+    "pk": 1009,
+    "fields": {
+      "username": "paular",
+      "email": "paula.romero@gmail.com",
+      "password": "pbkdf2_sha256$1000000$A1PdTexsf62d1JsRObkHsR$HEYU5TfUxwpjcmF0cxtntLMc5arEZXPeyzoZvFdwMdg=",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "tipo_usuario": "emprendedor",
+      "groups": [3],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "usuarios.user",
+    "pk": 1010,
+    "fields": {
+      "username": "martinv",
+      "email": "martin.vargas@gmail.com",
+      "password": "pbkdf2_sha256$1000000$A1PdTexsf62d1JsRObkHsR$HEYU5TfUxwpjcmF0cxtntLMc5arEZXPeyzoZvFdwMdg=",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "tipo_usuario": "emprendedor",
+      "groups": [3],
+      "user_permissions": []
     }
   },
 
   {
-    "model": "usuarios.emprendedor",
-    "pk": 1,
+    "model": "usuarios.user",
+    "pk": 1011,
     "fields": {
-      "nombre": "Lucas",
-      "apellido": "Fernandez",
-      "rubro": "Impresiones 3D",
-      "telefono": "+54 9 2901-445566",
-      "usuario": 1
+      "username": "juanp",
+      "email": "juan.perez@gmail.com",
+      "password": "pbkdf2_sha256$1000000$A1PdTexsf62d1JsRObkHsR$HEYU5TfUxwpjcmF0cxtntLMc5arEZXPeyzoZvFdwMdg=",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "tipo_usuario": "visitante",
+      "groups": [2],
+      "user_permissions": []
     }
   },
   {
-    "model": "usuarios.emprendedor",
-    "pk": 2,
+    "model": "usuarios.user",
+    "pk": 1012,
     "fields": {
-      "nombre": "Camila",
-      "apellido": "Ruiz",
-      "rubro": "Velas artesanales",
-      "telefono": "+54 9 11 2233-4455",
-      "usuario": 2
+      "username": "anag",
+      "email": "ana.gomez@gmail.com",
+      "password": "pbkdf2_sha256$1000000$A1PdTexsf62d1JsRObkHsR$HEYU5TfUxwpjcmF0cxtntLMc5arEZXPeyzoZvFdwMdg=",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "tipo_usuario": "visitante",
+      "groups": [2],
+      "user_permissions": []
     }
   },
   {
-    "model": "usuarios.emprendedor",
-    "pk": 3,
+    "model": "usuarios.user",
+    "pk": 1013,
     "fields": {
-      "nombre": "Matias",
-      "apellido": "Sosa",
-      "rubro": "Cerámica",
-      "telefono": "2901 554433",
-      "usuario": 3
+      "username": "carloss",
+      "email": "carlos.sanchez@gmail.com",
+      "password": "pbkdf2_sha256$1000000$A1PdTexsf62d1JsRObkHsR$HEYU5TfUxwpjcmF0cxtntLMc5arEZXPeyzoZvFdwMdg=",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "tipo_usuario": "visitante",
+      "groups": [2],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "usuarios.user",
+    "pk": 1014,
+    "fields": {
+      "username": "lauraf",
+      "email": "laura.fernandez@gmail.com",
+      "password": "pbkdf2_sha256$1000000$A1PdTexsf62d1JsRObkHsR$HEYU5TfUxwpjcmF0cxtntLMc5arEZXPeyzoZvFdwMdg=",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "tipo_usuario": "visitante",
+      "groups": [2],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "usuarios.user",
+    "pk": 1015,
+    "fields": {
+      "username": "nicolasm",
+      "email": "nicolas.morales@gmail.com",
+      "password": "pbkdf2_sha256$1000000$A1PdTexsf62d1JsRObkHsR$HEYU5TfUxwpjcmF0cxtntLMc5arEZXPeyzoZvFdwMdg=",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "tipo_usuario": "visitante",
+      "groups": [2],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "usuarios.user",
+    "pk": 1016,
+    "fields": {
+      "username": "lucianad",
+      "email": "luciana.diaz@gmail.com",
+      "password": "pbkdf2_sha256$1000000$A1PdTexsf62d1JsRObkHsR$HEYU5TfUxwpjcmF0cxtntLMc5arEZXPeyzoZvFdwMdg=",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "tipo_usuario": "visitante",
+      "groups": [2],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "usuarios.user",
+    "pk": 1017,
+    "fields": {
+      "username": "gabrielr",
+      "email": "gabriel.rojas@gmail.com",
+      "password": "pbkdf2_sha256$1000000$A1PdTexsf62d1JsRObkHsR$HEYU5TfUxwpjcmF0cxtntLMc5arEZXPeyzoZvFdwMdg=",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "tipo_usuario": "visitante",
+      "groups": [2],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "usuarios.user",
+    "pk": 1018,
+    "fields": {
+      "username": "carolinab",
+      "email": "carolina.blanco@gmail.com",
+      "password": "pbkdf2_sha256$1000000$A1PdTexsf62d1JsRObkHsR$HEYU5TfUxwpjcmF0cxtntLMc5arEZXPeyzoZvFdwMdg=",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "tipo_usuario": "visitante",
+      "groups": [2],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "usuarios.user",
+    "pk": 1019,
+    "fields": {
+      "username": "rodrigoc",
+      "email": "rodrigo.castro@gmail.com",
+      "password": "pbkdf2_sha256$1000000$A1PdTexsf62d1JsRObkHsR$HEYU5TfUxwpjcmF0cxtntLMc5arEZXPeyzoZvFdwMdg=",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "tipo_usuario": "visitante",
+      "groups": [2],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "usuarios.user",
+    "pk": 1020,
+    "fields": {
+      "username": "elenap",
+      "email": "elena.paz@gmail.com",
+      "password": "pbkdf2_sha256$1000000$A1PdTexsf62d1JsRObkHsR$HEYU5TfUxwpjcmF0cxtntLMc5arEZXPeyzoZvFdwMdg=",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "tipo_usuario": "visitante",
+      "groups": [2],
+      "user_permissions": []
     }
   }
-  ,
-{
-  "model": "usuarios.user",
-  "pk": 4,
-  "fields": {
-    "username": "juanp",
-    "email": "juan.perez@gmail.com",
-    "password": "pbkdf2_sha256$720000$fakehash$fakehash",
-    "is_superuser": false,
-    "is_staff": false,
-    "is_active": true,
-    "tipo_usuario": "visitante"
-  }
-},
-{
-  "model": "usuarios.user",
-  "pk": 5,
-  "fields": {
-    "username": "anag",
-    "email": "ana.gomez@gmail.com",
-    "password": "pbkdf2_sha256$720000$fakehash$fakehash",
-    "is_superuser": false,
-    "is_staff": false,
-    "is_active": true,
-    "tipo_usuario": "visitante"
-  }
-},
-
-{
-  "model": "usuarios.visitante",
-  "pk": 1,
-  "fields": {
-    "nombre": "Juan",
-    "apellido": "Perez",
-    "usuario": 4,
-    "fecha_registro": "2026-05-26"
-  }
-},
-{
-  "model": "usuarios.visitante",
-  "pk": 2,
-  "fields": {
-    "nombre": "Ana",
-    "apellido": "Gomez",
-    "usuario": 5,
-    "fecha_registro": "2026-05-26"
-  }
-}
 ]

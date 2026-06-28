@@ -1,5 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django import forms
+from django.urls import reverse_lazy
 
 class LoginForm(AuthenticationForm):
        username = forms.CharField(
@@ -19,3 +20,5 @@ class LoginForm(AuthenticationForm):
             }
         )
     )
+        # o la vista que quieras
+

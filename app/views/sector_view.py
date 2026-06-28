@@ -8,10 +8,11 @@ from app.mixins.AdminReq import AdminRequiredMixin
 from app.models import Sector
 from app.forms.sector_form import SectorForm
 from django.http import HttpResponseRedirect
+from app.mixins.EmprendedorOAdminReq import EmprendedorOAdminRequiredMixin
 
 
 # List View 
-class SectorListView( LoginRequiredMixin, ListView):
+class SectorListView( EmprendedorOAdminRequiredMixin, ListView):
     model = Sector
     template_name = 'sectores/lista_sector.html'
     context_object_name = 'sectores'

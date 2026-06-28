@@ -1,20 +1,23 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+{% block title %}Actualizar feria — FeriApp{% endblock %}
+{% block content %}
 <div class="container mt-4">
-  <div class="row">
+  <div class="row mb-4">
     <div class="col">
-      <h1 class="mb-4">Actualizar Feria</h1>
+      <h1 class="h3 text-primary">Actualizar Feria</h1>
+      <p class="text-muted">Modifique los datos de la feria y guarde los cambios.</p>
     </div>
     <div class="col-auto">
-      <a href="{% url 'ferias:lista_ferias' %}" class="btn btn-secondary">
-        Volver a lista de ferias
+      <a href="{% url 'ferias:lista_ferias' %}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Volver a lista de ferias
       </a>
     </div>
   </div>
 
-  <form method="post" class="needs-validation" novalidate>
+  <form method="post" class="row g-3 needs-validation" novalidate>
     {% csrf_token %}
 
-    <div class="form-group mb-3">
+    <div class="col-md-6">
       {{ form.nombre.label_tag }}
       {{ form.nombre }}
       {% for error in form.nombre.errors %}
@@ -22,7 +25,7 @@
       {% endfor %}
     </div>
 
-    <div class="form-group mb-3">
+    <div class="col-md-6">
       {{ form.categoria.label_tag }}
       {{ form.categoria }}
       {% for error in form.categoria.errors %}
@@ -30,7 +33,7 @@
       {% endfor %}
     </div>
 
-    <div class="form-group mb-3">
+    <div class="col-md-6">
       {{ form.fecha_inicio.label_tag }}
       {{ form.fecha_inicio }}
       {% for error in form.fecha_inicio.errors %}
@@ -38,7 +41,7 @@
       {% endfor %}
     </div>
 
-    <div class="form-group mb-3">
+    <div class="col-md-6">
       {{ form.fecha_fin.label_tag }}
       {{ form.fecha_fin }}
       {% for error in form.fecha_fin.errors %}
@@ -46,7 +49,7 @@
       {% endfor %}
     </div>
 
-    <div class="form-group mb-3">
+    <div class="col-md-6">
       {{ form.ubicacion.label_tag }}
       {{ form.ubicacion }}
       {% for error in form.ubicacion.errors %}
@@ -54,7 +57,7 @@
       {% endfor %}
     </div>
 
-    <div class="form-group mb-3">
+    <div class="col-md-6">
       {{ form.capacidad_puestos.label_tag }}
       {{ form.capacidad_puestos }}
       {% for error in form.capacidad_puestos.errors %}
@@ -62,15 +65,24 @@
       {% endfor %}
     </div>
 
-  <div class="form-check form-group mb-3">
-    {{ form.activa }}
-    {{ form.activa.label_tag }}
-    {% for error in form.activa.errors %}
-      <div class="text-danger small">{{ error }}</div>
-    {% endfor %}
-  </div>
+    <!-- Switch grande para Activa -->
+    <div class="col-12">
+      <div class="form-check form-switch form-switch-lg">
+        {{ form.activa }}
+        <label class="form-check-label fw-bold text-success" for="id_activa">
+          Activa
+        </label>
+      </div>
+      {% for error in form.activa.errors %}
+        <div class="text-danger small">{{ error }}</div>
+      {% endfor %}
+    </div>
 
-    <button type="submit" class="btn btn-primary">Actualizar</button>
+    <div class="col-12">
+      <button type="submit" class="btn btn-warning btn-lg">
+        <i class="bi bi-pencil-square"></i> Actualizar feria
+      </button>
+    </div>
   </form>
 </div>
 {% endblock %}

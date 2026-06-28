@@ -25,54 +25,56 @@
     navigateWithParams(params);
   }
 
-  // Inicialización: enlazar eventos y establecer estado inicial
+  // Inicialización: enlazar eventos y establecer estado inicial en todos los formularios de filtros
   function init() {
-    const form = document.getElementById('filters-form');
-    if (!form) return;
+    const forms = document.querySelectorAll('.filters-form');
+    if (!forms || forms.length === 0) return;
 
-    // Helper para submit del formulario (preserva comportamiento por defecto de GET)
-    function submitForm() {
-      form.submit();
-    }
+    // Obtener valor actual de 'activa' desde la URL para inicializar switches
+    const params = new URLSearchParams(window.location.search);
+    const currentActiva = params.get('activa');
 
-    // Selects que realizan submit al cambiar
-    const categoriaSelect = document.getElementById('categoria-select');
-    const ubicacionSelect = document.getElementById('ubicacion-select');
-    if (categoriaSelect) categoriaSelect.addEventListener('change', submitForm);
-    if (ubicacionSelect) ubicacionSelect.addEventListener('change', submitForm);
-
-    // Inputs de fecha que hacen submit al cambiar
-    document.querySelectorAll('#filters-form input[type="date"]').forEach(function (el) {
-      el.addEventListener('change', submitForm);
-    });
-
-    // Switch de 'activa' junto a input oculto que contiene el valor enviado
-    const switchActiva = document.getElementById('switchActiva');
-    const activaInput = document.getElementById('activa-input');
-    if (switchActiva && activaInput) {
-      const params = new URLSearchParams(window.location.search);
-      const current = params.get('activa');
-
-      // Por especificación: por defecto mostrar todas (switch OFF)
-      // Switch marcado sólo cuando `activa=true` en la URL.
-      if (current === 'true') {
-        switchActiva.checked = true;
-        activaInput.value = 'true';
-      } else if (current === 'false') {
-        switchActiva.checked = false;
-        activaInput.value = 'false';
-      } else {
-        switchActiva.checked = false;
-        activaInput.value = ''; // vacío = mostrar todas
+    forms.forEach(function (form) {
+      // Helper para submit del formulario (preserva comportamiento por defecto de GET)
+      function submitForm() {
+        form.submit();
       }
 
-      // Cambios en el switch actualizan el input y envían el formulario
-      switchActiva.addEventListener('change', function () {
-        if (this.checked) activaInput.value = 'true';
-        else activaInput.value = '';
-        submitForm();
+      // Selects que realizan submit al cambiar
+      const categoriaSelect = form.querySelector('select[name="categoria"]');
+      const ubicacionSelect = form.querySelector('select[name="ubicacion"]');
+      if (categoriaSelect) categoriaSelect.addEventListener('change', submitForm);
+      if (ubicacionSelect) ubicacionSelect.addEventListener('change', submitForm);
+
+      // Inputs de fecha que hacen submit al cambiar
+      form.querySelectorAll('input[type="date"]').forEach(function (el) {
+        el.addEventListener('change', submitForm);
       });
-    }
+
+      // Switch de 'activa' junto a input oculto que contiene el valor enviado
+      const switchActiva = form.querySelector('.form-check-input');
+      const activaInput = form.querySelector('input[name="activa"]');
+      if (switchActiva && activaInput) {
+        // Inicializar el estado del switch según query param
+        if (currentActiva === 'true') {
+          switchActiva.checked = true;
+          activaInput.value = 'true';
+        } else if (currentActiva === 'false') {
+          switchActiva.checked = false;
+          activaInput.value = 'false';
+        } else {
+          switchActiva.checked = false;
+          activaInput.value = '';
+        }
+
+        // Cambios en el switch actualizan el input y envían el formulario
+        switchActiva.addEventListener('change', function () {
+          if (this.checked) activaInput.value = 'true';
+          else activaInput.value = '';
+          submitForm();
+        });
+      }
+    });
 
     // Opcional: links con data-param (si existieran) para navegación rápida
     document.querySelectorAll('[data-param]').forEach(function (link) {
@@ -80,7 +82,6 @@
         e.preventDefault();
         const p = link.getAttribute('data-param');
         const v = link.getAttribute('data-value');
-        // v puede estar vacío para indicar 'todas'
         setParam(p, v === '' ? '' : v);
       });
     });

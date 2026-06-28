@@ -68,7 +68,8 @@ class ListaFeriasView(LoginRequiredMixin,ListView):
         qs = self.get_queryset()
         proximas_qs = qs.filter(fecha_fin__gte=today).order_by('fecha_inicio')
         pasadas_qs = qs.filter(fecha_fin__lt=today).order_by('-fecha_inicio')
-
+        pasadas_qs.update(activa=False)
+        
         # paginar 6 por página en cada sección
         per_page = 6
         page_proximas = self.request.GET.get('page_proximas')

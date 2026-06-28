@@ -6,7 +6,8 @@ from app.models.feria_models import Feria
 from app.models.categoria_models import Categoria
 from app.models.inscripcion_models import Inscripcion
 from app.models.resena_models import Resena
-
+from app.forms.feria_admin_form import FeriaAdminForm
+from app.forms.inscripcion_admin_form import InscripcionAdminForm
 
 # TODO: reemplazar por @admin.register con list_display, list_filter, search_fields
 
@@ -26,7 +27,8 @@ class FeriaInline(admin.TabularInline):
 class FeriaAdmin(admin.ModelAdmin):
     # Columnas a mostrar en la tabla principal
  list_display = ('nombre', 'categoria', 'fecha_inicio', 'fecha_fin', 'capacidad_puestos', 'ubicacion', 'activa')
-
+ form=FeriaAdminForm
+ autocomplete_fields = ("categoria",)
  # Panel lateral derecho para filtrar por fecha o instructor
  list_filter = ('fecha_inicio', 'categoria', 'capacidad_puestos', 'ubicacion')
 
@@ -63,6 +65,7 @@ class SectorAdmin(admin.ModelAdmin):
 
 @admin.register(Categoria)
 class CategoriaAdmin(admin.ModelAdmin):
+     search_fields = ("nombre",)
      list_display = ('nombre', 'descripcion' )
 
   
@@ -77,6 +80,9 @@ class CategoriaAdmin(admin.ModelAdmin):
 
 @admin.register(Inscripcion)
 class InscripcionAdmin(admin.ModelAdmin):
+
+    form=InscripcionAdminForm
+
     list_display = ('emprendedor', 'feria', 'numero_puesto', 'fecha_inscripcion', 'estado', 'registrado_por' )
 
   
