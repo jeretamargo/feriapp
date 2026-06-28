@@ -168,13 +168,53 @@ class SectorModelTest(TestCase):
 
     #Agrego claudio
     def test_new_con_datos_validos_intenta_guardar(self):
-        # Sector.new actualmente no recibe 'feria' y al crear puede lanzar IntegrityError
-        try:
-            sector, errors = Sector.new("Nuevo", date(2026, 7, 1), 5, True, self.feria)
-        except IntegrityError:
-            # comportamiento aceptable dado que falta la FK 'feria'
-            return
-        # si no lanzó excepción, asegurar que devolvió instancia válida
-        self.assertTrue(errors is None or errors == [])
-        if sector:
-            self.assertTrue(Sector.objects.filter(pk=sector.pk).exists())
+        sector, errors = Sector.new("Nuevo", date(2026, 7, 1), 5, True, self.feria)
+        self.assertEqual(errors, [])
+        self.assertIsNotNone(sector)
+        self.assertTrue(Sector.objects.filter(pk=sector.pk).exists())
+
+    def test_new_sector_supera_capacidad_feria_retorna_error(self):
+        Sector.objects.create(
+            nombre="Existente",
+            edicion=date(2026, 7, 1),
+            capacidad_puestos=15,
+            tiene_conexion_electrica=False,
+            feria=self.feria,
+        )
+
+        sector, errors = Sector.new(
+            "Demasiado grande",
+            date(2026, 7, 1),
+            10,
+            False,
+            self.feria,
+        )
+
+        self.assertIsNone(sector)
+        self.assertIn(
+            "La capacidad del sector supera los puestos disponibles de la feria.",
+            errors,
+        )
+
+    def test_update_sector_supera_capacidad_feria_retorna_error(self):
+        sector = Sector.objects.create(
+            nombre="Pequeño",
+            edicion=date(2026, 7, 1),
+            capacidad_puestos=5,
+            tiene_conexion_electrica=False,
+            feria=self.feria,
+        )
+
+        Sector.objects.create(
+            nombre="Otro",
+            edicion=date(2026, 7, 1),
+            capacidad_puestos=15,
+            tiene_conexion_electrica=False,
+            feria=self.feria,
+        )
+
+        errors = sector.update("Pequeño", date(2026, 7, 1), 10, False)
+        self.assertIn(
+            "La capacidad del sector supera los puestos disponibles de la feria.",
+            errors,
+        )
