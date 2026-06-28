@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Mis Reseñas — FeriApp{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="fw-bold mb-1">Mis Reseñas</h3>
+        <p class="text-muted mb-0">Opiniones que los visitantes dejaron sobre vos.</p>
+    </div>
+    <span class="badge bg-primary fs-6">{{ resenas|length }} reseñas</span>
+</div>
+
+{# Filtro por feria #}
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <form method="get" class="d-flex align-items-end gap-3 flex-wrap">
+            <div>
+                <label class="form-label mb-1">Filtrar por feria</label>
+                <select name="feria" class="form-select" onchange="this.form.submit()">
+                    <option value="">Todas las ferias</option>
+                    {% for feria in ferias %}
+                    <option
+                        value="{{ feria.id }}"
+                        {% if feria_seleccionada == feria.id|stringformat:"s" %}selected{% endif %}
+                    >
+                        {{ feria.nombre }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% if feria_seleccionada %}
+            <a href="{% url 'app:mis_resenas' %}" class="btn btn-outline-secondary btn-sm">
+                Limpiar filtro
+            </a>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+{# Lista de reseñas #}
+{% if resenas %}
+<div class="row">
+    {% for resena in resenas %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body d-flex flex-column">
+
+                {# Visitante #}
+                <div class="d-flex align-items-center mb-3">
+                    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3"
+                        style="width: 40px; height: 40px; flex-shrink: 0;">
+                        {{ resena.visitante.nombre|first|upper }}
+                    </div>
+                    <div>
+                        <h6 class="mb-0 fw-semibold">
+                            {{ resena.visitante.nombre }} {{ resena.visitante.apellido }}
+                        </h6>
+                        <small class="text-muted">{{ resena.fecha_creacion|date:"d/m/Y" }}</small>
+                    </div>
+                </div>
+
+                {# Estrellas #}
+                <div class="mb-2">
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= resena.puntuacion %}
+                            <span class="text-warning fs-5">★</span>
+                        {% else %}
+                            <span class="text-secondary fs-5">★</span>
+                        {% endif %}
+                    {% endfor %}
+                    <small class="text-muted ms-1">{{ resena.puntuacion }}/5</small>
+                </div>
+
+                {# Comentario #}
+                <p class="card-text text-muted fst-italic flex-grow-1">
+                    "{{ resena.comentario }}"
+                </p>
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% else %}
+<div class="text-center my-5">
+    {% if feria_seleccionada %}
+        <p class="text-muted fs-5">No tenés reseñas en esa feria.</p>
+        <a href="{% url 'app:mis_resenas' %}" class="btn btn-outline-secondary btn-sm">
+            Ver todas las reseñas
+        </a>
+    {% else %}
+        <p class="text-muted fs-5">Todavía no recibiste ninguna reseña.</p>
+    {% endif %}
+</div>
+{% endif %}
+
+{% endblock %}
