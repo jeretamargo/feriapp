@@ -52,7 +52,13 @@
                 <p class="card-text">📍 {{ feria.ubicacion }}<br>📅 {{ feria.fecha_inicio }} → {{ feria.fecha_fin }}<br>🏬 <span class="badge bg-primary">{{ feria.puestos_ocupados }} / {{ feria.capacidad_puestos }} puestos</span>
                   <br>
                 </p>
-                <a href="{% url 'ferias:detalle_feria' pk=feria.id %}" class="btn btn-primary btn-sm mt-auto align-self-end">Ver detalle</a>
+                <div class="mt-auto align-self-end">
+                  {% if user.es_emprendedor %}
+                  <a href="{% url 'ferias:nueva_inscripcion' %}" class="btn btn-secondary btn-sm ">Inscribirse</a>
+                  {% endif %}
+
+                  <a href="{% url 'ferias:detalle_feria' pk=feria.id %}" class="btn btn-primary btn-sm">Ver detalle</a>
+                </div>
               </div>
             </div>
           </div>
@@ -102,7 +108,12 @@
                 <p class="card-text text-muted">📍 {{ feria.ubicacion }}<br>📅 {{ feria.fecha_inicio }} → {{ feria.fecha_fin }}
                   <br>
                 </p>
-              <a href="{% url 'ferias:detalle_feria' pk=feria.id %}" class="btn btn-primary btn-sm mt-auto align-self-end">Ver detalle</a>
+
+
+              <a href="{% url 'ferias:detalle_feria' pk=feria.id %}" class="btn btn-outline-primary btn-sm mt-auto ">Ver detalle</a>
+              {% if user.is_superuser %}
+                <a href="{% url 'ferias:actualizar_feria' feria.id %}" class="btn btn-sm btn-outline-success" title="Rehacer"> Rehacer Edicion</a>
+              {% endif %}
               </div>
             </div>
           </div>
