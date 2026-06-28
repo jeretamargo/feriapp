@@ -197,15 +197,16 @@
     <div class="list-group">
     <h6 class="fw-bold text-secondary">Gestion de Usuarios</h6>
     <div class="list-group">
+      <a href="{% url 'ferias:nueva_inscripcion' %}" class="list-group-item list-group-item-action"> 📝 Inscribirse</a>
       <a href="{% url 'ferias:mis_inscripciones' %}" class="list-group-item list-group-item-action"> 📌 Mis Inscripciones</a>
-      <a href="{% url 'ferias:lista_resenas' %}" class="list-group-item list-group-item-action"> 📝  Mis Reseñas</a>
+      <a href="{% url 'ferias:lista_resenas' %}" class="list-group-item list-group-item-action"> 📋  Mis Reseñas</a>
       
       {% if user.is_superuser %}
       <hr class="my-3">
       
       <h6 class="fw-bold text-secondary">Emprendedores Registrados</h6>
       <a href="{% url 'usuarios:lista_emprendedores' %}" class="list-group-item list-group-item-action">📋 Ver Emprendedores</a>
-      <a href="{% url 'ferias:lista_resenas' %}" class="list-group-item list-group-item-action">⭐ Ver Todas Las Reseñas</a>
+      <a href="{% url 'ferias:lista_completa_de_resenas' %}" class="list-group-item list-group-item-action">⭐ Ver Todas Las Reseñas</a>
       {% endif %}
     </div>
   </div>
