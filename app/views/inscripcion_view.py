@@ -1,4 +1,4 @@
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from app.mixins.EmprendedorReq import EmprendedorRequiredMixin
@@ -133,7 +133,7 @@ class MisInscripcionesView(EmprendedorRequiredMixin, LoginRequiredMixin,ListView
             emprendedor=self.request.user.emprendedor
         ).select_related("feria")
 
-class CancelarInscripcionView(EmprendedorRequiredMixin,LoginRequiredMixin,ListView):
+class CancelarInscripcionView(EmprendedorRequiredMixin,LoginRequiredMixin,View):
     def post(self, request, pk):
         inscripcion = get_object_or_404(
             Inscripcion,
