@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from django.db import models
+from django.db.models import Sum
 
 from .categoria_models import Categoria
 
@@ -35,6 +36,36 @@ class Feria(models.Model):
     def puestos_disponibles(self):
         """Retorna los puestos libres."""
         return self.capacidad_puestos - self.puestos_ocupados()
+
+    def capacidad_ocupada_por_sectores(self, sector_actual=None):
+        """Retorna la capacidad total de puestos ya asignada a los sectores de esta feria.
+
+        Si se proporciona sector_actual, su capacidad no se incluye en la suma.
+        Esto permite validar actualizaciones sin contar doble la misma instancia.
+        """
+        sectores = self.sectores.all()
+        if sector_actual is not None and hasattr(sector_actual, "pk"):
+            sectores = sectores.exclude(pk=sector_actual.pk)
+        total = sectores.aggregate(total=Sum("capacidad_puestos"))["total"]
+        return total or 0
+
+    def capacidad_disponible_para_sectores(self, sector_actual=None):
+        """Retorna la capacidad restante disponible para un sector nuevo o actualizado."""
+        return self.capacidad_puestos - self.capacidad_ocupada_por_sectores(sector_actual=sector_actual)
+
+    def hay_lugar_para_sector(self, capacidad_nueva, sector_actual=None):
+        """Retorna True si esta feria admite un sector con la capacidad solicitada.
+
+        sector_actual se usa solo para actualizar un sector existente, de modo que
+        no se contabilice su capacidad anterior dos veces.
+        """
+        if capacidad_nueva is None or capacidad_nueva <= 0:
+            return False
+        return self.capacidad_disponible_para_sectores(sector_actual=sector_actual) >= capacidad_nueva
+
+    def capacidad_minima_por_sectores(self):
+        """Retorna la capacidad mínima que debe tener la feria según los sectores existentes."""
+        return self.capacidad_ocupada_por_sectores()
 
     def tiene_lugar(self):
         """Retorna True si quedan puestos disponibles."""
@@ -110,6 +141,12 @@ class Feria(models.Model):
         errors = self.__class__.validate(
             nombre, categoria, fecha_inicio, fecha_fin, ubicacion, capacidad_puestos
         )
+        if capacidad_puestos is not None:
+            capacidad_minima = self.capacidad_minima_por_sectores()
+            if capacidad_puestos < capacidad_minima:
+                errors.append(
+                    f"La capacidad de la feria no puede ser menor que la suma de la capacidad de los sectores existentes ({capacidad_minima} puestos)."
+                )
         if errors:
             return errors
 

@@ -132,6 +132,40 @@ class FeriaModelTest(TestCase):
         self.assertEqual(self.feria.ubicacion, "Parque Central")
         self.assertEqual(self.feria.capacidad_puestos, 20)
 
+    def test_update_no_puede_bajar_capacidad_por_debajo_de_sectores_existentes(self):
+        from app.models.sector_models import Sector
+
+        Sector.objects.create(
+            nombre="Sector A",
+            edicion=date(2026, 7, 1),
+            capacidad_puestos=6,
+            tiene_conexion_electrica=False,
+            feria=self.feria,
+        )
+        Sector.objects.create(
+            nombre="Sector B",
+            edicion=date(2026, 7, 1),
+            capacidad_puestos=3,
+            tiene_conexion_electrica=False,
+            feria=self.feria,
+        )
+
+        errors = self.feria.update(
+            "Feria de Invierno",
+            self.feria.categoria,
+            date(2026, 7, 1),
+            date(2026, 7, 3),
+            "Plaza Central",
+            8,
+        )
+
+        self.assertIn(
+            "La capacidad de la feria no puede ser menor que la suma de la capacidad de los sectores existentes (9 puestos).",
+            errors,
+        )
+        self.feria.refresh_from_db()
+        self.assertEqual(self.feria.capacidad_puestos, 10)
+
     def test_update_con_datos_invalidos_no_modifica(self):
         errors = self.feria.update("", "", None, None, "", 0)
         self.assertTrue(len(errors) > 0)

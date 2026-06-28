@@ -37,10 +37,20 @@ class Sector(models.Model):
         errors = []
         if not self.nombre or not self.nombre.strip():
             errors.append("El nombre del sector es obligatorio.")
-        if len(self.nombre.strip()) < 3:
+        if self.nombre and len(self.nombre.strip()) < 3:
             errors.append("El nombre del sector debe tener al menos 3 caracteres.")
-        if self.capacidad_puestos <= 0:
+        if self.capacidad_puestos is None or self.capacidad_puestos <= 0:
             errors.append("La capacidad de puestos debe ser mayor a cero.")
+
+        if self.feria is None or not isinstance(self.feria, Feria):
+            errors.append("La feria asociada es obligatoria.")
+        elif self.capacidad_puestos and not self.feria.hay_lugar_para_sector(
+            self.capacidad_puestos,
+            sector_actual=self,
+        ):
+            errors.append(
+                "La capacidad del sector supera los puestos disponibles de la feria."
+            )
 
         return errors
     
