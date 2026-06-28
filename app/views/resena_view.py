@@ -9,12 +9,48 @@ from usuarios.models.emprendedor_models import Emprendedor
 from app.forms.resenas_form import ResenaForm
 from app.models.inscripcion_models import Inscripcion
 from app.models.feria_models import Feria
-class ListadeTodasResenasView(AdminRequiredMixin,LoginRequiredMixin, ListView):
-    """lista todas las reseñas."""
+
+
+class ListadeTodasResenasView(AdminRequiredMixin, LoginRequiredMixin, ListView):
     model = Resena
     template_name = "resenas/lista_completa_de_resenas.html"
     context_object_name = "resenas"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Estructura: {feria: {emprendedor: [resenas]}}
+        datos = {}
+
+        resenas = Resena.objects.select_related(
+            "emprendedor",
+            "visitante"
+        ).order_by(
+            "emprendedor__nombre"
+        )
+
+        for resena in resenas:
+            # buscar en qué ferias estuvo este emprendedor
+            inscripciones = Inscripcion.objects.filter(
+                emprendedor=resena.emprendedor,
+                estado="confirmada"
+            ).select_related("feria")
+
+            for inscripcion in inscripciones:
+                feria = inscripcion.feria
+                emp = resena.emprendedor
+
+                if feria not in datos:
+                    datos[feria] = {}
+
+                if emp not in datos[feria]:
+                    datos[feria][emp] = []
+
+                if resena not in datos[feria][emp]:
+                    datos[feria][emp].append(resena)
+
+        context["datos"] = datos
+        return context
 
 ##la vista basica
 class NuevaResenaView(VisitanteRequiredMixin, LoginRequiredMixin, CreateView):

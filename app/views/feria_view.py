@@ -184,7 +184,7 @@ class DetalleFeriaView(LoginRequiredMixin, DetailView):
         context["puestos_ocupados"] = self.object.puestos_ocupados() # pyright: ignore[reportAttributeAccessIssue]
         context["puestos_disponibles"] = self.object.puestos_disponibles() # pyright: ignore[reportAttributeAccessIssue]
         # Obtener inscripciones y añadir promedio de reseñas (evitar N+1)
-        inscripciones_qs = list(self.object.inscripcion_set.select_related('emprendedor').order_by('numero_puesto'))
+        inscripciones_qs = list(self.object.inscripcion_set.select_related('emprendedor').filter(estado="confirmada").order_by('numero_puesto'))
         emprendedor_ids = [i.emprendedor_id for i in inscripciones_qs]
         avg_map = Resena.avg_for_emprendedores(emprendedor_ids)
         # Adjuntar atributo dinámico a cada inscripcion
