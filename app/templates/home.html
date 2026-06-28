@@ -104,7 +104,7 @@
       <!-- aca es debajo del carusel -->
 
       <div class="row" style="margin-top: 39px;">
-        <div class="col-md-6">
+        <div class="col-md-6 mb-3">
 
           <div class="card shadow-sm">
 
@@ -144,9 +144,29 @@
           </div>
 
         </div>
+      
 
         <div class="col-md-6">
-          <!-- aca ira feria destacada -->
+          <div class="card shadow-sm">
+            <div class="card-header bg-success text-white text-center">
+              <h5 class="mb-0">
+                Feria con más Emprendedores
+              </h5>
+            </div>
+            <div class="card-body py-4 text-center">
+              {% if feria_destacada %}
+              <h5 class="mb-1">{{ feria_destacada.nombre }}</h5>
+              <small class="text-muted d-block">{{ feria_destacada.categoria }}</small>
+              <div class="mt-2">
+                🏬 {{ feria_destacada.total_emprendedores }} emprendedores confirmados
+              </div>
+              {% else %}
+              <p class="text-muted mb-0">
+                Todavía no hay ferias con emprendedores confirmados
+              </p>
+              {% endif %}
+            </div>
+          </div>
         </div>
 
       </div>

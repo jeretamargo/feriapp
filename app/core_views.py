@@ -2,6 +2,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from django.db.models import Avg, Count
+from django.db import models
 
 from app.models.feria_models import Feria
 from usuarios.models.emprendedor_models import Emprendedor
@@ -32,6 +33,16 @@ class HomeView(LoginRequiredMixin, TemplateView):
             .order_by("-promedio")#mejor solo traigo a uno
             .first()
             #.order_by("-promedio")[:3] #ordeno de mayor a menor y muestro los 3 mejores
+        )
+
+        context["feria_destacada"] = (
+            Feria.objects
+            .annotate(#cuenta los emprendedores distintos con inscripción confirmada por feria, ordena de mayor a menor y toma el primero
+                total_emprendedores=Count("inscripcion__emprendedor", distinct=True, filter=models.Q(inscripcion__estado="confirmada"))
+            )
+            .filter(total_emprendedores__gt=0)
+            .order_by("-total_emprendedores")
+            .first()
         )
 
         return context
