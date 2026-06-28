@@ -46,7 +46,9 @@ urlpatterns = [
     
     path("resenas/nueva/", resena_view.NuevaResenaView.as_view(),name="nueva_resena"),
 
-    
+    ##emprendedor vea sus resenas que le hicieron
+    path("resenas/mis-resenas/", resena_view.MisResenasView.as_view(), name="mis_resenas"),
+
     ]
     
     
