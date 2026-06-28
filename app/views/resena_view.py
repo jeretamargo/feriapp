@@ -109,9 +109,6 @@ class NuevaResenaView(VisitanteRequiredMixin, LoginRequiredMixin, CreateView):
         feria_id = getattr(self, '_feria_id', None)
         emprendedor_id = getattr(self, '_emprendedor_id', None)
 
-        print(f"feria_id={feria_id}, emprendedor_id={emprendedor_id}")
-        print(f"METHOD: {self.request.method}")
-
         if feria_id and emprendedor_id:
             form.fields["emprendedor"].queryset = Emprendedor.objects.filter(
                 pk=emprendedor_id,
@@ -125,10 +122,7 @@ class NuevaResenaView(VisitanteRequiredMixin, LoginRequiredMixin, CreateView):
     
 
     def form_valid(self, form):
-    
-        print("=== FORM VALID ===")
-        print(f"POST: {self.request.POST}")
-        print(f"GET: {self.request.GET}")
+
         visitante = self.request.user.visitante
 
         if Resena.objects.filter(
@@ -145,10 +139,6 @@ class NuevaResenaView(VisitanteRequiredMixin, LoginRequiredMixin, CreateView):
         messages.success(self.request, "Reseña creada correctamente.")
         return super().form_valid(form)
     def form_invalid(self, form):
-        print("=== FORM INVALID ===")
-        print(f"Errores: {form.errors}")
-        print(f"GET: {self.request.GET}")
-        print(f"POST completo: {self.request.POST}")  # ← agregá esto
         return super().form_invalid(form)
     
 class ListaResenasView(
