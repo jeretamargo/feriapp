@@ -17,6 +17,7 @@ class Feria(models.Model):
     fecha_fin = models.DateField()
     ubicacion = models.CharField(max_length=200)
     capacidad_puestos = models.PositiveIntegerField()
+    edicion = models.PositiveIntegerField(default=1)
     activa = models.BooleanField(default=True)
 
     class Meta:
@@ -82,7 +83,7 @@ class Feria(models.Model):
 
     @classmethod
     def validate(
-        cls, nombre, categoria, fecha_inicio, fecha_fin, ubicacion, capacidad_puestos
+        cls, nombre, categoria, fecha_inicio, fecha_fin, ubicacion, capacidad_puestos, edicion
     ):
         """
         Valida los datos de la feria. Retorna una lista de errores.
@@ -101,6 +102,9 @@ class Feria(models.Model):
 
         if capacidad_puestos is None or capacidad_puestos <= 0:
             errors.append("La capacidad de puestos debe ser mayor a cero.")
+            
+        if edicion is None or edicion <= 0:
+            errors.append("La edición debe ser un número positivo.")    
 
         if fecha_inicio and fecha_fin and fecha_fin < fecha_inicio:
             errors.append("La fecha de fin no puede ser anterior a la fecha de inicio.")
@@ -109,14 +113,15 @@ class Feria(models.Model):
 
     @classmethod
     def new(
-        cls, nombre, categoria, fecha_inicio, fecha_fin, ubicacion, capacidad_puestos
+        cls, nombre, categoria, fecha_inicio, fecha_fin, ubicacion, capacidad_puestos,  edicion, activa
     ):
         """
         Crea y persiste una nueva feria si los datos son válidos.
         Retorna (instancia, errors). Si hay errores, instancia es None.
         """
+       
         errors = cls.validate(
-            nombre, categoria, fecha_inicio, fecha_fin, ubicacion, capacidad_puestos
+            nombre, categoria, fecha_inicio, fecha_fin, ubicacion, capacidad_puestos, edicion, activa
         )
         if errors:
             return None, errors
@@ -128,18 +133,20 @@ class Feria(models.Model):
             fecha_fin=fecha_fin,
             ubicacion=ubicacion.strip(),
             capacidad_puestos=capacidad_puestos,
+            edicion=edicion,
+            activa=activa,
         )
         return feria, []
 
     def update(
-        self, nombre, categoria, fecha_inicio, fecha_fin, ubicacion, capacidad_puestos
+        self, nombre, categoria, fecha_inicio, fecha_fin, ubicacion, capacidad_puestos, edicion
     ):
         """
         Actualiza los datos de la feria si los datos son válidos.
         Retorna una lista de errores. Si está vacía, la actualización fue exitosa.
         """
         errors = self.__class__.validate(
-            nombre, categoria, fecha_inicio, fecha_fin, ubicacion, capacidad_puestos
+            nombre, categoria, fecha_inicio, fecha_fin, ubicacion, capacidad_puestos, edicion
         )
         if capacidad_puestos is not None:
             capacidad_minima = self.capacidad_minima_por_sectores()
@@ -156,5 +163,6 @@ class Feria(models.Model):
         self.fecha_fin = fecha_fin
         self.ubicacion = ubicacion.strip()
         self.capacidad_puestos = capacidad_puestos
+        self.edicion = edicion
         self.save()
         return []

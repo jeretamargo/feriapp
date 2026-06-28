@@ -112,7 +112,7 @@
 
               <a href="{% url 'ferias:detalle_feria' pk=feria.id %}" class="btn btn-outline-primary btn-sm mt-auto ">Ver detalle</a>
               {% if user.is_superuser %}
-                <a href="{% url 'ferias:actualizar_feria' feria.id %}" class="btn btn-sm btn-outline-success" title="Rehacer"> Rehacer Edicion</a>
+                <a href="{% url 'ferias:rehacer_feria' feria.id %}" class="btn btn-sm btn-outline-success" title="Rehacer"> Rehacer Edicion</a>
               {% endif %}
               </div>
             </div>

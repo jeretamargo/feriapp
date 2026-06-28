@@ -1,88 +1,84 @@
-{% extends "base.html" %}
-{% block title %}Actualizar feria — FeriApp{% endblock %}
+{% extends 'base.html' %}
+{% block title %}
+  Actualizar feria — FeriApp
+{% endblock %}
 {% block content %}
-<div class="container mt-4">
-  <div class="row mb-4">
-    <div class="col">
-      <h1 class="h3 text-primary">Actualizar Feria</h1>
-      <p class="text-muted">Modifique los datos de la feria y guarde los cambios.</p>
-    </div>
-    <div class="col-auto">
-      <a href="{% url 'ferias:lista_ferias' %}" class="btn btn-outline-secondary">
-        <i class="bi bi-arrow-left"></i> Volver a lista de ferias
-      </a>
-    </div>
-  </div>
-
-  <form method="post" class="row g-3 needs-validation" novalidate>
-    {% csrf_token %}
-
-    <div class="col-md-6">
-      {{ form.nombre.label_tag }}
-      {{ form.nombre }}
-      {% for error in form.nombre.errors %}
-        <div class="text-danger small">{{ error }}</div>
-      {% endfor %}
-    </div>
-
-    <div class="col-md-6">
-      {{ form.categoria.label_tag }}
-      {{ form.categoria }}
-      {% for error in form.categoria.errors %}
-        <div class="text-danger small">{{ error }}</div>
-      {% endfor %}
-    </div>
-
-    <div class="col-md-6">
-      {{ form.fecha_inicio.label_tag }}
-      {{ form.fecha_inicio }}
-      {% for error in form.fecha_inicio.errors %}
-        <div class="text-danger small">{{ error }}</div>
-      {% endfor %}
-    </div>
-
-    <div class="col-md-6">
-      {{ form.fecha_fin.label_tag }}
-      {{ form.fecha_fin }}
-      {% for error in form.fecha_fin.errors %}
-        <div class="text-danger small">{{ error }}</div>
-      {% endfor %}
-    </div>
-
-    <div class="col-md-6">
-      {{ form.ubicacion.label_tag }}
-      {{ form.ubicacion }}
-      {% for error in form.ubicacion.errors %}
-        <div class="text-danger small">{{ error }}</div>
-      {% endfor %}
-    </div>
-
-    <div class="col-md-6">
-      {{ form.capacidad_puestos.label_tag }}
-      {{ form.capacidad_puestos }}
-      {% for error in form.capacidad_puestos.errors %}
-        <div class="text-danger small">{{ error }}</div>
-      {% endfor %}
-    </div>
-
-    <!-- Switch grande para Activa -->
-    <div class="col-12">
-      <div class="form-check form-switch form-switch-lg">
-        {{ form.activa }}
-        <label class="form-check-label fw-bold text-success" for="id_activa">
-          Activa
-        </label>
+  <div class="container mt-4">
+    <div class="row mb-4">
+      <div class="col">
+        <h1 class="h3 text-primary">Actualizar Feria</h1>
+        <p class="text-muted">Modifique los datos de la feria y guarde los cambios.</p>
       </div>
-      {% for error in form.activa.errors %}
-        <div class="text-danger small">{{ error }}</div>
-      {% endfor %}
+      <div class="col-auto">
+        <a href="{% url 'ferias:lista_ferias' %}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Volver a lista de ferias</a>
+      </div>
     </div>
 
-    <div class="col-12">
-      <button type="submit" class="btn btn-warning btn-lg">
-        <i class="bi bi-pencil-square"></i> Actualizar feria
-      </button>
-    </div>
-  </form>
-</div>
+    <form method="post" class="row g-3 needs-validation" novalidate>
+      {% csrf_token %}
+
+      <div class="col-md-6">
+        {{ form.nombre.label_tag }}
+        {{ form.nombre }}
+        {% for error in form.nombre.errors %}
+          <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="col-md-6">
+        {{ form.categoria.label_tag }}
+        {{ form.categoria }}
+        {% for error in form.categoria.errors %}
+          <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="col-md-6">
+        {{ form.fecha_inicio.label_tag }}
+        {{ form.fecha_inicio }}
+        {% for error in form.fecha_inicio.errors %}
+          <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="col-md-6">
+        {{ form.fecha_fin.label_tag }}
+        {{ form.fecha_fin }}
+        {% for error in form.fecha_fin.errors %}
+          <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="col-md-6">
+        {{ form.ubicacion.label_tag }}
+        {{ form.ubicacion }}
+        {% for error in form.ubicacion.errors %}
+          <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="col-md-6">
+        {{ form.capacidad_puestos.label_tag }}
+        {{ form.capacidad_puestos }}
+        {% for error in form.capacidad_puestos.errors %}
+          <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Switch grande para Activa -->
+      <div class="col-12">
+        <div class="form-check form-switch">
+          {{ form.activa }}
+          <label class="form-check-label fw-bold text-success" for="id_activa">Activa</label>
+        </div>
+        {% for error in form.activa.errors %}
+          <div class="text-danger small">{{ error }}</div>
+        {% endfor %}
+      </div>
+
+      <div class="col-12">
+        <button type="submit" class="btn btn-warning btn-lg"><i class="bi bi-pencil-square"></i> Actualizar feria</button>
+      </div>
+    </form>
+  </div>
 {% endblock %}

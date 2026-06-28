@@ -2,6 +2,7 @@ from django.views.generic import ListView, CreateView, DetailView, DeleteView, U
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from app.forms.rehacer_feria_form import RehacerFeriaForm
 from app.mixins.AdminReq import AdminRequiredMixin
 from app.forms.form_feria import FeriaForm
 from app.models.feria_models import Feria
@@ -109,7 +110,7 @@ class ListaFeriasView(LoginRequiredMixin,ListView):
         context['base_query'] = params.urlencode()
         return context
     
-    
+
 
 class NuevaFeriaView(AdminRequiredMixin,LoginRequiredMixin,CreateView):
     """Vista para crear una nueva feria."""
@@ -131,6 +132,8 @@ class NuevaFeriaView(AdminRequiredMixin,LoginRequiredMixin,CreateView):
             data.get("fecha_fin"),
             data.get("ubicacion"),
             data.get("capacidad_puestos"),
+            data.get("edicion"),
+            data.get("activa"),
         )
         if errors:
             for err in errors:
@@ -224,6 +227,8 @@ class UpdateFeriaView(AdminRequiredMixin,LoginRequiredMixin,UpdateView):
             data.get("fecha_fin"),
             data.get("ubicacion"),
             data.get("capacidad_puestos"),
+            data.get("edicion"),
+            data.get("activa"),
         )
         if errors:
             for err in errors:
@@ -246,3 +251,51 @@ class UpdateFeriaView(AdminRequiredMixin,LoginRequiredMixin,UpdateView):
                     messages.error(self.request, f"Error en {field}: {error}")
         return super().form_invalid(form)
     
+
+class RehacerFeriaView(AdminRequiredMixin,LoginRequiredMixin,UpdateView):
+    """Vista para actualizar una feria."""
+    model = Feria
+    form_class = RehacerFeriaForm
+    template_name = "ferias/rehacer_feria.html"
+    #fields = ["nombre", "categoria", "fecha_inicio", "fecha_fin", "ubicacion", "capacidad_puestos"]
+    success_url = reverse_lazy('ferias:lista_ferias')
+    
+def form_valid(self, form):
+    # Tomamos la feria original
+    original = self.get_object()
+    data = form.cleaned_data
+    nombre_edicion = data["nombre"] + f" {original.edicion + 1}° Edición"
+    
+    # Creamos una nueva instancia en lugar de actualizar la existente
+    nueva, errors = Feria.new(
+        nombre=nombre_edicion.strip(),
+        categoria=data.get("categoria"),
+        fecha_inicio=data.get("fecha_inicio"),
+        fecha_fin=data.get("fecha_fin"),
+        ubicacion=data.get("ubicacion"),
+        capacidad_puestos=data.get("capacidad_puestos"),
+        edicion=original.edicion + 1,
+        activa= data.get("activa"),
+    )
+    
+    if errors:
+        for err in errors:
+            messages.error(self.request, err)
+        return self.form_invalid(form)
+    
+    messages.info(
+        self.request,
+        f"La Feria '{nueva.nombre}' fue creada como edición {nueva.edicion + 1}. "
+        f"<a href='{reverse_lazy('ferias:detalle_feria', args=[nueva.pk])}'  class='alert-link'>Ver detalle</a>"
+    )
+    return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, form):
+        # Enviar todos los errores del formulario como mensajes
+        for field, errors in form.errors.items():
+            for error in errors:
+                if field == "__all__":
+                    messages.error(self.request, f"Error general: {error}")
+                else:
+                    messages.error(self.request, f"Error en {field}: {error}")
+        return super().form_invalid(form)

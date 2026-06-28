@@ -86,7 +86,7 @@
       "fecha_fin": "2026-08-17",
       "ubicacion": "Polo Creativo Sur",
       "capacidad_puestos": 30,
-      "activa": true
+      "activa": false
     }
   },
   {
@@ -121,8 +121,8 @@
     "fields": {
       "nombre": "Festival Gastronomico Patagonico",
       "categoria": 4002,
-      "fecha_inicio": "2026-11-20",
-      "fecha_fin": "2026-11-22",
+      "fecha_inicio": "2026-04-04",
+      "fecha_fin": "2026-04-04",
       "ubicacion": "Cochocho Vargas",
       "capacidad_puestos": 50,
       "activa": true
@@ -177,7 +177,7 @@
       "fecha_fin": "2026-11-08",
       "ubicacion": "Foyer Ego Pereda",
       "capacidad_puestos": 18,
-      "activa": true
+      "activa": false
     }
   },
   {
@@ -190,7 +190,7 @@
       "fecha_fin": "2026-09-20",
       "ubicacion": "Microestadio Municipal",
       "capacidad_puestos": 28,
-      "activa": true
+      "activa": false
     }
   },
   {
@@ -225,8 +225,34 @@
     "fields": {
       "nombre": "Arte Austral 2026",
       "categoria": 4008,
-      "fecha_inicio": "2026-11-14",
-      "fecha_fin": "2026-11-16",
+      "fecha_inicio": "2026-04-04",
+      "fecha_fin": "2026-04-04",
+      "ubicacion": "Antigua Casa Beban",
+      "capacidad_puestos": 30,
+      "activa": true
+    }
+  },
+    {
+    "model": "app.feria",
+    "pk": 5013,
+    "fields": {
+      "nombre": "Arte sada 2026",
+      "categoria": 4008,
+      "fecha_inicio": "2026-04-04",
+      "fecha_fin": "2026-04-04",
+      "ubicacion": "Antigua Casa Beban",
+      "capacidad_puestos": 30,
+      "activa": true
+    }
+  },
+    {
+    "model": "app.feria",
+    "pk": 5014,
+    "fields": {
+      "nombre": "Arte csads 2026",
+      "categoria": 4008,
+      "fecha_inicio": "2026-04-04",
+      "fecha_fin": "2026-04-04",
       "ubicacion": "Antigua Casa Beban",
       "capacidad_puestos": 30,
       "activa": true

@@ -16,6 +16,7 @@ urlpatterns = [
     path('ferias/<int:pk>/', feria_view.DetalleFeriaView.as_view(), name="detalle_feria"),
     path("ferias/<int:pk>/borrar/", feria_view.DeleteFeriaView.as_view(), name="borrar_feria"),
     path("ferias/<int:pk>/actualizar/", feria_view.UpdateFeriaView.as_view(), name="actualizar_feria"),
+    path("ferias/<int:pk>/rehacer/", feria_view.RehacerFeriaView.as_view(), name="rehacer_feria"),
     
     path("categorias/", categoria_view.ListaCategoriaView.as_view(), name="lista_categorias"),
     path("categorias/nueva/", categoria_view.NuevaCategoriaView.as_view(), name="nueva_categoria"),
