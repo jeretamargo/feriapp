@@ -122,9 +122,8 @@ python manage.py test ferias.tests.test_views -v 2
 
 | Rol                  | Usuario          | Contraseña   |
 | -------------------- | ---------------- | ------------ |
-| Superusuario / Admin | `admin`          | `admin1234`  |
-| Usuario de prueba    | `usuario_prueba` | `prueba1234` |
-
+| Usuario de prueba (Emprendedor)    | `lucasf` | `123456` |
+| Usuario de prueba (Visitante)    | `juanp` | `123456` |
 ---
 
 ## 📁 Estructura del proyecto
@@ -211,7 +210,7 @@ feriapp/
 
 ## 🧩 Decisiones de diseño
 
-> _(Mínimo 200 palabras — completar antes de la entrega final)_
+
 
 Describir aquí:
 
@@ -220,6 +219,7 @@ Describir aquí:
 - Qué validaciones pusieron en el modelo vs. en el formulario
 - Cómo dividieron el trabajo entre los integrantes
 - Cualquier decisión no obvia (ej: por qué el constraint de puesto único, cómo manejaron lista de espera, etc.)
+
 
 ---
 
