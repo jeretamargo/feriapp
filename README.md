@@ -119,29 +119,64 @@ python manage.py test ferias.tests.test_views -v 2
 
 ## 📁 Estructura del proyecto
 
-```
+```text
 feriapp/
-├── feriapp/            # Configuración del proyecto Django
+├── feriapp/                  # Configuración principal del proyecto Django
 │   ├── settings.py
-│   └── urls.py
-├── ferias/             # App principal
-│   ├── models.py       # Categoria, Feria, Emprendedor, Inscripcion
-│   ├── views.py
 │   ├── urls.py
-│   ├── forms.py
-│   ├── admin.py
-│   ├── consultas.py    # Consultas ORM
-│   └── tests/
-│       ├── test_models.py
-│       └── test_views.py
-├── templates/
-│   ├── base.html
-│   └── registration/
-├── static/
+│   ├── asgi.py
+│   └── wsgi.py
+│
+├── app/                      # Gestión de ferias
+│   ├── contexts/             # Context processors
+│   ├── fixtures/             # Datos iniciales
+│   ├── forms/                # Formularios
+│   ├── mixins/               # Control de permisos por rol
+│   ├── models/               # Modelos de negocio
+│   │   ├── categoria_models.py
+│   │   ├── feria_models.py
+│   │   ├── inscripcion_models.py
+│   │   ├── resena_models.py
+│   │   └── sector_models.py
+│   ├── templates/            # Plantillas HTML
+│   │   ├── categorias/
+│   │   ├── ferias/
+│   │   ├── inscripciones/
+│   │   ├── resenas/
+│   │   └── sectores/
+│   ├── tests/                # Pruebas unitarias
+│   ├── views/                # Vistas de la aplicación
+│   └── urls.py
+│
+├── usuarios/                 # Gestión de usuarios y autenticación
+│   ├── fixtures/
+│   ├── forms/
+│   ├── models/
+│   │   ├── user_models.py
+│   │   ├── visitante_models.py
+│   │   ├── emprendedor_models.py
+│   │   └── notificacion_models.py
+│   ├── templates/
+│   ├── tests/
+│   ├── views/
+│   └── urls.py
+│
+├── static/                   # Archivos estáticos (CSS, JS e imágenes)
+│
 ├── manage.py
 ├── requirements.txt
-└── .gitignore
+└── README.md
 ```
+
+### Organización
+
+* **feriapp/**: configuración principal del proyecto Django.
+* **app/**: contiene toda la lógica relacionada con las ferias, categorías, sectores, inscripciones y reseñas.
+* **usuarios/**: administra el registro, autenticación, perfiles de usuarios, emprendedores, visitantes y notificaciones.
+* **static/**: recursos estáticos como hojas de estilo, scripts e imágenes.
+* **fixtures/**: datos de ejemplo para poblar la base de datos durante el desarrollo.
+* **tests/**: pruebas unitarias de modelos y vistas.
+
 
 ---
 
