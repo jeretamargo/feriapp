@@ -88,10 +88,15 @@
           </form>
         </div>
       {% else %}
-        <div class="d-flex flex-column flex-lg-row gap-2 ms-lg-auto mt-3 mt-lg-0 align-items-center">
+        <div class="d-none d-lg-flex flex-column flex-lg-row gap-2 ms-lg-auto mt-3 mt-lg-0 align-items-center">
           <a href="{% url 'usuarios:login' %}" class="btn btn-sm btn-light d-flex-inline">Iniciar Sesión</a>
 
           <a href="{% url 'usuarios:registro' %}" class="btn btn-sm btn-primary d-flex-inline">Registrarse</a>
+        </div>
+        <div class="d-lg-none flex-column flex-lg-row gap-2 ms-lg-auto mt-3 mt-lg-0 align-items-center">
+          <a href="{% url 'usuarios:login' %}" class="nav-link text-dark btn btn-sm bg-light my-1">Iniciar Sesión</a>
+
+          <a href="{% url 'usuarios:registro' %}" class="nav-link text-light btn btn-sm bg-primary my-1">Registrarse</a>
         </div>
       {% endif %}
     </div>
