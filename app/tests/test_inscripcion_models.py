@@ -91,8 +91,6 @@ class InscripcionModelTest(TestCase):
             emprendedor=emp2,
             estado="confirmada",
         )
-        print(errors)
-
         self.assertIsNone(inscripcion)
         self.assertIn("La feria no tiene puestos disponibles.", errors)
 
