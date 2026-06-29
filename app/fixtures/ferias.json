@@ -1,78 +1,235 @@
 [
-  {
-    "model": "app.categoria",
-    "pk": 1,
-    "fields": {
-      "nombre": "Gastronomía",
-      "descripcion": ""
-    }
-  },
-  {
-    "model": "app.categoria",
-    "pk": 2,
-    "fields": {
-      "nombre": "Artesanías",
-      "descripcion": ""
-    }
-  },
-  {
-    "model": "app.categoria",
-    "pk": 3,
-    "fields": {
-      "nombre": "Tecnología",
-      "descripcion": ""
-    }
-  },
-  {
-    "model": "app.feria",
-    "pk": 1,
-    "fields": {
-      "nombre": "Feria del Fin del Mundo",
-      "categoria": 1,
-      "fecha_inicio": "2026-06-01",
-      "fecha_fin": "2026-06-03",
-      "ubicacion": "Ushuaia",
-      "capacidad_puestos": 20,
-      "activa": true
-    }
-  },
-  {
-    "model": "app.feria",
-    "pk": 2,
-    "fields": {
-      "nombre": "Feria Artesanal de Invierno",
-      "categoria": 2,
-      "fecha_inicio": "2026-07-15",
-      "fecha_fin": "2026-07-17",
-      "ubicacion": "Río Grande",
-      "capacidad_puestos": 15,
-      "activa": true
-    }
-  },
-  {
-    "model": "app.feria",
-    "pk": 3,
-    "fields": {
-      "nombre": "Tech Patagonia",
-      "categoria": 3,
-      "fecha_inicio": "2026-09-10",
-      "fecha_fin": "2026-09-11",
-      "ubicacion": "Ushuaia",
-      "capacidad_puestos": 10,
-      "activa": true
-    }
-  },
-  {
-    "model": "app.feria",
-    "pk": 4,
-    "fields": {
-      "nombre": "Mercado de Diseño",
-      "categoria": 2,
-      "fecha_inicio": "2026-08-20",
-      "fecha_fin": "2026-08-22",
-      "ubicacion": "Ushuaia",
-      "capacidad_puestos": 12,
-      "activa": true
-    }
-  }
+	{
+		"model": "app.categoria",
+		"pk": 1,
+		"fields": {
+			"nombre": "Gastronomía",
+			"descripcion": "Área de compra de panadería, cafetería, carnicería, verdulería."
+		}
+	},
+	{
+		"model": "app.categoria",
+		"pk": 2,
+		"fields": {
+			"nombre": "Artesanías",
+			"descripcion": "Artesanías locales con metales, madera, arcilla, etc. Incluye piedras raras."
+		}
+	},
+	{
+		"model": "app.categoria",
+		"pk": 3,
+		"fields": {
+			"nombre": "Tecnología",
+			"descripcion": "Sector de accesorios de tecnología, teléfonos celulares, computadoras."
+		}
+	},
+	{
+		"model": "app.feria",
+		"pk": 1,
+		"fields": {
+			"nombre": "Feria del Fin del Mundo",
+			"categoria": 1,
+			"fecha_inicio": "2026-06-01",
+			"fecha_fin": "2026-06-03",
+			"ubicacion": "Ushuaia",
+			"capacidad_puestos": 20,
+			"activa": true
+		}
+	},
+	{
+		"model": "app.feria",
+		"pk": 2,
+		"fields": {
+			"nombre": "Feria Artesanal de Invierno",
+			"categoria": 2,
+			"fecha_inicio": "2026-07-15",
+			"fecha_fin": "2026-07-17",
+			"ubicacion": "Río Grande",
+			"capacidad_puestos": 15,
+			"activa": true
+		}
+	},
+	{
+		"model": "app.feria",
+		"pk": 3,
+		"fields": {
+			"nombre": "Tech Patagonia",
+			"categoria": 3,
+			"fecha_inicio": "2026-09-10",
+			"fecha_fin": "2026-09-11",
+			"ubicacion": "Ushuaia",
+			"capacidad_puestos": 10,
+			"activa": true
+		}
+	},
+	{
+		"model": "app.feria",
+		"pk": 4,
+		"fields": {
+			"nombre": "Mercado de Diseño",
+			"categoria": 2,
+			"fecha_inicio": "2026-08-20",
+			"fecha_fin": "2026-08-22",
+			"ubicacion": "Ushuaia",
+			"capacidad_puestos": 12,
+			"activa": true
+		}
+	},
+
+	{
+		"model": "app.feria",
+		"pk": 5001,
+		"fields": {
+			"nombre": "Expo Tech Ushuaia 2026",
+			"categoria": 4001,
+			"fecha_inicio": "2026-08-15",
+			"fecha_fin": "2026-08-17",
+			"ubicacion": "Polo Creativo Sur",
+			"capacidad_puestos": 30,
+			"activa": true
+		}
+	},
+	{
+		"model": "app.feria",
+		"pk": 5002,
+		"fields": {
+			"nombre": "Feria de Innovacion Fueguina",
+			"categoria": 4001,
+			"fecha_inicio": "2026-10-10",
+			"fecha_fin": "2026-10-12",
+			"ubicacion": "Centro Cultural Esther Fadul",
+			"capacidad_puestos": 25,
+			"activa": true
+		}
+	},
+	{
+		"model": "app.feria",
+		"pk": 5003,
+		"fields": {
+			"nombre": "Sabores del Fin del Mundo",
+			"categoria": 4002,
+			"fecha_inicio": "2026-09-05",
+			"fecha_fin": "2026-09-07",
+			"ubicacion": "Paseo de las Rosas",
+			"capacidad_puestos": 40,
+			"activa": true
+		}
+	},
+	{
+		"model": "app.feria",
+		"pk": 5004,
+		"fields": {
+			"nombre": "Festival Gastronomico Patagonico",
+			"categoria": 4002,
+			"fecha_inicio": "2026-11-20",
+			"fecha_fin": "2026-11-22",
+			"ubicacion": "Cochocho Vargas",
+			"capacidad_puestos": 50,
+			"activa": true
+		}
+	},
+	{
+		"model": "app.feria",
+		"pk": 5005,
+		"fields": {
+			"nombre": "Expo Artesanos del Sur",
+			"categoria": 4003,
+			"fecha_inicio": "2026-07-12",
+			"fecha_fin": "2026-07-14",
+			"ubicacion": "Casa de la Cultura",
+			"capacidad_puestos": 35,
+			"activa": true
+		}
+	},
+	{
+		"model": "app.feria",
+		"pk": 5006,
+		"fields": {
+			"nombre": "Encuentro de Artes y Oficios",
+			"categoria": 4003,
+			"fecha_inicio": "2026-12-05",
+			"fecha_fin": "2026-12-07",
+			"ubicacion": "Centro Comunitario Andorra",
+			"capacidad_puestos": 25,
+			"activa": false
+		}
+	},
+	{
+		"model": "app.feria",
+		"pk": 5007,
+		"fields": {
+			"nombre": "Moda Fueguina",
+			"categoria": 4004,
+			"fecha_inicio": "2026-08-28",
+			"fecha_fin": "2026-08-30",
+			"ubicacion": "Hotel Albatros",
+			"capacidad_puestos": 20,
+			"activa": true
+		}
+	},
+	{
+		"model": "app.feria",
+		"pk": 5008,
+		"fields": {
+			"nombre": "Diseño Independiente Patagonia",
+			"categoria": 4004,
+			"fecha_inicio": "2026-11-06",
+			"fecha_fin": "2026-11-08",
+			"ubicacion": "Foyer Ego Pereda",
+			"capacidad_puestos": 18,
+			"activa": true
+		}
+	},
+	{
+		"model": "app.feria",
+		"pk": 5009,
+		"fields": {
+			"nombre": "Expo Hogar y Decoracion",
+			"categoria": 4005,
+			"fecha_inicio": "2026-09-18",
+			"fecha_fin": "2026-09-20",
+			"ubicacion": "Microestadio Municipal",
+			"capacidad_puestos": 28,
+			"activa": true
+		}
+	},
+	{
+		"model": "app.feria",
+		"pk": 5010,
+		"fields": {
+			"nombre": "Mercado Emprendedor Municipal",
+			"categoria": 4006,
+			"fecha_inicio": "2026-10-24",
+			"fecha_fin": "2026-10-26",
+			"ubicacion": "Paseo Costero",
+			"capacidad_puestos": 45,
+			"activa": true
+		}
+	},
+	{
+		"model": "app.feria",
+		"pk": 5011,
+		"fields": {
+			"nombre": "Feria Verde Ushuaia",
+			"categoria": 4007,
+			"fecha_inicio": "2026-09-12",
+			"fecha_fin": "2026-09-13",
+			"ubicacion": "Bahia Encerrada",
+			"capacidad_puestos": 22,
+			"activa": true
+		}
+	},
+	{
+		"model": "app.feria",
+		"pk": 5012,
+		"fields": {
+			"nombre": "Arte Austral 2026",
+			"categoria": 4008,
+			"fecha_inicio": "2026-11-14",
+			"fecha_fin": "2026-11-16",
+			"ubicacion": "Antigua Casa Beban",
+			"capacidad_puestos": 30,
+			"activa": true
+		}
+	}
 ]

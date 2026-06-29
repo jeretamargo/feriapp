@@ -1,26 +1,182 @@
 [
-  {
-    "model": "app.inscripcion",
-    "pk": 1,
-    "fields": {
-      "emprendedor": 1,
-      "feria": 1,
-      "numero_puesto": 10,
-      "estado": "confirmada",
-      "fecha_inscripcion": "2026-05-26",
-      "registrado_por": 1
-    }
-  },
-  {
-    "model": "app.inscripcion",
-    "pk": 2,
-    "fields": {
-      "emprendedor": 2,
-      "feria": 1,
-      "numero_puesto": 11,
-      "estado": "confirmada",
-      "fecha_inscripcion": "2026-05-26",
-      "registrado_por": 2
-    }
-  }
+	{
+		"model": "app.inscripcion",
+		"pk": 7001,
+		"fields": {
+			"emprendedor": 2001,
+			"feria": 5001,
+			"numero_puesto": 1,
+			"fecha_inscripcion": "2026-06-01",
+			"estado": "confirmada",
+			"registrado_por": 1001
+		}
+	},
+	{
+		"model": "app.inscripcion",
+		"pk": 7002,
+		"fields": {
+			"emprendedor": 2001,
+			"feria": 5002,
+			"numero_puesto": 2,
+			"fecha_inscripcion": "2026-06-01",
+			"estado": "confirmada",
+			"registrado_por": 1001
+		}
+	},
+	{
+		"model": "app.inscripcion",
+		"pk": 7003,
+		"fields": {
+			"emprendedor": 2001,
+			"feria": 5010,
+			"numero_puesto": null,
+			"fecha_inscripcion": "2026-06-02",
+			"estado": "lista_espera",
+			"registrado_por": 1001
+		}
+	},
+	{
+		"model": "app.inscripcion",
+		"pk": 7004,
+		"fields": {
+			"emprendedor": 2002,
+			"feria": 5005,
+			"numero_puesto": 1,
+			"fecha_inscripcion": "2026-06-02",
+			"estado": "confirmada",
+			"registrado_por": 1002
+		}
+	},
+	{
+		"model": "app.inscripcion",
+		"pk": 7005,
+		"fields": {
+			"emprendedor": 2002,
+			"feria": 5006,
+			"numero_puesto": 2,
+			"fecha_inscripcion": "2026-06-03",
+			"estado": "confirmada",
+			"registrado_por": 1002
+		}
+	},
+	{
+		"model": "app.inscripcion",
+		"pk": 7006,
+		"fields": {
+			"emprendedor": 2002,
+			"feria": 5012,
+			"numero_puesto": 1,
+			"fecha_inscripcion": "2026-06-04",
+			"estado": "confirmada",
+			"registrado_por": 1002
+		}
+	},
+	{
+		"model": "app.inscripcion",
+		"pk": 7007,
+		"fields": {
+			"emprendedor": 2003,
+			"feria": 5005,
+			"numero_puesto": 3,
+			"fecha_inscripcion": "2026-06-05",
+			"estado": "confirmada",
+			"registrado_por": 1003
+		}
+	},
+	{
+		"model": "app.inscripcion",
+		"pk": 7008,
+		"fields": {
+			"emprendedor": 2003,
+			"feria": 5003,
+			"numero_puesto": 1,
+			"fecha_inscripcion": "2026-06-05",
+			"estado": "confirmada",
+			"registrado_por": 1003
+		}
+	},
+	{
+		"model": "app.inscripcion",
+		"pk": 7009,
+		"fields": {
+			"emprendedor": 2003,
+			"feria": 5011,
+			"numero_puesto": null,
+			"fecha_inscripcion": "2026-06-06",
+			"estado": "cancelada",
+			"registrado_por": 1003
+		}
+	},
+	{
+		"model": "app.inscripcion",
+		"pk": 7010,
+		"fields": {
+			"emprendedor": 2004,
+			"feria": 5007,
+			"numero_puesto": 1,
+			"fecha_inscripcion": "2026-06-06",
+			"estado": "confirmada",
+			"registrado_por": 1004
+		}
+	},
+	{
+		"model": "app.inscripcion",
+		"pk": 7011,
+		"fields": {
+			"emprendedor": 2004,
+			"feria": 5008,
+			"numero_puesto": 1,
+			"fecha_inscripcion": "2026-06-07",
+			"estado": "confirmada",
+			"registrado_por": 1004
+		}
+	},
+	{
+		"model": "app.inscripcion",
+		"pk": 7012,
+		"fields": {
+			"emprendedor": 2005,
+			"feria": 5009,
+			"numero_puesto": 1,
+			"fecha_inscripcion": "2026-06-08",
+			"estado": "confirmada",
+			"registrado_por": 1005
+		}
+	},
+	{
+		"model": "app.inscripcion",
+		"pk": 7013,
+		"fields": {
+			"emprendedor": 2005,
+			"feria": 5010,
+			"numero_puesto": 4,
+			"fecha_inscripcion": "2026-06-08",
+			"estado": "confirmada",
+			"registrado_por": 1005
+		}
+	},
+	{
+		"model": "app.inscripcion",
+		"pk": 7014,
+		"fields": {
+			"emprendedor": 2006,
+			"feria": 5003,
+			"numero_puesto": 2,
+			"fecha_inscripcion": "2026-06-09",
+			"estado": "confirmada",
+			"registrado_por": 1006
+		}
+	},
+	{
+		"model": "app.inscripcion",
+		"pk": 7015,
+		"fields": {
+			"emprendedor": 2006,
+			"feria": 5004,
+			"numero_puesto": 1,
+			"fecha_inscripcion": "2026-06-09",
+			"estado": "confirmada",
+			"registrado_por": 1006
+		}
+	}
 ]

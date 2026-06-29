@@ -1,0 +1,66 @@
+[
+  {
+    "model": "app.categoria",
+    "pk": 4001,
+    "fields": {
+      "nombre": "Tecnologia",
+      "descripcion": "Ferias orientadas a tecnologia, electronica, impresion 3D, desarrollo de software y soluciones digitales."
+    }
+  },
+  {
+    "model": "app.categoria",
+    "pk": 4002,
+    "fields": {
+      "nombre": "Gastronomia",
+      "descripcion": "Emprendimientos gastronomicos, productores regionales, bebidas artesanales y food trucks."
+    }
+  },
+  {
+    "model": "app.categoria",
+    "pk": 4003,
+    "fields": {
+      "nombre": "Artesanias",
+      "descripcion": "Productos artesanales elaborados a mano, ceramica, tejido, madera y decoracion."
+    }
+  },
+  {
+    "model": "app.categoria",
+    "pk": 4004,
+    "fields": {
+      "nombre": "Moda",
+      "descripcion": "Diseño independiente, indumentaria, accesorios, joyeria y productos textiles."
+    }
+  },
+  {
+    "model": "app.categoria",
+    "pk": 4005,
+    "fields": {
+      "nombre": "Hogar",
+      "descripcion": "Productos para el hogar, decoracion, muebles, organizacion y ambientacion."
+    }
+  },
+  {
+    "model": "app.categoria",
+    "pk": 4006,
+    "fields": {
+      "nombre": "Emprendedores Locales",
+      "descripcion": "Espacio destinado a emprendimientos regionales y productores locales."
+    }
+  },
+  {
+    "model": "app.categoria",
+    "pk": 4007,
+    "fields": {
+      "nombre": "Sustentabilidad",
+      "descripcion": "Proyectos enfocados en reciclaje, reutilizacion, economia circular y cuidado ambiental."
+    }
+  },
+  {
+    "model": "app.categoria",
+    "pk": 4008,
+    "fields": {
+      "nombre": "Arte y Cultura",
+      "descripcion": "Expresiones artisticas, ilustracion, fotografia, musica y producciones culturales."
+    }
+  }
+]

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Detalle del Sector{% endblock %}
+
+{% block content %}
+    <h1>Detalle del Sector</h1>
+    <p><strong>Nombre:</strong> {{ sector.nombre }}</p>
+    <p><strong>Capacidad de Puestos:</strong> {{ sector.capacidad_puestos }}</p>
+    <p><strong>Conexión Eléctrica:</strong> {{ sector.tiene_conexion_electrica|yesno:"Sí,No" }}</p>
+    <p><strong>Feria Asociada:</strong> {{ sector.feria.nombre }}</p>
+    <a href="{% url 'ferias:lista_sector' %}" class="btn btn-secondary">Volver a la lista</a>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Reseñas — FeriApp{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="mb-0">Reseñas</h3>
+</div>
+
+{% if resenas %}
+<div class="row">
+    {% for resena in resenas %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body d-flex flex-column">
+
+                {# Encabezado con nombre del emprendedor #}
+                <div class="d-flex align-items-center mb-3">
+                    <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center me-3"
+                        style="width: 45px; height: 45px; font-size: 1.1rem; flex-shrink: 0;">
+                        {{ resena.emprendedor.nombre|first|upper }}
+                    </div>
+                    <div>
+                        <h6 class="mb-0 fw-semibold">
+                            {{ resena.emprendedor.nombre }}
+                            {{ resena.emprendedor.apellido }}
+                        </h6>
+                        <small class="text-muted">{{ resena.emprendedor.rubro }}</small>
+                    </div>
+                </div>
+
+                {# Estrellas #}
+                <div class="mb-2">
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= resena.puntuacion %}
+                            <span class="text-warning fs-5">★</span>
+                        {% else %}
+                            <span class="text-secondary fs-5">★</span>
+                        {% endif %}
+                    {% endfor %}
+                    <small class="text-muted ms-1">{{ resena.puntuacion }}/5</small>
+                </div>
+
+                {# Comentario #}
+                <p class="card-text text-muted fst-italic flex-grow-1">
+                    "{{ resena.comentario }}"
+                </p>
+
+                {# Footer con visitante y fecha #}
+                <div class="border-top pt-2 mt-2 d-flex justify-content-between align-items-center">
+                    <small class="text-muted">
+                        👤 Fecha de la Reseña
+                    </small>
+                    <small class="text-muted">
+                        {{ resena.fecha_creacion|date:"d/m/Y" }}
+                    </small>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% else %}
+<div class="text-center my-5">
+    <p class="text-muted fs-5">No hay reseñas todavía.</p>
+</div>
+{% endif %}
+
+{% endblock %}

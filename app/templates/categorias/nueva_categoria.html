@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% block title %}Nueva Categoría — FeriApp{%endblock%}
+{% block content %}
+
+<div class="row align-items-center mb-4">
+  <div class="col-auto">
+    <a href="{% url 'ferias:lista_categorias' %}" class="btn btn-outline-secondary">
+      <i class="bi bi-arrow-left"></i> Volver
+    </a>
+  </div>
+  <div class="col">
+    <h3 class="mb-0">Crear Nueva Categoría</h3>
+  </div>
+</div>
+<div class="container mt-4">
+  <form method="post" class="row g-3">
+    {% csrf_token %} {% for field in form %}
+    <div class="form-group">
+      <div class="">{{ field.label_tag }} {{ field }}</div>
+      {% if field.errors %}
+      <div class="text-danger">{{ field.errors }}</div>
+      {% endif %}
+    </div>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-primary col-4">Crear Categoría</button>
+  </form>
+</div>
+{% endblock %}

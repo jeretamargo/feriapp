@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}
+Solicitudes de Inscripción
+{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    Solicitudes Pendientes
+</h2>
+
+<div class="card">
+
+    <div class="card-body">
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead>
+
+                    <tr>
+                        <th>Emprendedor</th>
+                        <th>Feria</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for inscripcion in solicitudes %}
+
+                    <tr>
+
+                        <td>
+                            {{ inscripcion.emprendedor.nombre_completo }}
+                        </td>
+
+                        <td>
+                            {{ inscripcion.feria.nombre }}
+                        </td>
+
+                        <td>
+                            {% if inscripcion.estado == "lista_espera" %}
+                            <span class="badge bg-warning text-dark">
+                                En Lista de Espera
+                            </span>
+                            {% else %}
+                            {{ inscripcion.estado }}
+
+                            {% endif %}
+
+
+                        </td>
+
+                        <td>
+                            <div class="d-flex flex-column flex-md-row gap-2">
+
+                                {% if inscripcion.feria.tiene_lugar %}
+                                <form method="post" action="{% url 'app:aprobar_inscripcion' inscripcion.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success btn-sm">
+                                        Aprobar
+                                    </button>
+                                </form>
+                                {% else %}
+                                <button class="btn btn-secondary btn-sm" disabled>
+                                    Feria llena
+                                </button>
+                                {% endif %}
+
+                                <form method="post" action="{% url 'app:rechazar_inscripcion' inscripcion.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        Rechazar
+                                    </button>
+                                </form>
+
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="4" class="text-center">
+
+                            No hay solicitudes pendientes
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<h3 class="mt-4">Historial</h3>
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Emprendedor</th>
+                    <th>Feria</th>
+                    <th>Estado</th>
+                    <th>Puesto</th>
+                    <th>Organizador</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for inscripcion in historial %}
+
+                <tr>
+                    <td>{{ inscripcion.emprendedor.nombre_completo }}</td>
+                    <td>{{ inscripcion.feria.nombre }}</td>
+
+                    <td>
+                        {% if inscripcion.estado == "confirmada" %}
+                        <span class="badge bg-success">
+                            Confirmade
+                        </span>
+                        {% else %}
+                        <span class="badge bg-danger">
+                            Rechazade
+                        </span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {{ inscripcion.numero_puesto|default:"-" }}
+                    </td>
+                    <td>{{ inscripcion.registrado_por.username }}</td>
+                </tr>
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="4" class="text-center">
+                        No hay historial
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

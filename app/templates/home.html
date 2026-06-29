@@ -1,0 +1,198 @@
+<!-- prettier-ignore -->
+{% extends "base.html" %} {% block title %}Inicio — FeriApp{% endblock %}
+{% block content %}
+<div class="row mb-4">
+  <div class="col">
+    <div class="d-flex flex-row ">
+      <h1 class="h1 text-center fw-bold mb-3">Bienvenido a FeriApp🏪</h1>
+    </div>
+    <p class="h5 fw-bold text-muted">Home</p>
+  </div>
+</div>
+
+<!-- TODO: reemplazar con estadísticas reales del contexto -->
+<div class="container">
+  <div class="row g-4">
+    <div class="col-12 col-lg-4">
+      <div class="row g-3">
+        <div class="card text-bg-success mb-3 col-6 col-lg-12" style="max-width: 18rem">
+          <div class="card-body">
+            <h1 class="card-title text-center">{{nro_ferias_totales}}</h1>
+            <p class="card-text h5 text-center">Ferias celebradas</p>
+          </div>
+        </div>
+
+
+        <div class="card text-bg-primary mb-3 col-6 col-lg-12" style="max-width: 18rem">
+          <div class="card-body">
+            <h1 class="card-title text-center">{{nro_emprendedores}}</h1>
+            <p class="card-text h5 text-center">Emprendedores Activos</p>
+          </div>
+        </div>
+
+        {%if not request.user.es_visitante %}
+        <div class="card text-bg-warning mb-3 col-6 col-lg-12" style="max-width: 18rem">
+          <div class="card-body">
+            <h1 class="card-title text-center">{{nro_visitantes}}</h1>
+            <p class="card-text h5 text-center">Visitantes Contentos</p>
+          </div>
+        </div>
+        {%endif%}
+
+
+        <div class="card text-bg-info mb-3 col-6 col-lg-12" style="max-width: 18rem">
+          <div class="card-body">
+            <h1 class="card-title text-center">{{nro_ferias_activas}}</h1>
+            <p class="card-text h5 text-center">Ferias Activas</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-8 ">
+      <div id="carouselExampleCaptions" class="carousel slide">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+            aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+            aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+            aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="static/images/slide2.jpg" class="d-block w-100" alt="..." />
+            <div class="carousel-caption d-none d-md-block bg-black bg-opacity-75 p-1">
+              <h5>Feria del Jamón</h5>
+              <p>
+                Los mejores productores de fiambre y alimentos embutidos se
+                reunen a ofrecer sus productos.
+              </p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="static/images/slide3.jpg" class="d-block w-100" alt="..." />
+            <div class="carousel-caption d-none d-md-block bg-black bg-opacity-75 p-1">
+              <h5>Feria Arte del sur</h5>
+              <p>
+                La feria de pinturas mas austral del planeta se vuelve a juntar
+                en su sexta edición
+              </p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img src="static/images/slide1.jpg" class="d-block w-100" alt="..." />
+            <div class="carousel-caption d-none d-md-block bg-black bg-opacity-75 p-1">
+              <h5>Feria de las Colectividades</h5>
+              <p>
+                Colctividades de todo el mundo se reunen a mostrar sus productos
+              </p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+      <!-- aca es debajo del carusel -->
+
+      <div class="row" style="margin-top: 39px;">
+        <div class="col-md-6 mb-3">
+
+          <div class="card shadow-sm">
+
+            <div class="card-header bg-warning text-center">
+              <h5 class="mb-0">
+                Emprendedor Destacado
+              </h5>
+            </div>
+
+            <div class="card-body py-4 text-center">
+
+              {% if emprendedor_destacado %}
+
+              <h5 class="mb-1">
+                {{ emprendedor_destacado.nombre_completo }}
+              </h5>
+
+              <small class="text-muted d-block">
+                {{ emprendedor_destacado.rubro }}
+              </small>
+
+              <div class="mt-2">
+                ⭐ {{ emprendedor_destacado.promedio|floatformat:1 }}
+                ({{ emprendedor_destacado.cantidad_resenas }} reseñas)
+              </div>
+
+              {% else %}
+
+              <p class="text-muted mb-0">
+                Todavía no hay emprendedor destacado
+              </p>
+
+              {% endif %}
+
+            </div>
+
+          </div>
+
+        </div>
+      
+
+        <div class="col-md-6">
+          <div class="card shadow-sm">
+            <div class="card-header bg-success text-white text-center">
+              <h5 class="mb-0">
+                Feria con más Emprendedores
+              </h5>
+            </div>
+            <div class="card-body py-4 text-center">
+              {% if feria_destacada %}
+              <h5 class="mb-1">{{ feria_destacada.nombre }}</h5>
+              <small class="text-muted d-block">{{ feria_destacada.categoria }}</small>
+              <div class="mt-2">
+                🏬 {{ feria_destacada.total_emprendedores }} emprendedores confirmados
+              </div>
+              {% else %}
+              <p class="text-muted mb-0">
+                Todavía no hay ferias con emprendedores confirmados
+              </p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+  </div>
+</div>
+</div>
+<div class="container">
+  <h2 class="text-center fw-bold mt-5 mb-3 h2">Últimas Ferias Activas</h2>
+
+  <div class="row g-3">
+    {% for feria in ferias_activas %}
+    <div class="col-md-4">
+      <div class="card h-100">
+        <div class="card-body text-center d-flex flex-column align-items-center">
+          <h5 class="card-title text-center mb-2">{{ feria.nombre }}</h5>
+          <span class="card-text  badge bg-success mb-2">{{ feria.categoria.nombre }}</span>
+          <a href={% url 'ferias:detalle_feria' feria.id %} class="btn btn-primary">Ver más información</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+</div>

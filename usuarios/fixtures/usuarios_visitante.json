@@ -1,0 +1,102 @@
+[
+  {
+    "model": "usuarios.visitante",
+    "pk": 3001,
+    "fields": {
+      "nombre": "Juan",
+      "apellido": "Perez",
+      "usuario": 1011,
+      "fecha_registro": "2026-06-01"
+    }
+  },
+  {
+    "model": "usuarios.visitante",
+    "pk": 3002,
+    "fields": {
+      "nombre": "Ana",
+      "apellido": "Gomez",
+      "usuario": 1012,
+      "fecha_registro": "2026-06-02"
+    }
+  },
+  {
+    "model": "usuarios.visitante",
+    "pk": 3003,
+    "fields": {
+      "nombre": "Carlos",
+      "apellido": "Sanchez",
+      "usuario": 1013,
+      "fecha_registro": "2026-06-03"
+    }
+  },
+  {
+    "model": "usuarios.visitante",
+    "pk": 3004,
+    "fields": {
+      "nombre": "Laura",
+      "apellido": "Fernandez",
+      "usuario": 1014,
+      "fecha_registro": "2026-06-04"
+    }
+  },
+  {
+    "model": "usuarios.visitante",
+    "pk": 3005,
+    "fields": {
+      "nombre": "Nicolas",
+      "apellido": "Morales",
+      "usuario": 1015,
+      "fecha_registro": "2026-06-05"
+    }
+  },
+  {
+    "model": "usuarios.visitante",
+    "pk": 3006,
+    "fields": {
+      "nombre": "Luciana",
+      "apellido": "Diaz",
+      "usuario": 1016,
+      "fecha_registro": "2026-06-06"
+    }
+  },
+  {
+    "model": "usuarios.visitante",
+    "pk": 3007,
+    "fields": {
+      "nombre": "Gabriel",
+      "apellido": "Rojas",
+      "usuario": 1017,
+      "fecha_registro": "2026-06-07"
+    }
+  },
+  {
+    "model": "usuarios.visitante",
+    "pk": 3008,
+    "fields": {
+      "nombre": "Carolina",
+      "apellido": "Blanco",
+      "usuario": 1018,
+      "fecha_registro": "2026-06-08"
+    }
+  },
+  {
+    "model": "usuarios.visitante",
+    "pk": 3009,
+    "fields": {
+      "nombre": "Rodrigo",
+      "apellido": "Castro",
+      "usuario": 1019,
+      "fecha_registro": "2026-06-09"
+    }
+  },
+  {
+    "model": "usuarios.visitante",
+    "pk": 3010,
+    "fields": {
+      "nombre": "Elena",
+      "apellido": "Paz",
+      "usuario": 1020,
+      "fecha_registro": "2026-06-10"
+    }
+  }
+]

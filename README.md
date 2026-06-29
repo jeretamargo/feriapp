@@ -1,21 +1,22 @@
 # FeriApp 🏪
+
 Sistema web de gestión de ferias y emprendedores desarrollado con Django 5.2+.  
 Permite administrar ferias temáticas, gestionar inscripciones de emprendedores y controlar la disponibilidad de puestos, con autenticación de usuarios y panel de administración.
 
 ---
-### Rama de desarrollo -> dev
 
+### Rama de desarrollo -> dev
 
 ## 🛠️ Stack
 
-| Tecnología | Versión |
-|------------|---------|
-| Python | 3.13+ |
-| Django | 5.2+ |
-| Base de datos | SQLite (desarrollo) |
-| Frontend | Bootstrap 5 |
-| Tests | `django.test.TestCase` |
-| Control de versiones | Git + GitHub |
+| Tecnología           | Versión                |
+| -------------------- | ---------------------- |
+| Python               | 3.13+                  |
+| Django               | 5.2+                   |
+| Base de datos        | SQLite (desarrollo)    |
+| Frontend             | Bootstrap 5            |
+| Tests                | `django.test.TestCase` |
+| Control de versiones | Git + GitHub           |
 
 ---
 
@@ -34,11 +35,11 @@ Permite administrar ferias temáticas, gestionar inscripciones de emprendedores 
 
 ## 👥 Integrantes
 
-| Nombre | Usuario GitHub |
-|--------|---------------|
-| Jeremias Tamargo | [@jeretamargo](https://github.com/jeretamargo) |
-| Marcos Cerezo| [@Marcos45C](https://github.com/Marcos45C) |
-| Sebastian Martinez | [@SebaaM](https://github.com/SebaaM) |
+| Nombre             | Usuario GitHub                                 |
+| ------------------ | ---------------------------------------------- |
+| Jeremias Tamargo   | [@jeretamargo](https://github.com/jeretamargo) |
+| Marcos Cerezo      | [@Marcos45C](https://github.com/Marcos45C)     |
+| Sebastian Martinez | [@SebaaM](https://github.com/SebaaM)           |
 
 ---
 
@@ -85,7 +86,7 @@ python manage.py createsuperuser
 
 ```bash
 
-python manage.py loaddata usuarios.json ferias.json inscripciones.json resenas.json
+python manage.py loaddata usuarios usuarios_emprendedor usuarios_visitante categorias ferias sectores inscripciones resenas
 ```
 
 ### 7. Correr el servidor de desarrollo
@@ -119,71 +120,101 @@ python manage.py test ferias.tests.test_views -v 2
 
 > ⚠️ Solo para uso del corrector en entorno de desarrollo local.
 
-| Rol | Usuario | Contraseña |
-|-----|---------|-----------|
-| Superusuario / Admin | `admin` | `admin1234` |
-| Usuario de prueba | `usuario_prueba` | `prueba1234` |
+| Rol                  | Usuario          | Contraseña   |
+| -------------------- | ---------------- | ------------ |
+| Superusuario / Admin | `admin`          | `admin1234`  |
+| Usuario de prueba    | `usuario_prueba` | `prueba1234` |
 
 ---
 
 ## 📁 Estructura del proyecto
 
-```
+```text
 feriapp/
-├── feriapp/            # Configuración del proyecto Django
+├── feriapp/                  # Configuración principal del proyecto Django
 │   ├── settings.py
+│   ├── urls.py
+│   ├── asgi.py
+│   └── wsgi.py
+│
+├── app/                      # Gestión de ferias
+│   ├── contexts/             # Context processors
+│   ├── fixtures/             # Datos iniciales
+│   ├── forms/                # Formularios
+│   ├── mixins/               # Control de permisos por rol
+│   ├── models/               # Modelos de negocio
+│   │   ├── categoria_models.py
+│   │   ├── feria_models.py
+│   │   ├── inscripcion_models.py
+│   │   ├── resena_models.py
+│   │   └── sector_models.py
+│   ├── templates/            # Plantillas HTML
+│   │   ├── categorias/
+│   │   ├── ferias/
+│   │   ├── inscripciones/
+│   │   ├── resenas/
+│   │   └── sectores/
+│   ├── tests/                # Pruebas unitarias
+│   ├── views/                # Vistas de la aplicación
 │   └── urls.py
-├── app/             # App principal
-│   ├── models.py       # Categoria, Feria, Emprendedor, Inscripcion
-│   ├── views.py
-│   ├── urls.py
-│   ├── forms.py
-│   ├── admin.py
-│   ├── consultas.py    # Consultas ORM
-│   └── tests/
-│       ├── test_models.py
-│       └── test_views.py
-├── usuarios/           # App manejo de usuarios.
-│   ├── models.py       # Notificacion, Emprendedor, Visitante.
-│   ├── views.py
-│   ├── urls.py
-│   ├── forms.py
-│   ├── admin.py
-│   ├── consultas.py    # Consultas ORM
-│   └── tests/
-│       └── test_models.py
-├── templates/
-│   ├── base.html
-│   └── registration/
-├── static/
+│
+├── usuarios/                 # Gestión de usuarios y autenticación
+│   ├── fixtures/
+│   ├── forms/
+│   ├── models/
+│   │   ├── user_models.py
+│   │   ├── visitante_models.py
+│   │   ├── emprendedor_models.py
+│   │   └── notificacion_models.py
+│   ├── templates/
+│   ├── tests/
+│   ├── views/
+│   └── urls.py
+│
+├── static/                   # Archivos estáticos (CSS, JS e imágenes)
+│
 ├── manage.py
 ├── requirements.txt
-└── .gitignore
+└── README.md
 ```
+
+### Organización
+
+- **feriapp/**: configuración principal del proyecto Django.
+- **app/**: contiene toda la lógica relacionada con las ferias, categorías, sectores, inscripciones y reseñas.
+- **usuarios/**: administra el registro, autenticación, perfiles de usuarios, emprendedores, visitantes y notificaciones.
+- **static/**: recursos estáticos como hojas de estilo, scripts e imágenes.
+- **fixtures/**: datos de ejemplo para poblar la base de datos durante el desarrollo.
+- **tests/**: pruebas unitarias de modelos y vistas.
 
 ---
 
 ## 🖼️ Capturas
 
 ### Inicio
+
 ![Pantalla de inicio](docs/screenshots/inicio.png)
 
 ### Detalle de feria
+
 ![Detalle de feria](docs/screenshots/feria_detalle.png)
 
 ### Panel de administración
+
 ![Admin](docs/screenshots/admin.png)
 
 ### Login
+
 ![Login](docs/screenshots/login.png)
 
 ---
 
 ## 🧩 Decisiones de diseño
 
-> *(Mínimo 200 palabras — completar antes de la entrega final)*
+> _(Mínimo 200 palabras — completar antes de la entrega final)_
 
 Describir aquí:
+
 - Por qué eligieron este dominio
 - Cómo modelaron la disponibilidad de puestos (método vs. anotación ORM)
 - Qué validaciones pusieron en el modelo vs. en el formulario
@@ -205,9 +236,9 @@ Describir aquí:
 
 ## 🐛 Problemas comunes
 
-| Problema | Solución |
-|----------|----------|
-| `OperationalError: no such table` | Corré `python manage.py migrate` |
-| `No module named django` | Activá el entorno virtual |
-| Barra de progreso muestra 0% | Verificá que `puestos_ocupados()` cuenta solo inscripciones `confirmadas` |
-| Login no redirige bien | Verificá `LOGIN_REDIRECT_URL` en `settings.py` |
+| Problema                          | Solución                                                                  |
+| --------------------------------- | ------------------------------------------------------------------------- |
+| `OperationalError: no such table` | Corré `python manage.py migrate`                                          |
+| `No module named django`          | Activá el entorno virtual                                                 |
+| Barra de progreso muestra 0%      | Verificá que `puestos_ocupados()` cuenta solo inscripciones `confirmadas` |
+| Login no redirige bien            | Verificá `LOGIN_REDIRECT_URL` en `settings.py`                            |

@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+
+{% block title %}Nueva Reseña — FeriApp{% endblock %}
+
+{% block content %}
+
+<h3 class="mb-4">Nueva Reseña</h3>
+
+{# ── PASO 1: elegir feria ── #}
+{% if not request.GET.feria %}
+
+<p class="text-muted mb-4">Seleccioná la feria a la que asististe.</p>
+
+{% if ferias %}
+<div class="row">
+    {% for feria in ferias %}
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body d-flex flex-column">
+
+                <span class="badge bg-success mb-2 align-self-start">Activa</span>
+                <h5 class="card-title">{{ feria.nombre }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ feria.categoria }}</h6>
+                <p class="card-text">
+                    📍 {{ feria.ubicacion }}<br>
+                    📅 {{ feria.fecha_inicio }} → {{ feria.fecha_fin }}
+                </p>
+                <a
+                href="?feria={{ feria.id }}"
+                class="btn btn-primary btn-sm mt-auto align-self-end"
+                >
+                Elegir esta feria
+                </a>
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% else %}
+<div class="alert alert-warning">
+    No hay ferias activas con emprendedores disponibles para reseñar.
+</div>
+{% endif %}
+
+
+{# ── PASO 2: elegir emprendedor ── #}
+{% elif not request.GET.emprendedor %}
+
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="?">Ferias</a>
+        </li>
+        <li class="breadcrumb-item active">
+            {{ feria_seleccionada.nombre }}
+        </li>
+    </ol>
+</nav>
+{# vovler atras #}
+<a href="?" class="btn btn-outline-secondary btn-sm mb-3">
+    ← Volver a ferias
+</a>
+<p class="text-muted mb-4">
+    Elegí el emprendedor que querés reseñar en
+    <strong>{{ feria_seleccionada.nombre }}</strong>.
+</p>
+
+{% if emprendedores %}
+<div class="row">
+    {% for emprendedor in emprendedores %}
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body d-flex flex-column">
+
+                <h5 class="card-title">
+                    {{ emprendedor.nombre }} {{ emprendedor.apellido }}
+                </h5>
+                <p class="card-text text-muted">
+                    🏷️ {{ emprendedor.rubro }}
+                </p>
+
+                {% if emprendedor.id in ya_resenados %}
+                <button
+                    class="btn btn-secondary btn-sm mt-auto align-self-end"
+                    disabled
+                >
+                    Ya reseñado ✓
+                </button>
+                {% else %}
+                <a
+                    href="?feria={{ request.GET.feria }}&emprendedor={{ emprendedor.id }}"
+                    class="btn btn-primary btn-sm mt-auto align-self-end"
+                >
+                    Reseñar
+                </a>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% else %}
+<div class="alert alert-warning">
+    No hay emprendedores disponibles en esta feria.
+</div>
+{% endif %}
+
+
+{# ── PASO 3: formulario de reseña ── #}
+{% else %}
+
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="?">Ferias</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="?feria={{ request.GET.feria }}">
+                {{ feria_seleccionada.nombre }}
+            </a>
+        </li>
+        <li class="breadcrumb-item active">
+            {{ emprendedor_seleccionado.nombre }} {{ emprendedor_seleccionado.apellido }}
+        </li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-md-6">
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <h5 class="card-title mb-4">
+                    Reseña para
+                    <strong>
+                        {{ emprendedor_seleccionado.nombre }}
+                        {{ emprendedor_seleccionado.apellido }}
+                    </strong>
+                </h5>
+
+                <form method="post" action="?feria={{ request.GET.feria }}&emprendedor={{ request.GET.emprendedor }}">
+                    {% csrf_token %}
+
+                    {# campo oculto para mantener el emprendedor seleccionado #}
+                    <input type="hidden" name="emprendedor" value="{{ request.GET.emprendedor }}">
+
+
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Puntuación</label>
+                        <div class="d-flex flex-wrap gap-2">
+                            {% for choice in form.puntuacion %}
+                            <div class="form-check form-check-inline m-0">
+                                {{ choice.tag }}
+                                <label class="form-check-label" for="{{ choice.id_for_label }}">
+                                    {{ choice.data.label }} ⭐
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% if form.puntuacion.errors %}
+                        <div class="text-danger small mt-1">
+                            {{ form.puntuacion.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Comentario</label>
+                        {{ form.comentario }}
+                        {% if form.comentario.errors %}
+                        <div class="text-danger small mt-1">
+                            {{ form.comentario.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ form.non_field_errors }}
+                    </div>
+                    {% endif %}
+
+                    <div class="d-flex gap-2">
+                        <a
+                        href="?feria={{ request.GET.feria }}"
+                        class="btn btn-secondary"
+                        >
+                        Volver
+                        </a>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            Enviar reseña
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock %}
