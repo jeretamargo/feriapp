@@ -7,7 +7,7 @@ from django.db.models import Sum
 
 from .categoria_models import Categoria
 
-from usuarios.models import Emprendedor, User, Visitante
+
 #esto lo uso para el tema de la reseña
 from django.core.validators import MinValueValidator, MaxValueValidator
 
