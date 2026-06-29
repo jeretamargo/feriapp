@@ -2,147 +2,99 @@
   <div class="container my-2">
     <a class="navbar-brand fw-bold text-dark" href="{% url 'ferias:home' %}">🏪 FeriasTDF</a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"><span class="navbar-toggler-icon"></span></button>
 
     <div class="collapse navbar-collapse" id="navMenu">
       {% if user.is_authenticated %}
-      <ul class="navbar-nav me-auto mb-3 mb-lg-0">
-        <!-- Ferias -->
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFerias" aria-controls="offcanvasFerias">
-            Ferias
-          </a>
-        </li>
-      
-      {% if not user.es_visitante %}
-        <!-- Emprendedores -->
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasEmprendedores" aria-controls="offcanvasEmprendedores">
-            Emprendedores
-          </a>
-        </li>
-      {% endif %}
+        <ul class="navbar-nav me-auto mb-3 mb-lg-0">
+          <!-- Ferias -->
+          <li class="nav-item">
+            <a class="nav-link text-dark" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFerias" aria-controls="offcanvasFerias">Ferias</a>
+          </li>
 
-    <!-- para aprobar o no a los emprendedores siendo admin o organizador -->
-        {% if user.is_superuser %}
-        <li class="nav-item ">
-          <a
-            class="nav-link text-dark"
-            href="{% url 'app:solicitudes_inscripciones' %}"
-          >
-            Solicitudes
-          </a>
-        </li>
-
-
-        {% endif %}
-        {% if user.es_visitante %}
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVisitante" aria-controls="offcanvasVisitante">
-            Visitante
-          </a>
-        </li>
-        {% endif %}
-
-      </ul>
-
-    </div>
-
-
-      <li class="nav-item dropdown mx-3">
-              <a
-                class="nav-link dropdown-toggle text-dark"
-                href="#"
-                data-bs-toggle="dropdown"
-              >
-                🔔 Notificaciones ({{num_notificaciones}})
-              </a>
-
-              <ul class="dropdown-menu dropdown-menu-end">
-                {% for notificacion in notificaciones %}
-
-                <li>
-                  <div class="d-flex align-items-center p-1">
-                    <span class="badge rounded-pill text-bg-primary">
-                      {{notificacion.asunto}}
-                  </span>
-                    <a class="dropdown-item text-dark" href="{{ notificacion.url }}">
-                      {{ notificacion.mensaje }}
-                    </a>
-                    <form
-                      method="post"
-                      action="{% url 'usuarios:marcar_notificacion_leida' notificacion.pk %}"
-                    >
-                      {% csrf_token %}
-                      <button type="submit" class="btn border-0">✅</button>
-                    </form>
-                  </div>
-                </li>
-
-                {% empty %}
-                <li>
-                  <span class="dropdown-item-text">
-                    No hay notificaciones
-                  </span>
-                </li>
-                {% endfor %}
-              </ul>
+          {% if not user.es_visitante %}
+            <!-- Emprendedores -->
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasEmprendedores" aria-controls="offcanvasEmprendedores">Emprendedores</a>
             </li>
-
-      {% comment %} Control de session {% endcomment %}
-
-      <div
-        class="d-flex flex-column flex-lg-row gap-2 mt-3 mt-lg-0 align-items-center"
-      >
-          {% if user.is_superuser %}
-          <a
-            class=" text-light btn btn-sm btn-secondary"
-            href="{% url 'admin:index' %}"
-          >
-            Administración
-          </a>
           {% endif %}
-        
-      
-        <a
-          href="{% url 'usuarios:perfil' %}"
-          class="btn btn-sm btn-primary  text-hover-white d-flex "
-        >
-          Mi Perfil
-        </a>
 
-        <form action="{% url 'usuarios:logout' %}" method="post">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-sm btn-danger w-100 d-flex-inline ">
-            Logout
-          </button>
-        </form>
-      </div>
+          <!-- para aprobar o no a los emprendedores siendo admin o organizador -->
+          {% if user.is_superuser %}
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="{% url 'app:solicitudes_inscripciones' %}">Solicitudes</a>
+            </li>
+          {% endif %}
+          {% if user.es_visitante %}
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasVisitante" aria-controls="offcanvasVisitante">Visitante</a>
+            </li>
+          {% endif %}
+        </ul>
 
-  {% else %}
+        <li class="nav-item dropdown mx-3">
+          <a class="nav-link dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown">🔔 Notificaciones ({{ num_notificaciones }})</a>
 
-      <div
-        class="d-flex flex-column flex-lg-row gap-2 ms-lg-auto mt-3 mt-lg-0 align-items-center"
-      >
-        <a
-          href="{% url 'usuarios:login' %}"
-          class="btn btn-sm btn-light d-flex-inline"
-        >
-          Iniciar Sesión
-        </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            {% for notificacion in notificaciones %}
+              <li>
+                <div class="d-flex align-items-center p-1">
+                  <span class="badge rounded-pill text-bg-primary">{{ notificacion.asunto }}</span>
+                  <a class="dropdown-item text-dark" href="{{ notificacion.url }}">{{ notificacion.mensaje }}</a>
+                  <form method="post" action="{% url 'usuarios:marcar_notificacion_leida' notificacion.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn border-0">✅</button>
+                  </form>
+                </div>
+              </li>
+            {% empty %}
+              <li>
+                <span class="dropdown-item-text">No hay notificaciones</span>
+              </li>
+            {% endfor %}
+          </ul>
+        </li>
 
-        <a
-          href="{% url 'usuarios:registro' %}"
-          class="btn btn-sm btn-primary d-flex-inline"
-        >
-          Registrarse
-        </a>
-      </div>
+        <!-- En móvil se muestran como links dentro del menú -->
+        <ul class="navbar-nav d-lg-none">
+          {% if user.is_superuser %}
+            <li class="nav-item">
+              <a class="nav-link text-light btn btn-sm bg-secondary my-1" href="{% url 'admin:index' %}">Administración</a>
+            </li>
+          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link text-light btn btn-sm bg-primary my-1" href="{% url 'usuarios:perfil' %}">Mi Perfil</a>
+          </li>
+          <li class="nav-item">
+            <form action="{% url 'usuarios:logout' %}" method="post" class="d-inline">
+              {% csrf_token %}
+              <button type="submit" class="nav-link text-light btn btn-sm bg-danger my-1 w-100">Logout</button>
+            </form>
+          </li>
+        </ul>
 
-    {% endif %}
-      </div>
+        {% comment %}Control de session{% endcomment %}
+
+        <div class="d-none d-lg-flex flex-column flex-lg-row gap-2 mt-3 mt-lg-0 align-items-center">
+          {% if user.is_superuser %}
+            <a class="text-light btn btn-sm btn-secondary" href="{% url 'admin:index' %}">Administración</a>
+          {% endif %}
+
+          <a href="{% url 'usuarios:perfil' %}" class="btn btn-sm btn-primary text-hover-white d-flex">Mi Perfil</a>
+
+          <form action="{% url 'usuarios:logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm btn-danger w-100 d-flex-inline">Logout</button>
+          </form>
+        </div>
+      {% else %}
+        <div class="d-flex flex-column flex-lg-row gap-2 ms-lg-auto mt-3 mt-lg-0 align-items-center">
+          <a href="{% url 'usuarios:login' %}" class="btn btn-sm btn-light d-flex-inline">Iniciar Sesión</a>
+
+          <a href="{% url 'usuarios:registro' %}" class="btn btn-sm btn-primary d-flex-inline">Registrarse</a>
+        </div>
+      {% endif %}
+    </div>
   </div>
 </nav>
 
@@ -157,39 +109,31 @@
 
     <p class="fw-bold text-secondary">Ferias</p>
     <div class="list-group">
-      <a href="{% url 'ferias:lista_ferias' %}" class="list-group-item list-group-item-action">
-        📋 Ver Ferias
-      </a>
+      <a href="{% url 'ferias:lista_ferias' %}" class="list-group-item list-group-item-action">📋 Ver Ferias</a>
       {% if user.is_superuser %}
-      <a href="{% url 'ferias:nueva_feria' %}" class="list-group-item list-group-item-action">
-        ➕ Crear Feria
-      </a>
+        <a href="{% url 'ferias:nueva_feria' %}" class="list-group-item list-group-item-action">➕ Crear Feria</a>
       {% endif %}
-
     </div>
 
-    <hr class="my-3">
+    <hr class="my-3" />
 
     <h6 class="fw-bold text-secondary">Categorías</h6>
     <div class="list-group">
       <a href="{% url 'ferias:lista_categorias' %}" class="list-group-item list-group-item-action">📋 Ver todas las categorías de ferias</a>
       {% if user.is_superuser %}
-
-      <a href="{% url 'ferias:nueva_categoria' %}" class="list-group-item list-group-item-action">➕ Crear una categoría</a>
+        <a href="{% url 'ferias:nueva_categoria' %}" class="list-group-item list-group-item-action">➕ Crear una categoría</a>
       {% endif %}
     </div>
 
-    <hr class="my-3">
+    <hr class="my-3" />
 
-        <h6 class="fw-bold text-secondary">Sectores</h6>
+    <h6 class="fw-bold text-secondary">Sectores</h6>
     <div class="list-group">
       <a href="{% url 'ferias:lista_sector' %}" class="list-group-item list-group-item-action">📋 Ver Sectores de Ferias</a>
       {% if user.is_superuser %}
-
-      <a href="{% url 'ferias:nuevo_sector' %}" class="list-group-item list-group-item-action">➕ Crear un Sector</a>
+        <a href="{% url 'ferias:nuevo_sector' %}" class="list-group-item list-group-item-action">➕ Crear un Sector</a>
       {% endif %}
     </div>
-
   </div>
 </div>
 
@@ -202,27 +146,25 @@
   <div class="offcanvas-body">
     <p class="text-muted">Todo sobre Emprendedores.</p>
     <div class="list-group">
-
       {# solo los emprendedores ven Gestión de Usuarios #}
       {% if user.es_emprendedor %}
-      <h6 class="fw-bold text-secondary">Gestión de Usuarios</h6>
-      <div class="list-group mb-3">
-        <a href="{% url 'ferias:nueva_inscripcion' %}" class="list-group-item list-group-item-action">📝 Inscribirse</a>
-        <a href="{% url 'ferias:mis_inscripciones' %}" class="list-group-item list-group-item-action">📌 Mis Inscripciones</a>
-        <a href="{% url 'ferias:mis_resenas' %}" class="list-group-item list-group-item-action">📋 Mis Reseñas</a>
-      </div>
+        <h6 class="fw-bold text-secondary">Gestión de Usuarios</h6>
+        <div class="list-group mb-3">
+          <a href="{% url 'ferias:nueva_inscripcion' %}" class="list-group-item list-group-item-action">📝 Inscribirse</a>
+          <a href="{% url 'ferias:mis_inscripciones' %}" class="list-group-item list-group-item-action">📌 Mis Inscripciones</a>
+          <a href="{% url 'ferias:mis_resenas' %}" class="list-group-item list-group-item-action">📋 Mis Reseñas</a>
+        </div>
       {% endif %}
 
       {# solo el admin ve Emprendedores Registrados #}
       {% if user.is_superuser %}
-      <hr class="my-3">
-      <h6 class="fw-bold text-secondary">Emprendedores Registrados</h6>
-      <div class="list-group">
-        <a href="{% url 'usuarios:lista_emprendedores' %}" class="list-group-item list-group-item-action">📋 Ver Emprendedores</a>
-        <a href="{% url 'ferias:lista_completa_de_resenas' %}" class="list-group-item list-group-item-action">⭐ Ver Todas Las Reseñas</a>
-      </div>
+        <hr class="my-3" />
+        <h6 class="fw-bold text-secondary">Emprendedores Registrados</h6>
+        <div class="list-group">
+          <a href="{% url 'usuarios:lista_emprendedores' %}" class="list-group-item list-group-item-action">📋 Ver Emprendedores</a>
+          <a href="{% url 'ferias:lista_completa_de_resenas' %}" class="list-group-item list-group-item-action">⭐ Ver Todas Las Reseñas</a>
+        </div>
       {% endif %}
-
     </div>
   </div>
 </div>
@@ -237,12 +179,8 @@
     <p class="text-muted">Todo sobre tus reseñas.</p>
     <h6 class="fw-bold text-secondary">Reseñas</h6>
     <div class="list-group">
-      <a href="{% url 'app:nueva_resena' %}" class="list-group-item list-group-item-action">
-        ➕ Crear Reseña
-      </a>
-      <a href="{% url 'app:lista_resenas' %}" class="list-group-item list-group-item-action">
-        📋 Mis Reseñas
-      </a>
+      <a href="{% url 'app:nueva_resena' %}" class="list-group-item list-group-item-action">➕ Crear Reseña</a>
+      <a href="{% url 'app:lista_resenas' %}" class="list-group-item list-group-item-action">📋 Mis Reseñas</a>
     </div>
   </div>
 </div>
