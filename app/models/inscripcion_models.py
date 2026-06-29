@@ -55,31 +55,35 @@ class Inscripcion(models.Model):
     @classmethod
     def validate(cls, feria, emprendedor, numero_puesto, estado):
         errors = []
-        #verifica si el puesto ya está ocupado cuando se crea una inscripción nueva
-        if feria and cls.objects.filter(
-            feria=feria,
-            numero_puesto=numero_puesto,
-            estado="confirmada"
-            ).exists():
-            errors.append(
-                "El puesto ya está ocupado."
-        )
-        
 
+        # Primero validar los datos obligatorios
         if not feria:
             errors.append("La feria es obligatoria.")
 
         if not emprendedor:
             errors.append("El emprendedor es obligatorio.")
 
-        #cambie el validate porq una inscripcion en espera no tiene puesto
+        # Si falta alguno, no tiene sentido seguir validando
+        if errors:
+            return errors
+
+        # Recien ahora consultar la base de datos
         if (
             estado == "confirmada"
             and
-            (
+            cls.objects.filter(
+                feria=feria,
+                numero_puesto=numero_puesto,
+                estado="confirmada"
+            ).exists()
+        ):
+            errors.append("El puesto ya está ocupado.")
+
+        if (
+            estado == "confirmada"
+            and (
                 numero_puesto is None
-                or
-                numero_puesto <= 0
+                or numero_puesto <= 0
             )
         ):
             errors.append(
@@ -90,8 +94,8 @@ class Inscripcion(models.Model):
 
         if estado not in estados_validos:
             errors.append("Estado inválido.")
-        #para validar si la feria tiene espacio y ademas estar validado
-        if feria and estado == "confirmada" and not feria.tiene_lugar():
+
+        if estado == "confirmada" and not feria.tiene_lugar():
             errors.append("La feria no tiene puestos disponibles.")
 
         return errors
