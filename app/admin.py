@@ -34,7 +34,7 @@ class FeriaAdmin(admin.ModelAdmin):
 
  # Barra de búsqueda superior (busca por título de curso o nombre de instructor)
  # Nota: Como instructor es ForeignKey, usamos la sintaxis de doble guion bajo
- search_field = ('nombre')
+ search_fields = ('nombre', )
  # Paginación (cuántos ítems por página)
  list_per_page = 10
 
