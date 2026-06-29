@@ -65,7 +65,7 @@ class SectorAdmin(admin.ModelAdmin):
 
 @admin.register(Categoria)
 class CategoriaAdmin(admin.ModelAdmin):
-     search_fields = ("nombre",)
+     
      list_display = ('nombre', 'descripcion' )
 
   
