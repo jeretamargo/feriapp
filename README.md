@@ -120,10 +120,15 @@ python manage.py test ferias.tests.test_views -v 2
 
 > ⚠️ Solo para uso del corrector en entorno de desarrollo local.
 
-| Rol                  | Usuario          | Contraseña   |
-| -------------------- | ---------------- | ------------ |
-| Usuario de prueba (Emprendedor)    | `lucasf` | `123456` |
-| Usuario de prueba (Visitante)    | `juanp` | `123456` |
+| Rol                             | Usuario  | Contraseña |
+| ------------------------------- | -------- | ---------- |
+| Usuario de prueba (Emprendedor) | `lucasf` | `123456`   |
+| Usuario de prueba (Visitante)   | `juanp`  | `123456`   |
+
+Para utilizar la app con el rol de Administrador, basta con loguearse con el superuser que hayas creado durante el paso 5 de la seccion "🚀 Instalación y uso"
+
+Tambien pueden loguearse con cualquier usuario, sea emprendedor o visitante que se encuentra en el fixture de datos de usuarios, basta con colocar el nombre de usuario y la contraseña 123456
+
 ---
 
 ## 📁 Estructura del proyecto
@@ -192,11 +197,11 @@ feriapp/
 
 ### Inicio
 
-![Pantalla de inicio](docs/screenshots/inicio.png)
+![Pantalla de inicio](docs/screenshots/home.png)
 
 ### Detalle de feria
 
-![Detalle de feria](docs/screenshots/feria_detalle.png)
+![Detalle de feria](docs/screenshots/detalle_feria.png)
 
 ### Panel de administración
 
@@ -210,27 +215,77 @@ feriapp/
 
 ## 🧩 Decisiones de diseño
 
+En este Trabajo Práctico Integrador de la materia Laboratorio de Programación y Lenguajes, el dominio que nos tocó por sorteo fue el de una app que administra Ferias y conecta emprendedores y visitantes.
 
+### Division de Tareas
 
-Describir aquí:
+El trabajo lo dividimos entre los 3 integrantes de la siguiente manera, cada uno se dedico a trabajar en dominios especificos y trabajo en conjunto con otros integrantes en tareas contiguas:
 
-- Por qué eligieron este dominio
-- Cómo modelaron la disponibilidad de puestos (método vs. anotación ORM)
-- Qué validaciones pusieron en el modelo vs. en el formulario
-- Cómo dividieron el trabajo entre los integrantes
-- Cualquier decisión no obvia (ej: por qué el constraint de puesto único, cómo manejaron lista de espera, etc.)
+- Sebastián Martínez: Dominios de Feria, Categoría y Sector
+- Marcos Cerezo: Dominios de Inscripción y Reseña
+- Jeremías Tamargo: Dominios de Usuario, Visitante, Emprendedor y Notificación
 
+Cada integrante realizo los modelos, vistas, templates y formularios correspondientes al dominio que abarcó
+
+### Validaciones implementadas
+
+Se separó la lógica de validación entre modelos y formularios, siguiendo el patrón propuesto por la cátedra (validate(), new() y update()).
+
+#### Validaciones en los modelos
+
+Los modelos contienen las reglas de negocio, garantizando la integridad de los datos independientemente del origen de la información (formularios, panel de administración, shell o futuras APIs).
+
+Entre las principales validaciones implementadas se encuentran:
+
+-Verificación de campos obligatorios.
+-Validación de longitudes mínimas para nombres.
+-Control de capacidades y valores numéricos positivos.
+-Consistencia entre fechas (por ejemplo, que la fecha de fin no sea anterior a la de inicio).
+-Restricciones propias del dominio, como: - no permitir inscripciones en puestos ya ocupados; - impedir confirmar una inscripción cuando la feria no posee lugares disponibles; - evitar que la capacidad de un sector supere la capacidad libre de la feria; - impedir reducir la capacidad de una feria por debajo de la suma de sus sectores; - validar rangos de puntuación en las reseñas.
+
+#### Validaciones en los formularios
+
+Los formularios incorporan validaciones orientadas a la experiencia del usuario, detectando errores antes de intentar persistir los datos.
+
+Se implementaron, entre otras:
+
+- Eliminación de espacios en blanco al inicio y final de los textos.
+- Longitud mínima de nombres y apellidos.
+- Validación de formato de correo electrónico.
+- Reglas de seguridad para contraseñas durante el registro (mínimo 8 caracteres, al menos una letra y un número, y que no contenga el nombre de usuario ni el correo electrónico).
+- Restricción de fechas para impedir crear ferias o sectores con fechas pasadas.
+- Filtrado dinámico de opciones, mostrando únicamente ferias activas para inscripciones y únicamente usuarios administradores en el campo Registrado por del panel de administración.
+- Configuración de widgets y atributos HTML (required, min, type="date", etc.) para mejorar la usabilidad de la interfaz.
+
+### Calculo de puestos de ferias
+
+Para modelar la cantidad de puestos disponibles, utilizamos métdos de clase dentro del modelo Feria donde calculamos la cantidad de puestos disponibles de la siguiente manera:
+
+```python
+def puestos_ocupados(self):
+        """Retorna la cantidad de inscripciones confirmadas."""
+        # Mientras Inscripcion no exista, no hay relaciones para contar.
+        if not hasattr(self, "inscripcion_set"):
+            return 0
+        return self.inscripcion_set.filter(estado="confirmada").count()
+
+    def puestos_disponibles(self):
+        """Retorna los puestos libres."""
+        return self.capacidad_puestos - self.puestos_ocupados()
+```
 
 ---
 
 ## ⭐ Funcionalidades opcionales implementadas
 
-- [ ] Vista "Mis inscripciones" para el emprendedor autenticado
-- [ ] Mensajes flash con `django.contrib.messages`
-- [ ] Paginación en lista de ferias
-- [ ] Barra de búsqueda por nombre o ubicación
-- [ ] Permisos diferenciados (Organizador vs. Emprendedor)
-- [ ] Tests de integración (flujo completo)
+- [x] Vista "Mis inscripciones" para el emprendedor autenticado
+- [x] Mensajes flash con `django.contrib.messages`
+- [x] Paginación en lista de ferias
+- [x] Barra de búsqueda por nombre o ubicación en Admin
+- [x] Permisos diferenciados (Organizador vs. Emprendedor)
+- [x] Tests completos de todos los modelos
+- [x] Notificaciones
+- [x] Emprendedor destacado
 
 ---
 
