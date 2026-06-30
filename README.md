@@ -107,11 +107,11 @@ Panel admin: [http://localhost:8000/admin](http://localhost:8000/admin)
 # Todos los tests con detalle
 python manage.py test -v 2
 
-# Solo tests de modelos
-python manage.py test ferias.tests.test_models -v 2
+# Testear la app principal (Feria, Inscipcion, Reseña, Categoría, Sector)
+python manage.py test app #Corre 51 tests
 
-# Solo tests de vistas
-python manage.py test ferias.tests.test_views -v 2
+# Testear la app de usuarios (User, Emprendedor, Visitante, Notificacion)
+python manage.py test usuarios  #Corre 30 tests
 ```
 
 ---

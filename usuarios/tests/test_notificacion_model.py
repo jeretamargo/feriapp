@@ -15,7 +15,8 @@ class NotificacionTest(TestCase):
             errors1 = Notificacion.validate(
                 asunto="Inscripción Exitosa",
                 mensaje="",
-                usuario=self.userEmprendedor
+                usuario=self.userEmprendedor,
+                
             )
             errors2 = Notificacion.validate(
                 asunto="",
@@ -44,7 +45,8 @@ class NotificacionTest(TestCase):
         notificacion,errors = Notificacion.new(
             asunto="",
             mensaje="Se ha inscripto a la feria 'Arte del sur' correctamente",
-            usuario=self.userEmprendedor
+            usuario=self.userEmprendedor,
+            url="#"
         )
         self.assertNotEqual([], errors)
 
@@ -56,7 +58,8 @@ class NotificacionTest(TestCase):
         notificacion, errors = Notificacion.new(
            asunto="Inscripción Exitosa",
            mensaje="Se ha inscripto a la feria 'Arte del sur' correctamente",
-           usuario=self.userEmprendedor
+           usuario=self.userEmprendedor,
+           url="#"
         )
         self.assertEqual([], errors)
 
@@ -68,12 +71,14 @@ class NotificacionTest(TestCase):
         notificacion, _ = Notificacion.new(
            asunto="Inscripción Exitosa",
            mensaje="Se ha inscripto a la feria 'Arte del sur' correctamente",
-           usuario=self.userEmprendedor
+           usuario=self.userEmprendedor,
+           url="#"
         )
         errors = notificacion.update(
            asunto="",
            mensaje="Se ha inscripto a la feria 'Arte del sur' correctamente",
-           usuario=self.userEmprendedor)
+           usuario=self.userEmprendedor,
+           url="#")
         
         self.assertIn("El asunto es obligatorio", errors)
         self.assertEqual(notificacion.asunto, "Inscripción Exitosa")
@@ -82,12 +87,14 @@ class NotificacionTest(TestCase):
         notificacion, _= Notificacion.new(
            asunto="Inscripción Exitosa",
            mensaje="Se ha inscripto a la feria 'Arte del sur' correctamente",
-           usuario=self.userEmprendedor
+           usuario=self.userEmprendedor,
+           url="#"
         )
         errors = notificacion.update(
            asunto="Inscripción Exitosa",
            mensaje="Se ha inscripto a la feria 'Artesanias del fuego' correctamente",
-           usuario=self.userEmprendedor
+           usuario=self.userEmprendedor,
+           url="#"
         )
         self.assertEqual(errors, [])
         self.assertEqual(notificacion.mensaje, "Se ha inscripto a la feria 'Artesanias del fuego' correctamente")
@@ -96,7 +103,8 @@ class NotificacionTest(TestCase):
      notificacion, _= Notificacion.new(
            asunto="Inscripción Exitosa",
            mensaje="Se ha inscripto a la feria 'Arte del sur' correctamente",
-           usuario=self.userEmprendedor
+           usuario=self.userEmprendedor,
+           url="#"
         )
      notificacion.marcar_leida()
      self.assertTrue(notificacion.leida)
